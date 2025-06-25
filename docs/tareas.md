@@ -1,24 +1,21 @@
 # Lista Unificada de Tareas para Minishell
 
 ## 1. Tokenización, Análisis Léxico y Sintáctico
-- Definir y clasificar los tokens: palabras reservadas, comunes, operadores y metacaracteres.
-- Implementar reconocimiento de operadores (`|`, `>`, `;`, `&`, `&&`, `||`).
+- Definir y clasificar los tokens: palabras, operadores, EOF.
+- Implementar reconocimiento de operadores (`|`, `>`, `>>`,`<<`, `<`).
 - Separar la entrada en palabras usando metacaracteres y espacios.
-- Implementar reconocimiento y manejo de comillas (simples y dobles), evitando que los caracteres entre ellas sean interpretados como tokens especiales.
-- Identificar el tipo de palabra (reservada, identificador, declaración de asignación, etc.).
-- Clasificar tokens según su contexto gramatical y generar estructuras de comandos a partir de listas de palabras.
+- Implementar reconocimiento y manejo de comillas (simples y dobles).
+- Identificar el tipo de palabra.
+- Clasificar tokens según su contexto gramatical
+- Generar estructuras de comandos a partir de listas de palabras.
 
 ## 2. Lectura y Procesamiento de Entrada
-- Leer caracteres desde la entrada, gestionar el buffer visible y el buffer real.
-- Dividir caracteres en líneas y pasarlas al analizador.
+- Leer caracteres desde la entrada.
+- Pasar línea al analizador.
 
 ## 3. Expansión y Manejo de Variables
 - Implementar la expansión de variables (`$VAR`, `$?`, `$_`, etc.) y sustitución de parámetros.
-- Procesar la expansión de llaves (`{uno,dos}` → `uno`, `dos`).
-- Implementar la sustitución de comandos (`$(comando)` o `` `comando` ``).
-- Implementar la sustitución de procesos y la expansión aritmética (`$((expresión))`).
 - Diferenciar el comportamiento de expansiones según el tipo de comillas.
-- Realizar la expansión de nombres de archivos y rutas.
 - Revisar el orden de expansión/tokenización: expandir antes de tokenizar argumentos con espacios (excepto entre comillas).
 - Volver a tokenizar argumentos tras la expansión de variables.
 - Asegurarse que la variable `PWD` siempre se expanda correctamente.
