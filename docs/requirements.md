@@ -6,7 +6,7 @@ This document expands the concise project outline into a detailed, actionable ch
 
 ## 1. Prompt Display
 
-✅ **Requirement:**  
+**Requirement:**  
 - Display a prompt while waiting for new user input.
 
 **Implementation:**  
@@ -16,7 +16,7 @@ This document expands the concise project outline into a detailed, actionable ch
 
 ## 2. Command History
 
-✅ **Requirements:**  
+**Requirements:**  
 - Maintain a working command history, allowing users to recall and edit previous commands.
 
 **Functions Involved:**  
@@ -35,7 +35,7 @@ This document expands the concise project outline into a detailed, actionable ch
 
 ### 3.1. Input Validation
 
-✅ **Requirement:**  
+**Requirement:**  
 - Do not interpret unclosed quotes or special characters not specified in the subject, such as `\` (backslash) or `;` (semicolon).
 
 ### 3.2. Quote Handling
@@ -69,7 +69,7 @@ This document expands the concise project outline into a detailed, actionable ch
 
 ### 3.5. Environment Variable Expansion
 
-✅ **Requirement:**  
+**Requirement:**  
 - Expand `$VAR` patterns to their environment values.
 
 ### 3.6. Special Variable: `$?`
