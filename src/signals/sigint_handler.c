@@ -1,22 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   sigint_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/25 17:53:36 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/06/25 18:09:12 by dbarba-v         ###   ########.fr       */
+/*   Created: 2025/06/26 12:29:40 by dbarba-v          #+#    #+#             */
+/*   Updated: 2025/06/26 12:29:54 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void exit_minishell(t_minishell *minishell)
+/**
+ * @brief Signal handler for SIGINT (Ctrl+C).
+ *
+ * TODO: Send -SIGINT kill signal to each process/command PIDs in commands list.
+ *
+ * @param signal_number The signal number received.
+ */
+void sigint_handler(int signal_number)
 {
-	free_minishell(&minishell);
-	minishell = NULL;
-	write(1, "exit\n", 5);
-	rl_clear_history();
-	exit(EXIT_SUCCESS);
+    (void)signal_number;
+    write(1, "\n", 1);
+    rl_on_new_line();
+    rl_replace_line("", 0);
+    rl_redisplay();
 }

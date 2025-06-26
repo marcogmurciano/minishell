@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:06:14 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/06/25 18:29:03 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/06/26 13:02:44 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,15 @@ int main(int argc, char **argv, char **envp)
 		if(minishell.input)
 		{
 			minishell.tokens_list = tokenizer(minishell.input);
-			minishell.expanded_input = expand_tokens_list(minishell.tokens_list);
-			minishell.tokens_list = tokenizer(minishell.expanded_input);
+			while(needs_expansion(minishell.tokens_list))
+			{
+				free(minishell.input);
+				minishell.input = expand_tokens_list(minishell.tokens_list);
+				free_tokens_list(minishell.tokens_list);
+				minishell.tokens_list = tokenizer(minishell.input);
+			}
 		}
 		else
-			exit_minishell(minishell);
+			exit_minishell(&minishell);
 	}
 }

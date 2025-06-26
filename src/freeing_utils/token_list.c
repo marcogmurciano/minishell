@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:49:53 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/06/25 17:53:07 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/06/26 12:25:30 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * Frees a linked list of tokens, releasing all associated memory.
  * @param token_head Double pointer to the head of the token list.
  */
-void free_token_list(t_token **token_head)
+void free_tokens_list(t_token **token_head)
 {
     t_token *current_token;
     t_token *temp_token;

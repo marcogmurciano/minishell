@@ -6,7 +6,7 @@
 #    By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/18 11:28:00 by dbarba-v          #+#    #+#              #
-#    Updated: 2025/06/25 18:33:07 by dbarba-v         ###   ########.fr        #
+#    Updated: 2025/06/26 12:49:18 by dbarba-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,14 @@ INCLUDES = -I./include -I./libft/include
 LIBS = -lreadline -L./libft/lib -lft 
 LIBFT = ./libft/lib/libft.a
 
-SRCS = 
+SRCS = 	src/main/main.c \
+		src/main/prompt_input.c \
+		src/main/regenerate_environment.c \
+		src/signals/sigint_handler.c \
+		src/freeing_utils/environ_list.c \
+		src/freeing_utils/minishell.c \
+		src/freeing_utils/token_list.c \
+		src/exits/minishell.c \
 	
 OBJS = $(SRCS:.c=.o)
 
