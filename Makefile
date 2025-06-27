@@ -6,7 +6,7 @@
 #    By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/18 11:28:00 by dbarba-v          #+#    #+#              #
-#    Updated: 2025/06/26 12:49:18 by dbarba-v         ###   ########.fr        #
+#    Updated: 2025/06/27 16:27:40 by dbarba-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,10 +20,18 @@ INCLUDES = -I./include -I./libft/include
 LIBS = -lreadline -L./libft/lib -lft 
 LIBFT = ./libft/lib/libft.a
 
-SRCS = 	src/main/main.c \
-		src/main/prompt_input.c \
-		src/main/regenerate_environment.c \
+SRCS = 	src/main.c \
+		src/prompt/prompt_input.c \
+		src/environment/regenerate_environment.c \
 		src/signals/sigint_handler.c \
+		src/tokenization/add_token.c \
+		src/tokenization/create_token.c \
+		src/tokenization/handler.c \
+		src/tokenization/tokenizer_utils.c \
+		src/tokenization/tokenizer.c \
+		src/expansion/check_token_list.c \
+		src/expansion/expander_utils.c \
+		src/expansion/expander.c \
 		src/freeing_utils/environ_list.c \
 		src/freeing_utils/minishell.c \
 		src/freeing_utils/token_list.c \

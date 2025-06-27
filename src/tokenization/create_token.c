@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:06:01 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/06/26 16:07:27 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/06/27 15:50:26 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_token *create_word_token(t_token_type t_type, char *word, char quote)
     return (token);
 }
 
-t_token *create_eof_token() 
+t_token *create_eof_token(void) 
 {
     t_token *token;
 

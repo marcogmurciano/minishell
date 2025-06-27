@@ -6,7 +6,7 @@
 #    By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/01 13:30:50 by dbarba-v          #+#    #+#              #
-#    Updated: 2025/05/22 13:01:25 by dbarba-v         ###   ########.fr        #
+#    Updated: 2025/06/27 16:28:27 by dbarba-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,9 @@ SRC_FILES = src/ft_atoi.c \
 			src/ft_isalpha.c \
 			src/ft_isascii.c \
 			src/ft_isdigit.c \
+			src/ft_isoperator.c \
 			src/ft_isprint.c \
+			src/ft_isquote.c \
 			src/ft_issing.c \
 			src/ft_isspace.c \
 			src/ft_itoa.c \
