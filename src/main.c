@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: diego <diego@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:06:14 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/06/27 16:31:21 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/06/28 15:49:05 by diego            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int main(int argc, char **argv, char **envp)
 		if(minishell.input)
 		{
 			minishell.tokens_list = tokenizer(minishell.input);
-			while(needs_expansion(minishell.tokens_list))
+			if(needs_expansion(minishell.tokens_list))
 			{
 				free(minishell.input);
 				minishell.input = NULL;
