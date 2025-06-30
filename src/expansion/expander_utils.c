@@ -6,12 +6,19 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 15:36:32 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/06/27 15:36:35 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/06/30 15:43:17 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+/**
+ * Iterates through the input string and returns the index of the first '$' character found.
+ * Returns -1 if no '$' is present.
+ *
+ * @param str The input string to search.
+ * @return The index of the first '$', or -1 if not found.
+ */
 int	find_dollar(char *str)
 {
 	int	i;
@@ -27,6 +34,16 @@ int	find_dollar(char *str)
 	return (-1);
 }
 
+/**
+ * Starting at variable_start, reads until a delimiter is found (whitespace, pipe, redirect, quote, or another '$').
+ * The resulting variable name is returned as a newly allocated string.
+ * The length of the variable name is stored in variable_name_length.
+ *
+ * @param str The original string from which to extract the variable name.
+ * @param variable_start The index to start extracting from.
+ * @param variable_name_length Pointer to an int to store the name's length.
+ * @return Newly allocated string containing the variable name.
+ */
 char	*extract_var_name(char *str, int variable_start,
 		int *variable_name_length)
 {
@@ -49,6 +66,14 @@ char	*extract_var_name(char *str, int variable_start,
 	return (variable_name);
 }
 
+/**
+ * Searches the minishell's environment linked list for the given variable name.
+ * Returns the value if found, or NULL otherwise.
+ *
+ * @param minishell Pointer to the minishell structure containing the environment.
+ * @param variable_name The name of the variable to search for.
+ * @return The value of the variable, or NULL if not found.
+ */
 char	*get_variable_value(t_minishell *minishell, char *variable_name)
 {
 	t_env *current;
@@ -57,7 +82,9 @@ char	*get_variable_value(t_minishell *minishell, char *variable_name)
 	while (current && current->next)
 	{
 		if (ft_strcmp(current->name, variable_name) == 0)
+		{
 			return (current->value);
+		}
 		else
 			current = current->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:58:22 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/06/27 16:16:39 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/06/30 12:53:25 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@
 # include <signal.h>
 
 /**
+ * Signals global variable
+ */
+extern int g_signal_status;
+
+/**
  * Types of tokens
  */
 typedef enum e_token_type
@@ -26,15 +31,15 @@ typedef enum e_token_type
 	TOKEN_EOF,            // 0
 	TOKEN_PIPE,           // 1
 	TOKEN_REDIR_IN,       // 2
-	TOKEN_REDIR_IN_FILE,  // 2
-	TOKEN_REDIR_OUT,      // 3
-	TOKEN_REDIR_OUT_FILE, // 3
-	TOKEN_HEREDOC,        // 4
-	REDIR_HEREDOC_DELIM,  // 5
-	TOKEN_APPEND,         // 6
-	TOKEN_WORD,           // 7
-	CMD,				  // 8
-	ARG                   // 9
+	TOKEN_REDIR_IN_FILE,  // 3
+	TOKEN_REDIR_OUT,      // 4
+	TOKEN_REDIR_OUT_FILE, // 5
+	TOKEN_HEREDOC,        // 6
+	REDIR_HEREDOC_DELIM,  // 7
+	TOKEN_APPEND,         // 8
+	TOKEN_WORD,           // 9
+	CMD,				  // 10
+	ARG                   // 11
 }						t_token_type;
 
 /**
@@ -99,6 +104,7 @@ typedef struct s_token
 
 typedef struct s_minishell
 {
+	char				**envp;
 	char				*input;
 	char				*expanded_input;
 	t_token				*tokens_list;
@@ -111,11 +117,6 @@ typedef struct s_minishell
 //
 //
 
-/**
- * Builds a linked list of environment variables from envp.
- * @param envp The environment pointer array.
- * @return Pointer to the head of the linked list.
- */
 t_env *regenerate_environment(char **envp);
 
 //////////////////////////////////////////////
@@ -124,13 +125,6 @@ t_env *regenerate_environment(char **envp);
 //
 //
 
-/**
- * @brief Signal handler for SIGINT (Ctrl+C).
- *
- * TODO: Send -SIGINT kill signal to each process/command PIDs in commands list.
- *
- * @param signal_number The signal number received.
- */
 void sigint_handler(int signal_number);
 
 //////////////////////////////////////////////
@@ -139,18 +133,6 @@ void sigint_handler(int signal_number);
 //
 //
 
-/**
- * @brief Prompt the user for input using a custom prompt string.
- *
- * The prompt includes the user's name (from the $USER environment variable)
- * if available, followed by "@minishell> ". If $USER is not found, "USER"
- * is used as the default name.
- *
- * The function reads a line from standard input and adds it to the history
- * if not NULL. The caller is responsible for freeing the returned string.
- *
- * @return A pointer to the input string, or NULL if EOF is encountered.
- */
 char	*get_prompt_input(void);
 
 //////////////////////////////////////////////
@@ -159,14 +141,6 @@ char	*get_prompt_input(void);
 //
 //
 
-/**
- * Tokenizes the given input string into a linked list of tokens.
- * Trims whitespace from input before processing.
- *
- * @param input The null-terminated input string to tokenize.
- * @return Pointer to the head of the linked list of tokens.
- *         Returns NULL if allocation for trimmed_input fails.
- */
 t_token *tokenizer(char *input);
 
 int	handle_operator(t_token **token_head, char *trimmed_input, int i);
@@ -181,26 +155,8 @@ int add_word_token(t_token **token_head, t_token_type t_type, char* word, char q
 int add_nonword_token(t_token **token_head, t_token_type t_type);
 int add_eof_token(t_token **token_head);
 
-/**
- * @brief Extracts a quoted word from the input string using the given delimiter.
- *
- * The word is extracted starting from index 1 up to (but not including) the next occurrence of the delimiter.
- *
- * @param trimmed_input The input string, with the first character assumed to be the opening quote.
- * @param delimiter The quote character that marks the end of the quoted word.
- * @return A pointer to the newly allocated string containing the quoted word, or NULL on allocation failure.
- */
 char *get_quoted_word(char *trimmed_input, char delimiter);
 
-/**
- * @brief Extracts an unquoted word from the input string.
- *
- * The word is extracted starting from index 0 up to the first whitespace,
- * operator ('|', '<', '>'), quote ('\'', '\"'), or '$' character.
- *
- * @param trimmed_input The input string to extract the word from.
- * @return A pointer to the newly allocated string containing the unquoted word, or NULL on allocation failure.
- */
 char *get_unquoted_word(char *trimmed_input);
 
 //////////////////////////////////////////////
@@ -221,23 +177,10 @@ char	*get_variable_value(t_minishell *minishell, char *variable_name);
 //
 //
 
-/**
- * Frees all dynamically allocated fields within a t_minishell struct.
- * After freeing, all pointers are set to NULL to avoid dangling pointers.
- * @param minishell
- */
 void free_minishell(t_minishell *minishell);
 
-/**
- * Frees a linked list of environment nodes, releasing all associated memory.
- * @param env_head Double pointer to the head of the environment list.
- */
 void free_environment(t_env **env_head);
 
-/**
- * Frees a linked list of tokens, releasing all associated memory.
- * @param token_head Double pointer to the head of the token list.
- */
 void free_tokens_list(t_token **token_head);
 
 //////////////////////////////////////////////
@@ -246,9 +189,14 @@ void free_tokens_list(t_token **token_head);
 //
 //
 
-/**
- * Cleans up resources and exits the minishell program.
- * @param minishell Pointer to the minishell context.
- */
 void exit_minishell(t_minishell *minishell);
+
+//////////////////////////////////////////////
+//
+//    DEBUG
+//
+//
+
+void print_tokens(t_token *token_head);
+
 #endif

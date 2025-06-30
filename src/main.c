@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: diego <diego@student.42.fr>                +#+  +:+       +#+        */
+/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:06:14 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/06/28 15:49:05 by diego            ###   ########.fr       */
+/*   Updated: 2025/06/30 16:00:05 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// volatile sig_atomic_t	g_signal_received = 0; // Global variable for signals
+int g_signal_status = 0;
 
 int main(int argc, char **argv, char **envp)
 {
@@ -23,9 +23,10 @@ int main(int argc, char **argv, char **envp)
 	
 	ft_bzero(&minishell, sizeof(t_minishell));
 	minishell.environment = regenerate_environment(envp);
+	// minishell.envp = get_environment_array(minishell);
 
 	signal(SIGINT, sigint_handler);
-    signal(SIGQUIT, SIG_IGN);
+    signal(SIGQUIT, sigint_handler);
 	while (1)
 	{
 		minishell.input = get_prompt_input(); // Allocates memory, needs free
@@ -37,12 +38,29 @@ int main(int argc, char **argv, char **envp)
 				free(minishell.input);
 				minishell.input = NULL;
 				minishell.input = expand_tokens_list(&minishell);
-				free_tokens_list(&minishell.tokens_list);
+				free_tokens_list(&(minishell.tokens_list));
 				minishell.tokens_list = NULL;
 				minishell.tokens_list = tokenizer(minishell.input);
 			}
+			print_tokens(minishell.tokens_list);
 		}
 		else
 			exit_minishell(&minishell);
 	}
+}
+
+
+void print_tokens(t_token *token_head)
+{
+    t_token *token;
+
+    token = token_head;
+    while (token)
+    {
+        printf("Token type: %d\n", token->token_type);
+        printf("Token quote: %d\n", token->quote_type);
+        printf("Token value: %s\n", token->value);
+        printf("==================\n");
+        token = token->next;
+    }
 }
