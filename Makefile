@@ -6,13 +6,13 @@
 #    By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/18 11:28:00 by dbarba-v          #+#    #+#              #
-#    Updated: 2025/06/27 16:27:40 by dbarba-v         ###   ########.fr        #
+#    Updated: 2025/06/30 21:34:34 by dbarba-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = #-Wall -Werror -Wextra
 RM = rm -f
 
 INCLUDES = -I./include -I./libft/include
@@ -22,6 +22,7 @@ LIBFT = ./libft/lib/libft.a
 
 SRCS = 	src/main.c \
 		src/prompt/prompt_input.c \
+		src/environment/get_environment_array.c \
 		src/environment/regenerate_environment.c \
 		src/signals/sigint_handler.c \
 		src/tokenization/add_token.c \

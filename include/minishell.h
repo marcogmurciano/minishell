@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:58:22 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/06/30 12:53:25 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/06/30 21:30:03 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ typedef struct s_minishell
 //
 
 t_env *regenerate_environment(char **envp);
+char **get_environment_array(t_env *env);
 
 //////////////////////////////////////////////
 //

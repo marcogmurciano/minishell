@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:06:14 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/06/30 16:00:05 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/06/30 21:00:03 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int main(int argc, char **argv, char **envp)
 	
 	ft_bzero(&minishell, sizeof(t_minishell));
 	minishell.environment = regenerate_environment(envp);
-	// minishell.envp = get_environment_array(minishell);
+	minishell.envp = get_environment_array(minishell.environment);
 
 	signal(SIGINT, sigint_handler);
     signal(SIGQUIT, sigint_handler);

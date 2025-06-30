@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 18:10:12 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/06/30 12:10:26 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/06/30 21:30:43 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,5 @@ t_env *regenerate_environment(char **envp)
         }
         i++;
     }
-    return env_head;
+    return (env_head);
 }
