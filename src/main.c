@@ -6,13 +6,13 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:06:14 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/06/30 21:00:03 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/01 12:54:51 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int g_signal_status = 0;
+volatile sig_atomic_t g_signal_status = 0;
 
 int main(int argc, char **argv, char **envp)
 {
@@ -48,7 +48,6 @@ int main(int argc, char **argv, char **envp)
 			exit_minishell(&minishell);
 	}
 }
-
 
 void print_tokens(t_token *token_head)
 {
