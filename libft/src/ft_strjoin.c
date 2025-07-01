@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 15:40:16 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/01 14:46:28 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/01 14:49:11 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char *ft_strjoin_handle_null(const char *s1, const char *s2)
 		return (ft_strdup(s2));
 	if (!s2)
 		return (ft_strdup(s1));
-	return NULL;
+	return (NULL);
 }
 
 /**
