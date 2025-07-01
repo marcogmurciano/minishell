@@ -50,7 +50,7 @@ Implement the following builtins (with correct behavior and error handling):
 - [ ] `export` (new and existing variables, correct output)
 - [ ] `unset`
 - [ ] `env`
-- [ ] `exit` (with/without arguments)
+- [ ] `exit`
 
 ---
 
