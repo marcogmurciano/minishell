@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:58:22 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/01 10:56:49 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:16:01 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ typedef struct		s_minishell
 	char			**envp;
 	char			*input;
 	char			*expanded_input;
+	int				*last_exit_status;		// "$?"
 	t_token			*tokens_list;
 	t_env			*environment;
 } 					t_minishell;
