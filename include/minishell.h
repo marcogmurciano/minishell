@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:58:22 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/02 16:51:40 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:16:47 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,9 +208,7 @@ void check_syntax(t_minishell *minishell);
 //
 
 void	free_minishell(t_minishell *minishell);
-
 void	free_environment(t_env **env_head);
-
 void	free_tokens_list(t_token **token_head);
 
 ///////////////////////////////////////////////////////////////////////////////

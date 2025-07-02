@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:05:02 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/02 15:34:17 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:23:33 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,25 @@ void syntax_error(char *origin, t_minishell *minishell)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	if(strcmp(origin, "heredoc") == 0)
-		ft_putendl_fd("syntax error: invalid heredoc delimeter,", STDERR_FILENO);
-	exit_minishell(minishell);
+	{
+		ft_putendl_fd("syntax error: invalid heredoc delimeter", STDERR_FILENO);
+		*(minishell->last_exit_status) = 2;
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 }
 
-// int is_metacharacter(char *value)
-// {
-	
-// }
+int is_metacharacter(char *value)
+{
+	if (value)
+	{
+		if (*value == '|' || *value == '<' || *value == '>' ||
+			*value == '&' || *value == ';')
+			return (1);
+	}
+	return (0);
+}
 
 /**
  * @brief Checks the syntax of tokens in the minishell's token list.
@@ -49,10 +60,10 @@ void check_syntax(t_minishell *minishell)
 	current = minishell->tokens_list;
 	while (current && current->token_type != TOKEN_EOF)
 	{
-		// if (current->token_type == TOKEN_HEREDOC_DELIM &&
-		// 		current->quote_type != NON_QUOTE &&
-		// 		is_metacharacter(current->value))
-		// 	syntax_error("heredoc", minishell);
+		if (current->token_type == TOKEN_HEREDOC_DELIM &&
+				current->quote_type == NON_QUOTE &&
+				is_metacharacter(current->value))
+			syntax_error("heredoc", minishell);
 		current = current->next;
 	}
 }

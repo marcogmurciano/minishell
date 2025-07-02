@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 10:31:02 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/02 11:39:04 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:13:10 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void refine_token_roles(t_token *tokens_head)
 	
     while (current && current->token_type != TOKEN_EOF)
     {
-        if (current->token_type == TOKEN_WORD && current->prev)
+        if (current->prev)
         {
             if (current->prev->token_type == TOKEN_HEREDOC)
                 current->token_type = TOKEN_HEREDOC_DELIM;
