@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:58:22 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/02 15:48:11 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/02 16:51:40 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef enum		e_token_type
 	TOKEN_HEREDOC,		  // 5
 	TOKEN_APPEND,		  // 6
 	//
-	// 	EXTRAS ASSIGNED DURING SEMANTIC PARSING
+	// 	v EXTRAS ASSIGNED DURING REFINING PHASE v
 	//
 	TOKEN_REDIR_IN_FILE,  // 7
 	TOKEN_REDIR_OUT_FILE, // 8

@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 11:25:22 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/06/30 21:28:09 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/02 16:53:55 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ char **get_environment_array(t_env *env)
 {
     char	**envp;
     int		i;
-    int		len;
 
     envp = malloc(sizeof(char *) * (env_count(env) + 1));
     if (!envp)
