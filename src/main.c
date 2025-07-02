@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:06:14 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/01 12:54:51 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/02 15:51:27 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@ int main(int argc, char **argv, char **envp)
 	(void)argc;
     (void)argv;
 	
-	ft_bzero(&minishell, sizeof(t_minishell));
-	minishell.environment = regenerate_environment(envp);
-	minishell.envp = get_environment_array(minishell.environment);
+	initialize_minishell(&minishell, envp);
 
 	signal(SIGINT, sigint_handler);
     signal(SIGQUIT, sigint_handler);
@@ -32,17 +30,11 @@ int main(int argc, char **argv, char **envp)
 		minishell.input = get_prompt_input(); // Allocates memory, needs free
 		if(minishell.input)
 		{
-			minishell.tokens_list = tokenizer(minishell.input);
-			if(needs_expansion(minishell.tokens_list))
-			{
-				free(minishell.input);
-				minishell.input = NULL;
-				minishell.input = expand_tokens_list(&minishell);
-				free_tokens_list(&(minishell.tokens_list));
-				minishell.tokens_list = NULL;
-				minishell.tokens_list = tokenizer(minishell.input);
-			}
-			print_tokens(minishell.tokens_list);
+			initialize_expanded_tokens_list(&minishell);
+			refine_token_roles(minishell.tokens_list);
+			check_syntax(&minishell);
+			print_tokens(minishell.tokens_list); // DEBUG PRINTING FUNCTION //
+			// > EXECUTION < //
 		}
 		else
 			exit_minishell(&minishell);
