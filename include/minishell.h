@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:58:22 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/01 15:16:01 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/02 15:48:11 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,21 @@ extern volatile sig_atomic_t g_signal_status;
 typedef enum		e_token_type
 {
 	TOKEN_EOF,			  // 0
-	TOKEN_PIPE,			  // 1
-	TOKEN_REDIR_IN,		  // 2
-	TOKEN_REDIR_IN_FILE,  // 3
+	TOKEN_WORD,			  // 1
+	TOKEN_PIPE,			  // 2
+	TOKEN_REDIR_IN,		  // 3
 	TOKEN_REDIR_OUT,	  // 4
-	TOKEN_REDIR_OUT_FILE, // 5
-	TOKEN_HEREDOC,		  // 6
-	REDIR_HEREDOC_DELIM,  // 7
-	TOKEN_APPEND,		  // 8
-	TOKEN_WORD,			  // 9
-	CMD,				  // 10
-	ARG					  // 11
+	TOKEN_HEREDOC,		  // 5
+	TOKEN_APPEND,		  // 6
+	//
+	// 	EXTRAS ASSIGNED DURING SEMANTIC PARSING
+	//
+	TOKEN_REDIR_IN_FILE,  // 7
+	TOKEN_REDIR_OUT_FILE, // 8
+	TOKEN_HEREDOC_DELIM,  // 9
+	TOKEN_APPEND_FILE,    // 10
+	TOKEN_CMD,			  // 11
+	TOKEN_ARG			  // 12
 } 					t_token_type;
 
 /**
@@ -47,9 +51,9 @@ typedef enum		e_token_type
  */
 typedef enum		e_quote_type
 {
-	DOUBLE_QUOTE,
-	SINGLE_QUOTE,
 	NON_QUOTE,
+	SINGLE_QUOTE,
+	DOUBLE_QUOTE
 } 					t_quote_type;
 
 /**
@@ -139,6 +143,15 @@ char	*get_prompt_input(void);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
+//    INITIALIZATION
+//
+//
+
+void initialize_minishell(t_minishell *minishell, char **envp);
+void initialize_expanded_tokens_list(t_minishell *minishell);
+
+///////////////////////////////////////////////////////////////////////////////
+//
 //    TOKENIZATION
 //
 //
@@ -151,10 +164,10 @@ int		handle_nonquoted_word(t_token **token_head, char *trimmed_input, int i);
 
 t_token	*create_eof_token(void);
 t_token	*create_word_token(t_token_type t_type, char *word, char quote);
-t_token	*create_nonword_token(t_token_type t_type);
+t_token	*create_nonword_token(t_token_type t_type, char *value);
 
 int		add_word_token(t_token **token_head, t_token_type t_type, char *word, char quote);
-int		add_nonword_token(t_token **token_head, t_token_type t_type);
+int		add_nonword_token(t_token **token_head, t_token_type t_type, char *value);
 int		add_eof_token(t_token **token_head);
 
 char	*get_quoted_word(char *trimmed_input, char delimiter);
@@ -172,6 +185,21 @@ char	*expand_tokens_list(t_minishell *minishell);
 int		find_dollar(char *str);
 char	*extract_var_name(char *str, int variable_start, int *variable_name_length);
 char	*get_variable_value(t_minishell *minishell, char *variable_name);
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//    REFINE TOKENS
+//
+//
+
+void refine_token_roles(t_token *tokens_head);
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//    CHECK SYNTAX
+//
+//
+void check_syntax(t_minishell *minishell);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
