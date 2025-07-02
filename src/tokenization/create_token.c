@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:06:01 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/06/30 10:39:34 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/02 15:56:51 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,17 @@
  * @param t_type The type of token to create.
  * @return Pointer to the newly created token, or NULL on failure.
  */
-t_token *create_nonword_token(t_token_type t_type) 
+t_token *create_nonword_token(t_token_type t_type, char *value) 
 {
     t_token *token;
 
-	token = calloc(1, sizeof(t_token));
+	token = ft_calloc(1, sizeof(t_token));
     if (!token) 
 	{
         return (NULL); // Handle allocation failure
     }
     token->token_type = t_type;
+    token->value = ft_strdup(value);
     return (token);
 }
 
@@ -50,7 +51,7 @@ t_token *create_word_token(t_token_type t_type, char *word, char quote)
 {
     t_token *token;
 
-	token = calloc(1, sizeof(t_token));
+	token = ft_calloc(1, sizeof(t_token));
     if (!token) 
 	{
         return (NULL); // Handle allocation failure
@@ -78,7 +79,7 @@ t_token *create_eof_token(void)
 {
     t_token *token;
 
-	token = calloc(1, sizeof(t_token));
+	token = ft_calloc(1, sizeof(t_token));
     if (!token) 
 	{
         return (NULL); // Handle allocation failure
