@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:05:01 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/06/30 10:41:34 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/02 15:46:26 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@
  * @param t_type The type of the non-word token to be added.
  * @return 0 on success, -1 on allocation failure.
  */
-int add_nonword_token(t_token **token_head, t_token_type t_type)
+int add_nonword_token(t_token **token_head, t_token_type t_type, char *value)
 {
 	t_token *new_token;
 	t_token *token_last;
 	
-	new_token = create_nonword_token(t_type);
+	new_token = create_nonword_token(t_type, value);
     if (!new_token) 
 	{
         return (-1); // Handle allocation failure
@@ -44,6 +44,7 @@ int add_nonword_token(t_token **token_head, t_token_type t_type)
             token_last = token_last->next;
         }
         token_last->next = new_token;
+        new_token->prev = token_last;
     }
     return (0);
 }
@@ -82,6 +83,7 @@ int add_word_token(t_token **token_head, t_token_type t_type, char* word, char q
             token_last = token_last->next;
         }
         token_last->next = new_token;
+        new_token->prev = token_last;
     }
     return (0);
 }
@@ -117,6 +119,7 @@ int add_eof_token(t_token **token_head)
             token_last = token_last->next;
         }
         token_last->next = new_token;
+        new_token->prev = token_last;
     }
     return (0);
 }
