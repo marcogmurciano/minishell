@@ -6,13 +6,13 @@
 #    By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/18 11:28:00 by dbarba-v          #+#    #+#              #
-#    Updated: 2025/06/30 21:34:34 by dbarba-v         ###   ########.fr        #
+#    Updated: 2025/07/02 15:27:58 by dbarba-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = cc
-CFLAGS = #-Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra
 RM = rm -f
 
 INCLUDES = -I./include -I./libft/include
@@ -36,6 +36,10 @@ SRCS = 	src/main.c \
 		src/freeing_utils/environ_list.c \
 		src/freeing_utils/minishell.c \
 		src/freeing_utils/token_list.c \
+		src/refine/refine_token_roles.c \
+		src/syntax/syntax_checker.c \
+		src/initialization/expanded_tokens_list.c \
+		src/initialization/minishell.c \
 		src/exits/minishell.c \
 	
 OBJS = $(SRCS:.c=.o)
