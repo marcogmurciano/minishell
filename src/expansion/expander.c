@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:54:45 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/06/30 16:23:39 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/02 16:22:26 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static char *retrieve_new_input(t_minishell *minishell)
     char *expanded_variable;
     char *line_to_free;
 
+	
     current = minishell->tokens_list;
     while (current && current->token_type != TOKEN_EOF)
     {
@@ -35,9 +36,9 @@ static char *retrieve_new_input(t_minishell *minishell)
             current = current->next;
             continue;
         }
-        if (current->token_type == SINGLE_QUOTE)
+        if (current->quote_type == SINGLE_QUOTE)
             expanded_variable = ft_strjoin_three("'", ft_strdup(current->value), "'");
-        else if (current->token_type == DOUBLE_QUOTE)
+        else if (current->quote_type == DOUBLE_QUOTE)
             expanded_variable = ft_strjoin_three("\"", ft_strdup(current->value), "\"");
         else
             expanded_variable = ft_strdup(current->value);
@@ -139,10 +140,13 @@ char *expand_tokens_list(t_minishell *minishell)
 	current = minishell->tokens_list;
 	while (current && current->next && current->token_type != TOKEN_EOF)
 	{
-		if (current->token_type == TOKEN_WORD && (current->quote_type == NON_QUOTE
-				|| current->quote_type == DOUBLE_QUOTE))
+		if (current->token_type == TOKEN_WORD && 
+				(current->quote_type == NON_QUOTE || 
+				current->quote_type == DOUBLE_QUOTE))
 		{
-			if (strchr(current->value, '$'))
+			if (current->prev && current->prev->token_type == TOKEN_HEREDOC)
+				;
+			else if(strchr(current->value, '$'))
 			{
 				expand_each_variable(minishell, &(current->value));
 			}
