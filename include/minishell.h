@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:58:22 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/04 12:32:02 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/04 15:19:08 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct		s_cmd
 	char			**argv;		// Array of arguments, [0] is command itshelf
 	char			*infile;	// If REDIR_IN present
 	char			*outfile;	// If REDIR_OUT present
-	char			*append;	// If APPEND present
+	int				*append;	// If APPEND present
 	char			*heredoc;	// If HEREDOC present
 	t_cmd			*next;
 } 					t_cmd;
@@ -114,6 +114,7 @@ typedef struct		s_minishell
 	char			*input;
 	char			*expanded_input;
 	int				*last_exit_status;		// "$?"
+	int				cmds_amount;
 	t_token			*tokens_list;
 	t_env			*environment;
 	t_cmd			*cmd_pipeline;
