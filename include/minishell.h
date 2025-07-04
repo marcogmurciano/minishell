@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:58:22 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/02 17:16:47 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/04 12:32:02 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,12 @@ typedef enum		e_quote_type
  */
 typedef struct		s_cmd
 {
-	char			*command;
-	char			*pathname;
-	char			**arguments;
-	int				is_pathname;
+	char			**argv;		// Array of arguments, [0] is command itshelf
+	char			*infile;	// If REDIR_IN present
+	char			*outfile;	// If REDIR_OUT present
+	char			*append;	// If APPEND present
+	char			*heredoc;	// If HEREDOC present
+	t_cmd			*next;
 } 					t_cmd;
 
 /**
@@ -114,6 +116,7 @@ typedef struct		s_minishell
 	int				*last_exit_status;		// "$?"
 	t_token			*tokens_list;
 	t_env			*environment;
+	t_cmd			*cmd_pipeline;
 } 					t_minishell;
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -148,7 +151,6 @@ char	*get_prompt_input(void);
 //
 
 void initialize_minishell(t_minishell *minishell, char **envp);
-void initialize_expanded_tokens_list(t_minishell *minishell);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -156,7 +158,7 @@ void initialize_expanded_tokens_list(t_minishell *minishell);
 //
 //
 
-t_token *tokenizer(char *input);
+void tokenization(t_minishell *minishell);
 
 int		handle_operator(t_token **token_head, char *trimmed_input, int i);
 int		handle_quoted_word(t_token **token_head, char *trimmed_input, int i);
