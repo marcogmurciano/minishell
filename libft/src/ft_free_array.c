@@ -6,17 +6,17 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:17:07 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/06/25 17:12:06 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/03 18:12:34 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
-/* Function declarations */
-void	ft_free_array(void **array);
-
-/// @brief Frees each element of a null terminated array and the array itself.
-/// @param array Pointer to the null-terminated array.
+/**
+ * @brief Frees each element of a null-terminated array and the array itself.
+ * 
+ * @param array Pointer to the null-terminated array.
+ */
 void	ft_free_array(void **array)
 {
 	size_t	i;

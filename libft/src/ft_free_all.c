@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free_all.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbarba-v <dbarba-v@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:08:40 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/04/13 15:21:35 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/03 18:11:51 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
-/* Function declarations */
-void	ft_free_all(void *first, ...);
-
-/// @brief Frees multiple memory blocks passed as arguments.
-/// @param first The first pointer to free.
-/// @param ... Additional pointers to free, terminated by NULL.
+/**
+ * @brief Frees multiple memory blocks passed as arguments.
+ * 
+ * @param first The first pointer to free.
+ * @param ... Additional pointers to free, terminated by NULL.
+ */
 void	ft_free_all(void *first, ...)
 {
 	va_list	args;

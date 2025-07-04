@@ -6,15 +6,19 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 13:17:22 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/01/28 12:12:33 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/03 18:51:17 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
-/* Function declarations */
-void	*ft_memset(void *dest, int c, size_t n);
-
+/**
+ * @brief Sets the first n bytes of the memory area pointed to by dest to the specified value.
+ * @param dest Pointer to the memory area to fill.
+ * @param c Value to set (converted to unsigned char).
+ * @param n Number of bytes to set.
+ * @return Pointer to the memory area dest.
+ */
 void	*ft_memset(void *dest, int c, size_t n)
 {
 	unsigned char	*target;

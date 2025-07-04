@@ -6,15 +6,18 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 12:11:06 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/01/27 09:33:56 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/03 18:22:00 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
-/* Function declarations */
-int	ft_isprint(int c);
-
+/**
+ * @brief Checks if a character is printable.
+ * 
+ * @param c The character to check (represented as an int).
+ * @return 1 if the character is printable (ASCII 32 to 126), 0 otherwise.
+ */
 int	ft_isprint(int c)
 {
 	if ((c >= 32) && (c <= 126))

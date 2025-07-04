@@ -6,25 +6,27 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 12:03:55 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/01/28 12:13:53 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/03 19:07:26 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
-/* Function declarations */
-void	ft_striteri(char *s, void (*f)(unsigned int, char *));
-
+/**
+ * @brief Applies a function to each character of a string, passing its index and address.
+ * @param s The string to iterate over.
+ * @param f The function to apply, which takes the index and a pointer to each character.
+ */
 void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 {
-	unsigned int	index;
+	unsigned int	i;
 
-	if (!s || !f)
+	if (s == NULL || f == NULL)
 		return ;
-	index = 0;
-	while (s[index])
+	i = 0;
+	while (s[i])
 	{
-		f(index, &s[index]);
-		index++;
+		f(i, &s[i]);
+		i++;
 	}
 }

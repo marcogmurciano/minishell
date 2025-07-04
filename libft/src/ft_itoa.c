@@ -6,16 +6,18 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 11:20:56 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/06/10 21:40:39 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/03 18:30:11 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
-/* Function declarations */
-static int	ft_int_length(int n);
-char		*ft_itoa(int n);
-
+/**
+ * @brief Calculates the length (in digits) required to represent an integer 
+ * as a string, including sign.
+ * @param n The integer to measure.
+ * @return The number of characters needed.
+ */
 static int	ft_int_length(int n)
 {
 	int		lenght;
@@ -36,31 +38,34 @@ static int	ft_int_length(int n)
 	return (lenght);
 }
 
+/**
+ * @brief Converts an integer to a newly allocated string representation.
+ * @param n The integer to convert.
+ * @return Pointer to the string representation (must be freed by caller), or NULL on allocation failure.
+ */
 char	*ft_itoa(int n)
 {
 	long	num;
-	char	*result;
-	int		i;
+	char	*str;
+	int		len;
 
-	if (n == 0)
-	{
-		return ("0");
-	}
 	num = n;
-	i = ft_int_length(num);
-	result = malloc(sizeof(char) * (i + 1));
-	if (!result)
+	len = ft_int_length(num);
+	str = malloc(sizeof(char) * (len + 1));
+	if (!str)
 		return (NULL);
+	str[len] = '\0';
 	if (num < 0)
 	{
-		result[0] = '-';
+		str[0] = '-';
 		num = -num;
 	}
-	result[i] = 0;
-	while (--i >= 0 && result[i] != '-')
+	if (num == 0)
+        str[0] = '0';
+	while (--len >= 0 && str[len] != '-')
 	{
-		result[i] = (num % 10) + '0';
+		str[len] = (num % 10) + '0';
 		num /= 10;
 	}
-	return (result);
+	return (str);
 }

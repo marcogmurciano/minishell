@@ -3,21 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbarba-v <dbarba-v@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:55:35 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/04/13 15:20:32 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/03 19:21:47 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
-
-/* Function declarations */
-static char	*extract_line(char *newline, char **storage);
-static int	fill_storage(int fd, char **storage);
-static char	*handle_remaining(char **storage);
-static char	*process_storage(int fd, char **storage);
-char		*get_next_line(int fd);
 
 /// @brief Extracts a line from storage up to and including newline character
 /// @param newline Pointer to the newline character in storage

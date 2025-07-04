@@ -6,15 +6,18 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:07:47 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/04/11 09:58:43 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/03 18:22:44 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
-/* Function declarations */
-int	ft_isspace(int c);
-
+/**
+ * @brief Checks if a character is a whitespace character.
+ *
+ * @param c The character to check (represented as an int).
+ * @return 1 if the character is a whitespace character, 0 otherwise.
+ */
 int	ft_isspace(int c)
 {
 	if (c == 32 || (c >= 9 && c <= 13))
