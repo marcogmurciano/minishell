@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 10:57:28 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/07 17:10:42 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/07 17:13:40 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int get_append_status(t_token *segment)
 	current = segment;
 	while (current->next != NULL || current->next->token_type != TOKEN_EOF)
 		current = current->next;
-	if (current->prev->prev->token_type == TOKEN_APPEND)
+	if (current->prev->token_type == TOKEN_APPEND)
 	{
 		return(1);
 	}
