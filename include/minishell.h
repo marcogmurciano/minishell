@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:58:22 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/04 15:19:08 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/07 17:10:45 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef enum		e_quote_type
 /**
  * Command structure
  */
+typedef struct		s_cmd t_cmd;
 typedef struct		s_cmd
 {
 	char			**argv;		// Array of arguments, [0] is command itshelf
@@ -84,6 +85,15 @@ typedef struct		s_expansion
 	char			*suffix;
 	char			*new_word_value;
 } 					t_expansion;
+
+/**
+ * Segment structure
+ */
+typedef struct		s_segment
+{
+	char			**token_value;
+	int				next_segment_start;
+} 					t_segment;
 
 /**
  * Minishell structure
@@ -117,7 +127,7 @@ typedef struct		s_minishell
 	int				cmds_amount;
 	t_token			*tokens_list;
 	t_env			*environment;
-	t_cmd			*cmd_pipeline;
+	t_cmd			*cmd_pipelines;
 } 					t_minishell;
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -199,10 +209,23 @@ void refine_token_roles(t_token *tokens_head);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//    CHECK SYNTAX
+//    SYNTAX ANALYSIS
 //
 //
-void check_syntax(t_minishell *minishell);
+
+void syntax_analysis(t_minishell *minishell);
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//    SYNTAX ANALYSIS UTILITIES
+//
+//
+
+char **get_cmd_argv(t_minishell *minishell, t_token *segment);
+char *get_infile(t_minishell *minishell, t_token *token);
+char *get_outfile(t_minishell *minishell, t_token *token);
+int get_append_status(t_token *token);
+char *get_heredoc_delimiter(t_minishell *minishell, t_token *token);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -213,6 +236,14 @@ void check_syntax(t_minishell *minishell);
 void	free_minishell(t_minishell *minishell);
 void	free_environment(t_env **env_head);
 void	free_tokens_list(t_token **token_head);
+char	**free_array(char **array, int j);
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//    MALLOC ERROR
+//
+//
+void malloc_error(t_minishell *minishell);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -229,5 +260,6 @@ void	exit_minishell(t_minishell *minishell);
 //
 
 void	print_tokens(t_token *token_head);
+void print_segment(t_token *token);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:08:49 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/02 15:39:33 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/07 15:39:21 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	handle_operator(t_token **token_head, char *trimmed_input, int i)
 	}
 	if (trimmed_input[i] == '>')
 	{
-		return (add_nonword_token(token_head, TOKEN_REDIR_OUT, "<"), 1);
+		return (add_nonword_token(token_head, TOKEN_REDIR_OUT, ">"), 1);
 	}
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 10:31:02 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/02 17:13:10 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/07 15:50:14 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,13 @@ void refine_token_roles(t_token *tokens_head)
         {
             if (current->prev->token_type == TOKEN_HEREDOC)
                 current->token_type = TOKEN_HEREDOC_DELIM;
-            else if (current->prev->token_type == TOKEN_PIPE)
+            else if (current->prev->token_type == TOKEN_PIPE ||
+					current->prev->token_type == TOKEN_REDIR_IN_FILE ||
+					current->prev->token_type == TOKEN_HEREDOC_DELIM)
                 current->token_type = TOKEN_CMD;
-            else if (current->prev->token_type == TOKEN_CMD ||
-                     current->prev->token_type == TOKEN_ARG)
+            else if (current->token_type == TOKEN_WORD &&
+                    (current->prev->token_type == TOKEN_CMD ||
+                     current->prev->token_type == TOKEN_ARG))
                 current->token_type = TOKEN_ARG;
             else if (current->prev->token_type == TOKEN_REDIR_IN)
                 current->token_type = TOKEN_REDIR_IN_FILE;
