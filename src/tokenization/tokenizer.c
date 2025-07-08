@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:01:24 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/04 12:13:38 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/08 10:12:59 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,28 +22,27 @@
  */
 static t_token *tokenizer(char *input)
 {
-	char 		*trimmed_input;
 	t_token 	*token_head;
 	int i;
 
-	trimmed_input = ft_strtrim(input, "\n\t ");
-	if (!trimmed_input)
+	if (!input)
         return NULL; // Allocation failed.
 	token_head = NULL;
 	i = 0;
 	while(input && input[i])
 	{
+		printf("%s", input);
 		if(ft_isspace(input[i]))
 			i++;
-		else if(ft_isoperator(trimmed_input, i))
-			i += handle_operator(&token_head, trimmed_input, i);
-		else if(ft_isquote(trimmed_input, i))
-			i += handle_quoted_word(&token_head, trimmed_input, i);
+		else if(ft_isoperator(input, i))
+			i += handle_operator(&token_head, input, i);
+		else if(ft_isquote(input, i))
+			i += handle_quoted_word(&token_head, input, i);
 		else
-			i += handle_nonquoted_word(&token_head, trimmed_input, i);
+			i += handle_nonquoted_word(&token_head, input, i);
 	}
 	add_eof_token(&token_head);
-	free(trimmed_input);
+	free(input);
 	return (token_head);
 }
 
