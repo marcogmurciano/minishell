@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:50:40 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/06/30 12:11:24 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/08 12:56:50 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,11 @@ void free_minishell(t_minishell *minishell)
 	if (minishell->environment)
 	{
 		free_environment(&(minishell->environment));
+		minishell->environment = NULL;
+	}
+	if (minishell->cmd_pipelines)
+	{
+		free_cmds(&(minishell->cmd_pipelines));
 		minishell->environment = NULL;
 	}
 }

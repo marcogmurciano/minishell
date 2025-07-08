@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:11:45 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/06/27 15:55:29 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/08 14:00:05 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,27 @@
  *
  * The word is extracted starting from index 1 up to (but not including) the next occurrence of the delimiter.
  *
- * @param trimmed_input The input string, with the first character assumed to be the opening quote.
+ * @param minishell The structure to get minishell->input.
  * @param delimiter The quote character that marks the end of the quoted word.
  * @return A pointer to the newly allocated string containing the quoted word, or NULL on allocation failure.
  */
-char *get_quoted_word(char *trimmed_input, char delimiter)
+char *get_quoted_word(t_minishell *minishell, char delimiter)
 {
 	char *word;
 	int word_length;
 
 	word = NULL;
 	word_length = 0;
-	while(trimmed_input[1 + word_length] && 
-		trimmed_input[1 + word_length] != delimiter)
+	while(minishell->input[1 + word_length] && 
+		minishell->input[1 + word_length] != delimiter)
 	{
 		word_length++;
 	}
-	word = ft_substr(trimmed_input, 1, word_length);
+	if (minishell->input[1 + word_length] != delimiter)
+		syntax_error(minishell);
+	word = ft_substr(minishell->input, 1, word_length);
 	if (!word) 
-		return (NULL); // Handle allocation failure
+		malloc_error(minishell);
 	return (word);
 }
 
@@ -45,29 +47,30 @@ char *get_quoted_word(char *trimmed_input, char delimiter)
  * The word is extracted starting from index 0 up to the first whitespace,
  * operator ('|', '<', '>'), quote ('\'', '\"'), or '$' character.
  *
- * @param trimmed_input The input string to extract the word from.
+ * @param minishell Structure from which to retrieve the input
+ * @param input Pointer to the start of the word within the imput
  * @return A pointer to the newly allocated string containing the unquoted word, or NULL on allocation failure.
  */
-char *get_unquoted_word(char *trimmed_input)
+char *get_unquoted_word(t_minishell *minishell, char *input)
 {
 	char *word;
 	int word_length;
 
 	word = NULL;
 	word_length = 1;
-	while(trimmed_input[word_length] && 
-		!ft_isspace(trimmed_input[word_length]) &&
-		trimmed_input[word_length] != '|' &&
-		trimmed_input[word_length] != '<' &&
-		trimmed_input[word_length] != '>' &&
-		trimmed_input[word_length] != '\'' &&
-		trimmed_input[word_length] != '\"' &&
-		trimmed_input[word_length] != '$')
+	while(input[word_length] && 
+		!ft_isspace(input[word_length]) &&
+		input[word_length] != '|' &&
+		input[word_length] != '<' &&
+		input[word_length] != '>' &&
+		input[word_length] != '\'' &&
+		input[word_length] != '\"' &&
+		input[word_length] != '$')
 	{
 		word_length++;
 	}
-	word = ft_substr(trimmed_input, 0, word_length);
+	word = ft_substr(input, 0, word_length);
 	if (!word) 
-		return (NULL); // Handle allocation failure
+		malloc_error(minishell);
 	return (word);
 }

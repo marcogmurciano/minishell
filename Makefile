@@ -6,7 +6,7 @@
 #    By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/18 11:28:00 by dbarba-v          #+#    #+#              #
-#    Updated: 2025/07/02 15:27:58 by dbarba-v         ###   ########.fr        #
+#    Updated: 2025/07/08 12:50:40 by dbarba-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,13 +33,17 @@ SRCS = 	src/main.c \
 		src/expansion/check_token_list.c \
 		src/expansion/expander_utils.c \
 		src/expansion/expander.c \
+		src/freeing_utils/array_i.c \
 		src/freeing_utils/environ_list.c \
 		src/freeing_utils/minishell.c \
 		src/freeing_utils/token_list.c \
+		src/freeing_utils/cmds.c \
 		src/refine/refine_token_roles.c \
-		src/syntax/syntax_checker.c \
-		src/initialization/expanded_tokens_list.c \
+		src/syntax/syntax_analysis.c \
+		src/syntax/syntax_analysis_utils.c \
 		src/initialization/minishell.c \
+		src/error/malloc.c \
+		src/error/syntax.c \
 		src/exits/minishell.c \
 	
 OBJS = $(SRCS:.c=.o)

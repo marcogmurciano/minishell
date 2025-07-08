@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:49:46 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/06/30 12:10:44 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/08 14:20:48 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,18 @@ void free_environment(t_env **env_head)
         return;
     }
     current_env = *env_head;
-    while (current_env && current_env->next) 
+    while (current_env) 
 	{
 		if (current_env->name) 
-		{
             free(current_env->name);
-            current_env->name = NULL;
-        }
         if (current_env->value) 
-		{
             free(current_env->value);
-            current_env->value = NULL;
-        }
+        current_env->name = NULL;
+        current_env->value = NULL;
         temp_env = current_env;
         current_env = current_env->next;
         free(temp_env);
+        temp_env = NULL;
     }
     *env_head = NULL;
 }

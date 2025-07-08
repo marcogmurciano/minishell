@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:06:14 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/02 15:51:27 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/07 15:22:14 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ int main(int argc, char **argv, char **envp)
 		minishell.input = get_prompt_input(); // Allocates memory, needs free
 		if(minishell.input)
 		{
-			initialize_expanded_tokens_list(&minishell);
-			refine_token_roles(minishell.tokens_list);
-			check_syntax(&minishell);
+			tokenization(&minishell);
 			print_tokens(minishell.tokens_list); // DEBUG PRINTING FUNCTION //
+			syntax_analysis(&minishell);
+			//
 			// > EXECUTION < //
 		}
 		else
