@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:58:22 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/07 17:10:45 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/08 13:01:28 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef struct		s_cmd
 	char			*infile;	// If REDIR_IN present
 	char			*outfile;	// If REDIR_OUT present
 	int				*append;	// If APPEND present
-	char			*heredoc;	// If HEREDOC present
+	char			*heredoc;	// If HEREDOC present // This is the path to temp file
 	t_cmd			*next;
 } 					t_cmd;
 
@@ -124,7 +124,7 @@ typedef struct		s_minishell
 	char			*input;
 	char			*expanded_input;
 	int				*last_exit_status;		// "$?"
-	int				cmds_amount;
+	int				duplicated_std_fds[3];
 	t_token			*tokens_list;
 	t_env			*environment;
 	t_cmd			*cmd_pipelines;
@@ -161,7 +161,7 @@ char	*get_prompt_input(void);
 //
 //
 
-void initialize_minishell(t_minishell *minishell, char **envp);
+void	initialize_minishell(t_minishell *minishell, char **envp);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -169,11 +169,11 @@ void initialize_minishell(t_minishell *minishell, char **envp);
 //
 //
 
-void tokenization(t_minishell *minishell);
+void	tokenization(t_minishell *minishell);
 
-int		handle_operator(t_token **token_head, char *trimmed_input, int i);
-int		handle_quoted_word(t_token **token_head, char *trimmed_input, int i);
-int		handle_nonquoted_word(t_token **token_head, char *trimmed_input, int i);
+int		handle_operator(t_token **token_head, t_minishell *minishell, int i);
+int		handle_quoted_word(t_token **token_head, t_minishell *minishell, int i);
+int		handle_nonquoted_word(t_token **token_head, t_minishell *minishell, int i);
 
 t_token	*create_eof_token(void);
 t_token	*create_word_token(t_token_type t_type, char *word, char quote);
@@ -183,9 +183,9 @@ int		add_word_token(t_token **token_head, t_token_type t_type, char *word, char 
 int		add_nonword_token(t_token **token_head, t_token_type t_type, char *value);
 int		add_eof_token(t_token **token_head);
 
-char	*get_quoted_word(char *trimmed_input, char delimiter);
+char	*get_quoted_word(t_minishell *minishell, char delimiter);
 
-char	*get_unquoted_word(char *trimmed_input);
+char	*get_unquoted_word(t_minishell *minishell, char *input);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -205,7 +205,7 @@ char	*get_variable_value(t_minishell *minishell, char *variable_name);
 //
 //
 
-void refine_token_roles(t_token *tokens_head);
+void	refine_token_roles(t_token *tokens_head);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -213,7 +213,7 @@ void refine_token_roles(t_token *tokens_head);
 //
 //
 
-void syntax_analysis(t_minishell *minishell);
+void	syntax_analysis(t_minishell *minishell);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -221,11 +221,11 @@ void syntax_analysis(t_minishell *minishell);
 //
 //
 
-char **get_cmd_argv(t_minishell *minishell, t_token *segment);
-char *get_infile(t_minishell *minishell, t_token *token);
-char *get_outfile(t_minishell *minishell, t_token *token);
-int get_append_status(t_token *token);
-char *get_heredoc_delimiter(t_minishell *minishell, t_token *token);
+char	**get_cmd_argv(t_minishell *minishell, t_token *segment);
+char	*get_infile(t_minishell *minishell, t_token *token);
+char	*get_outfile(t_minishell *minishell, t_token *token);
+int		get_append_status(t_token *token);
+char	*get_heredoc_delimiter(t_minishell *minishell, t_token *token);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -237,13 +237,15 @@ void	free_minishell(t_minishell *minishell);
 void	free_environment(t_env **env_head);
 void	free_tokens_list(t_token **token_head);
 char	**free_array(char **array, int j);
+void	free_cmds(t_cmd **cmd_head);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//    MALLOC ERROR
+//    ERRORS
 //
 //
-void malloc_error(t_minishell *minishell);
+void	malloc_error(t_minishell *minishell);
+void	syntax_error(t_minishell *minishell);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -260,6 +262,6 @@ void	exit_minishell(t_minishell *minishell);
 //
 
 void	print_tokens(t_token *token_head);
-void print_segment(t_token *token);
+void	print_segment(t_token *token);
 
 #endif
