@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:58:22 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/08 13:01:28 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/08 15:07:57 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,19 +125,12 @@ typedef struct		s_minishell
 	char			*expanded_input;
 	int				*last_exit_status;		// "$?"
 	int				duplicated_std_fds[3];
+	int				pid;
 	t_token			*tokens_list;
 	t_env			*environment;
 	t_cmd			*cmd_pipelines;
 } 					t_minishell;
 
-///////////////////////////////////////////////////////////////////////////////
-//
-//    REGENERATE ENVIRONMENT
-//
-//
-
-t_env	*regenerate_environment(char **envp);
-char	**get_environment_array(t_env *env);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -162,6 +155,15 @@ char	*get_prompt_input(void);
 //
 
 void	initialize_minishell(t_minishell *minishell, char **envp);
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//    REGENERATE ENVIRONMENT
+//
+//
+
+t_env	*regenerate_environment(char **envp);
+char	**get_environment_array(t_env *env);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -214,6 +216,7 @@ void	refine_token_roles(t_token *tokens_head);
 //
 
 void	syntax_analysis(t_minishell *minishell);
+void	syntax_check(t_minishell *minishell);
 
 ///////////////////////////////////////////////////////////////////////////////
 //

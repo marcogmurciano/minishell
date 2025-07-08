@@ -6,7 +6,7 @@
 #    By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/18 11:28:00 by dbarba-v          #+#    #+#              #
-#    Updated: 2025/07/08 12:50:40 by dbarba-v         ###   ########.fr        #
+#    Updated: 2025/07/08 15:08:22 by dbarba-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRCS = 	src/main.c \
 		src/refine/refine_token_roles.c \
 		src/syntax/syntax_analysis.c \
 		src/syntax/syntax_analysis_utils.c \
+		src/syntax/syntax_check.c \
 		src/initialization/minishell.c \
 		src/error/malloc.c \
 		src/error/syntax.c \

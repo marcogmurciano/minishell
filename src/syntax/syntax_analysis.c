@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 10:56:11 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/08 14:13:12 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/08 15:28:39 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static t_token *get_next_segment(t_token **token)
 			segment_tail->prev->next = NULL;
 		segment_tail->prev = NULL;
 	}
+	// NEEDS TO SKIP CONSECUTIVE PIPES
 	*token = next;
 	return(segment_head);
 }
@@ -132,11 +133,11 @@ void syntax_analysis(t_minishell *minishell)
 	t_token *segment;
 
 	token = minishell->tokens_list;
-	// TODO: Check token list for correct syntax // Parse errors
+	syntax_check(minishell);
 	while (token && token->token_type != TOKEN_EOF)
 	{
 		segment = get_next_segment(&token);
-		//print_segment(segment);
+		print_segment(segment); // DEBUG PRINTING
 		new_command = build_cmd_from_segment(minishell, segment); // FREE segment inside
 		append_command(minishell, new_command);
 	}
@@ -146,11 +147,11 @@ void syntax_analysis(t_minishell *minishell)
 /**
  * Debug function to print segments
  */
-// void print_segment(t_token *token)
-// {
-// 	while (token)
-// 	{
-// 		printf("DEBUG(print_segment): %s\n", token->value);
-// 		token = token->next;
-// 	}
-// }
+void print_segment(t_token *token)
+{
+	while (token)
+	{
+		printf("DEBUG(print_segment): %s\n", token->value);
+		token = token->next;
+	}
+}
