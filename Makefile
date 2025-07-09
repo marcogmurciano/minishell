@@ -6,7 +6,7 @@
 #    By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/18 11:28:00 by dbarba-v          #+#    #+#              #
-#    Updated: 2025/07/09 10:26:14 by dbarba-v         ###   ########.fr        #
+#    Updated: 2025/07/09 14:30:34 by dbarba-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRCS = 	src/main.c \
 		src/prompt/prompt_utils.c \
 		src/environment/get_environment_array.c \
 		src/environment/regenerate_environment.c \
+		src/environment/check_environment.c \
 		src/signals/sigint_handler.c \
 		src/tokenization/add_token.c \
 		src/tokenization/create_token.c \

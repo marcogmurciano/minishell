@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:06:14 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/09 10:27:16 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:17:28 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int main(int argc, char **argv, char **envp)
 		{
 			tokenization(&minishell);
 			print_tokens(minishell.tokens_list); // DEBUG PRINTING FUNCTION //
-			if(syntax_analysis(&minishell))
+			if(syntax_analysis(&minishell) == -1)
 				continue;
 			//
 			// > EXECUTION < //

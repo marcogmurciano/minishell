@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 10:56:11 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/09 11:11:00 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/09 14:19:34 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ int syntax_analysis(t_minishell *minishell)
 	{
 		segment = get_next_segment(&token);
 		print_segment(segment); // DEBUG PRINTING
-		new_command = build_cmd_from_segment(minishell, segment); // FREE segment inside
+		new_command = build_cmd_from_segment(minishell, segment);
 		append_command(minishell, new_command);
 	}
 	minishell->tokens_list = NULL;
