@@ -6,8 +6,9 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:28:49 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/09 11:28:57 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/09 17:26:51 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+

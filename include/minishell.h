@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:58:22 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/09 14:30:03 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:50:07 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ int		add_word_token(t_token **token_head, t_token_type t_type, char *word, char 
 int		add_nonword_token(t_token **token_head, t_token_type t_type, char *value);
 int		add_eof_token(t_token **token_head);
 
-char	*get_quoted_word(t_minishell *minishell, char delimiter);
+char	*get_quoted_word(t_minishell *minishell, char delimiter, int i);
 
 char	*get_unquoted_word(t_minishell *minishell, char *input);
 
