@@ -1,20 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   syntax.c                                           :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/08 12:03:58 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/09 10:27:45 by dbarba-v         ###   ########.fr       */
+/*   Created: 2025/07/09 11:28:49 by dbarba-v          #+#    #+#             */
+/*   Updated: 2025/07/09 11:28:57 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-int	syntax_error(t_minishell *minishell)
-{
-	ft_putstr_fd("minishell: ", minishell->duplicated_std_fds[1]);
-	ft_putendl_fd("Invalid syntax", minishell->duplicated_std_fds[1]);
-	return(-1);
-}

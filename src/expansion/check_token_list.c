@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:30:14 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/06/30 10:48:30 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:03:27 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,11 @@ int needs_expansion(t_token *tokens_list)
 	{
 		if (current->token_type == TOKEN_WORD &&
 			(current->quote_type == NON_QUOTE || 
-				current->quote_type == DOUBLE_QUOTE)&&
-			strchr(current->value, '$'))
+				current->quote_type == DOUBLE_QUOTE) &&
+			(ft_strchr(current->value, '$') &&
+			!ft_isoperator(ft_strchr(current->value, '$') + 1, 0) &&
+			!ft_isspace(*(ft_strchr(current->value, '$') + 1)) &&
+			*(ft_strchr(current->value, '$') + 1) != '\0'))
 		{
 			return(1);
 		}

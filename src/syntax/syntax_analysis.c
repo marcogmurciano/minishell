@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 10:56:11 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/08 14:13:12 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/09 14:19:34 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ static t_cmd *build_cmd_from_segment(t_minishell *minishell, t_token *segment)
 	cmd->append = &append_status;
 	printf("APPEND STATUS: %d\n", *(cmd->append));
 	cmd->heredoc = get_heredoc_delimiter(minishell, segment);
+	printf("HEREDOC DELIMETERS: %s\n", cmd->heredoc);
 	printf("================\n");
 	free_tokens_list(&segment);
 	return(cmd);
@@ -125,32 +126,35 @@ static void append_command(t_minishell *minishell, t_cmd *new_cmd)
  *
  * @param minishell Pointer to the minishell structure containing the tokens list and command list.
  */
-void syntax_analysis(t_minishell *minishell)
+int syntax_analysis(t_minishell *minishell)
 {
 	t_cmd	*new_command;
 	t_token *token;
 	t_token *segment;
 
+	if(syntax_check(minishell))
+		return (-1);
 	token = minishell->tokens_list;
-	// TODO: Check token list for correct syntax // Parse errors
 	while (token && token->token_type != TOKEN_EOF)
 	{
 		segment = get_next_segment(&token);
-		//print_segment(segment);
-		new_command = build_cmd_from_segment(minishell, segment); // FREE segment inside
+		print_segment(segment); // DEBUG PRINTING
+		new_command = build_cmd_from_segment(minishell, segment);
 		append_command(minishell, new_command);
 	}
+	minishell->tokens_list = NULL;
+	return(0);
 }
 
 
 /**
  * Debug function to print segments
  */
-// void print_segment(t_token *token)
-// {
-// 	while (token)
-// 	{
-// 		printf("DEBUG(print_segment): %s\n", token->value);
-// 		token = token->next;
-// 	}
-// }
+void print_segment(t_token *token)
+{
+	while (token)
+	{
+		printf("DEBUG(print_segment): %s\n", token->value);
+		token = token->next;
+	}
+}

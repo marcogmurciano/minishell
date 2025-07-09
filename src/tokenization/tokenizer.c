@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:01:24 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/08 12:53:03 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/09 10:09:36 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static t_token *tokenizer(t_minishell *minishell)
 	}
 	add_eof_token(&token_head);
 	free(minishell->input);
+	minishell->input = NULL;
 	return (token_head);
 }
 
