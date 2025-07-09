@@ -6,7 +6,7 @@
 #    By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/18 11:28:00 by dbarba-v          #+#    #+#              #
-#    Updated: 2025/07/08 15:08:22 by dbarba-v         ###   ########.fr        #
+#    Updated: 2025/07/09 10:26:14 by dbarba-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ LIBFT = ./libft/lib/libft.a
 
 SRCS = 	src/main.c \
 		src/prompt/prompt_input.c \
+		src/prompt/prompt_utils.c \
 		src/environment/get_environment_array.c \
 		src/environment/regenerate_environment.c \
 		src/signals/sigint_handler.c \

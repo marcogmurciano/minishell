@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   syntax.c                                           :+:      :+:    :+:   */
+/*   prompt_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/08 12:03:58 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/09 10:27:45 by dbarba-v         ###   ########.fr       */
+/*   Created: 2025/07/09 10:15:50 by dbarba-v          #+#    #+#             */
+/*   Updated: 2025/07/09 10:16:29 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	syntax_error(t_minishell *minishell)
+void clear_line_and_newline(void) 
 {
-	ft_putstr_fd("minishell: ", minishell->duplicated_std_fds[1]);
-	ft_putendl_fd("Invalid syntax", minishell->duplicated_std_fds[1]);
-	return(-1);
+    write(1, "\n", 1);
+    rl_on_new_line();
+    rl_replace_line("", 0);
+    rl_redisplay();
 }

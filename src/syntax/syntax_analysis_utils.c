@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 10:57:28 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/08 14:18:18 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/09 11:07:36 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,16 +173,19 @@ char *get_heredoc_delimiter(t_minishell *minishell, t_token *segment)
 	char	*delimeter;
 
 	current = segment;
-	if(current && current->token_type == TOKEN_HEREDOC)
+	while(current && current->token_type != TOKEN_EOF)
 	{
-		current = current->next;
-		delimeter = ft_strdup(current->value);
-		if(!delimeter)
+		if(current->token_type == TOKEN_HEREDOC_DELIM)
 		{
-			free_tokens_list(&segment);
-			malloc_error(minishell);
+			delimeter = ft_strdup(current->value);
+			if(!delimeter)
+			{
+				free_tokens_list(&segment);
+				malloc_error(minishell);
+			}
+			return(delimeter);
 		}
-		return(delimeter);
+		current = current->next;
 	}
 	return(NULL);
 }

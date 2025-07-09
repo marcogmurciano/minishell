@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 10:56:11 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/08 15:28:39 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/09 11:11:00 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static t_token *get_next_segment(t_token **token)
 			segment_tail->prev->next = NULL;
 		segment_tail->prev = NULL;
 	}
-	// NEEDS TO SKIP CONSECUTIVE PIPES
 	*token = next;
 	return(segment_head);
 }
@@ -86,6 +85,7 @@ static t_cmd *build_cmd_from_segment(t_minishell *minishell, t_token *segment)
 	cmd->append = &append_status;
 	printf("APPEND STATUS: %d\n", *(cmd->append));
 	cmd->heredoc = get_heredoc_delimiter(minishell, segment);
+	printf("HEREDOC DELIMETERS: %s\n", cmd->heredoc);
 	printf("================\n");
 	free_tokens_list(&segment);
 	return(cmd);
@@ -126,14 +126,15 @@ static void append_command(t_minishell *minishell, t_cmd *new_cmd)
  *
  * @param minishell Pointer to the minishell structure containing the tokens list and command list.
  */
-void syntax_analysis(t_minishell *minishell)
+int syntax_analysis(t_minishell *minishell)
 {
 	t_cmd	*new_command;
 	t_token *token;
 	t_token *segment;
 
+	if(syntax_check(minishell))
+		return (-1);
 	token = minishell->tokens_list;
-	syntax_check(minishell);
 	while (token && token->token_type != TOKEN_EOF)
 	{
 		segment = get_next_segment(&token);
@@ -141,6 +142,8 @@ void syntax_analysis(t_minishell *minishell)
 		new_command = build_cmd_from_segment(minishell, segment); // FREE segment inside
 		append_command(minishell, new_command);
 	}
+	minishell->tokens_list = NULL;
+	return(0);
 }
 
 

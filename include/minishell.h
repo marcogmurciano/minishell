@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:58:22 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/08 15:07:57 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/09 10:25:08 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,7 @@ void	sigint_handler(int signal_number);
 //
 
 char	*get_prompt_input(void);
+void clear_line_and_newline(void) ;
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -215,8 +216,8 @@ void	refine_token_roles(t_token *tokens_head);
 //
 //
 
-void	syntax_analysis(t_minishell *minishell);
-void	syntax_check(t_minishell *minishell);
+int	syntax_analysis(t_minishell *minishell);
+int	syntax_check(t_minishell *minishell);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -248,7 +249,7 @@ void	free_cmds(t_cmd **cmd_head);
 //
 //
 void	malloc_error(t_minishell *minishell);
-void	syntax_error(t_minishell *minishell);
+int		syntax_error(t_minishell *minishell);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
