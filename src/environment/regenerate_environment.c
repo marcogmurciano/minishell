@@ -6,59 +6,11 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 18:10:12 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/10 13:06:03 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/10 15:51:37 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-/**
- * Finds the position of the first equal sign '=' in the input string.
- * @param env_str The environment string.
- * @return Index of '=' if found, -1 otherwise.
- */
-static int find_equal_sign(const char *env_str) 
-{
-    int i = 0;
-    while (env_str[i] && env_str[i] != '=') 
-	{
-        i++;
-    }
-	if(env_str[i] == '=')
-		return (i);
-    else 
-		return(-1);
-}
-
-/**
- * Creates a new environment node from the given environment string.
- * @param env_str The environment string in "NAME=VALUE" format.
- * @return Pointer to the newly created node, or NULL on failure.
- */
-static t_env *create_env_node(char *env_str)
-{
-	int equal_position;
-	t_env *new_env;
-
-	equal_position = find_equal_sign(env_str);
-	if (equal_position == -1) 
-        return (NULL); // Invalid env string
-	new_env = ft_calloc(1, sizeof(t_env));
-	if (!new_env)
-        return (NULL); // Handle allocation failure
-	new_env->key = ft_substr(env_str, 0, equal_position);
-    if (!new_env->key) 
-	{
-        free(new_env);
-        return (NULL);
-    }
-    if(ft_strcmp(new_env->key, "SHLVL") == 0)
-        new_env->value = ft_itoa(ft_atoi(getenv(new_env->key)) + 1);
-	else
-        new_env->value = ft_strdup(getenv(new_env->key));
-	new_env->next = NULL;
-    return (new_env);
-}
 
 /**
  * Creates a new environment node from the given environment string.
@@ -67,7 +19,6 @@ static t_env *create_env_node(char *env_str)
  */
 static t_env *create_env_node(char *arg)
 {
-	int equal_position;
 	t_env *new_env;
 
 	if (!ft_strchr(arg, '=')) 

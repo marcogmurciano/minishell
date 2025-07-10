@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:58:22 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/10 11:39:47 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/10 15:52:15 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,7 +251,7 @@ void	free_cmds(t_cmd **cmd_head);
 //
 //
 void	malloc_error(t_minishell *minishell);
-int		syntax_error(t_minishell *minishell);
+int		syntax_error(char *origin);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
