@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:11:45 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/09 16:00:34 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/10 15:59:28 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char *get_quoted_word(t_minishell *minishell, char delimiter, int i)
 		word_length++;
 	}
 	if (minishell->input[(i + 1) + word_length] == '\0')
-		syntax_error(minishell);
+		return(syntax_error(NULL), NULL);
 	word = ft_substr(minishell->input, i + 1, word_length);
 	if (!word) 
 		malloc_error(minishell);

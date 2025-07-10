@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:01:24 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/09 10:09:36 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/10 20:45:38 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ static t_token *tokenizer(t_minishell *minishell)
 	t_token 	*token_head;
 	int i;
 
-	if (minishell->input == NULL)
-        return NULL; // Allocation failed.
 	token_head = NULL;
 	i = 0;
 	while(minishell->input && minishell->input[i])
