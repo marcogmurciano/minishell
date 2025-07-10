@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:11:45 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/08 14:00:05 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/09 16:00:34 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,21 @@
  * @param delimiter The quote character that marks the end of the quoted word.
  * @return A pointer to the newly allocated string containing the quoted word, or NULL on allocation failure.
  */
-char *get_quoted_word(t_minishell *minishell, char delimiter)
+char *get_quoted_word(t_minishell *minishell, char delimiter, int i)
 {
 	char *word;
 	int word_length;
 
 	word = NULL;
 	word_length = 0;
-	while(minishell->input[1 + word_length] && 
-		minishell->input[1 + word_length] != delimiter)
+	while(minishell->input[(i + 1) + word_length] && 
+		minishell->input[(i + 1) + word_length] != delimiter)
 	{
 		word_length++;
 	}
-	if (minishell->input[1 + word_length] != delimiter)
+	if (minishell->input[(i + 1) + word_length] == '\0')
 		syntax_error(minishell);
-	word = ft_substr(minishell->input, 1, word_length);
+	word = ft_substr(minishell->input, i + 1, word_length);
 	if (!word) 
 		malloc_error(minishell);
 	return (word);

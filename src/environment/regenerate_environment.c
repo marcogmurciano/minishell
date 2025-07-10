@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 18:10:12 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/09 12:09:52 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/10 10:03:24 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static t_env *create_env_node(char *env_str)
  * @param head Pointer to the head of the list.
  * @param new_env The new node to append.
  */
-static void append_env_node(t_env **head, t_env *new_env) 
+void append_env_node(t_env **head, t_env *new_env) 
 {
 	t_env *current;
 
