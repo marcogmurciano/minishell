@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:58:22 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/09 15:50:07 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/10 10:11:08 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,8 @@ void	initialize_minishell(t_minishell *minishell, char **envp);
 
 t_env	*regenerate_environment(char **envp);
 char	**get_environment_array(t_env *env);
-t_env	*check_environment(t_minishell *minishell);
+t_env 	*check_environment(t_minishell *minishell);
+void 	append_env_node(t_env **head, t_env *new_env);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
