@@ -47,12 +47,10 @@ int	find_dollar(char *str)
 char	*extract_var_name(char *str, int variable_start,
 		int *variable_name_length)
 {
-	char	*temp;
 	char	*variable_name;
 	int		i;
 
 	i = 0;
-	temp = &str[variable_start + i];
 	while (str[variable_start + i] && !ft_isspace(str[variable_start + i]) && 
 		str[variable_start + i] != '|' &&
 		str[variable_start + i] != '<' &&

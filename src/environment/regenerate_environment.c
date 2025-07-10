@@ -33,7 +33,7 @@ static t_env *create_env_node(char *arg)
         return (NULL);
     }
     new_env->value = ft_substr(arg, ft_strlen(new_env->key) + 1, ft_strchr(arg, '=') - arg);
-    if (!new_env->key) 
+    if (!new_env->value) 
 	{
         free(new_env->key);
         free(new_env);
@@ -87,7 +87,10 @@ t_env *regenerate_environment(char **envp)
         if (new_env) 
 		{
             if(ft_strcmp(new_env->key, "SHLVL") == 0)
+            {
+                free(new_env->value);
                 new_env->value = ft_itoa(ft_atoi(getenv(new_env->key)) + 1);
+            }
             append_env_node(&env_head, new_env);
         }
         i++;
