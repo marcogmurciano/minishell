@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:49:46 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/08 14:20:48 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/10 14:19:49 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ void free_environment(t_env **env_head)
     current_env = *env_head;
     while (current_env) 
 	{
-		if (current_env->name) 
-            free(current_env->name);
+		if (current_env->key) 
+            free(current_env->key);
         if (current_env->value) 
             free(current_env->value);
-        current_env->name = NULL;
+        current_env->key = NULL;
         current_env->value = NULL;
         temp_env = current_env;
         current_env = current_env->next;

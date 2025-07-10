@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 18:10:12 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/10 10:03:24 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/10 13:06:03 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,17 +46,48 @@ static t_env *create_env_node(char *env_str)
 	new_env = ft_calloc(1, sizeof(t_env));
 	if (!new_env)
         return (NULL); // Handle allocation failure
-	new_env->name = ft_substr(env_str, 0, equal_position);
-    if (!new_env->name) 
+	new_env->key = ft_substr(env_str, 0, equal_position);
+    if (!new_env->key) 
 	{
         free(new_env);
         return (NULL);
     }
-    if(ft_strcmp(new_env->name, "SHLVL") == 0)
-        new_env->value = ft_itoa(ft_atoi(getenv(new_env->name)) + 1);
+    if(ft_strcmp(new_env->key, "SHLVL") == 0)
+        new_env->value = ft_itoa(ft_atoi(getenv(new_env->key)) + 1);
 	else
-        new_env->value = ft_strdup(getenv(new_env->name));
+        new_env->value = ft_strdup(getenv(new_env->key));
 	new_env->next = NULL;
+    return (new_env);
+}
+
+/**
+ * Creates a new environment node from the given environment string.
+ * @param arg The environment string in "NAME=VALUE" format.
+ * @return Pointer to the newly created node, or NULL on failure.
+ */
+static t_env *create_env_node(char *arg)
+{
+	int equal_position;
+	t_env *new_env;
+
+	if (!ft_strchr(arg, '=')) 
+        return (NULL); // Invalid env string
+	new_env = ft_calloc(1, sizeof(t_env));
+	if (!new_env)
+        return (NULL); // Handle allocation failure
+	new_env->key = ft_substr(arg, 0, ft_strchr(arg, '=') - arg);
+    if (!new_env->key) 
+	{
+        free(new_env);
+        return (NULL);
+    }
+    new_env->value = ft_substr(arg, ft_strlen(new_env->key) + 1, ft_strchr(arg, '=') - arg);
+    if (!new_env->key) 
+	{
+        free(new_env->key);
+        free(new_env);
+        return (NULL);
+    }
     return (new_env);
 }
 
@@ -104,6 +135,8 @@ t_env *regenerate_environment(char **envp)
         new_env = create_env_node(envp[i]);
         if (new_env) 
 		{
+            if(ft_strcmp(new_env->key, "SHLVL") == 0)
+                new_env->value = ft_itoa(ft_atoi(getenv(new_env->key)) + 1);
             append_env_node(&env_head, new_env);
         }
         i++;

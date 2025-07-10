@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:58:22 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/10 10:11:08 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/10 11:39:47 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ typedef struct		s_segment
 typedef struct		s_env t_env;
 typedef struct		s_env
 {
-	char			*name;
+	char			*key;
 	char			*value;
 	t_env			*next;
 } 					t_env;

@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 11:25:22 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/02 16:53:55 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/10 11:40:14 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char **get_environment_array(t_env *env)
     i = 0;
     while (env)
     {
-        envp[i] = ft_strjoin_three(env->name, "=", env->value);
+        envp[i] = ft_strjoin_three(env->key, "=", env->value);
         if (!envp[i])
             return (free_envp(envp, i), NULL);
         i++;
