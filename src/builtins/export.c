@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:28:46 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/10 15:45:02 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/10 23:05:53 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,13 @@ int export(t_minishell *minishell, char *pathname, const char **argv, char **env
 				new_env->next = temp_env->next;
 				temp_env->next = NULL;
 				free_environment(&temp_env);
+				minishell->envp = get_environment_array(minishell->environment);
 				return(0);
 			}
 			current_env = current_env->next;
 		}
 		append_env_node(minishell->environment, new_env);
+		minishell->envp = get_environment_array(minishell->environment);
 	}
 	return(0);
 }

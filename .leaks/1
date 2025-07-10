@@ -1,0 +1,29 @@
+CTRL + D
+
+
+
+==8235== 
+==8235== 2,602 bytes in 107 blocks are still reachable in loss record 45 of 75
+==8235==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==8235==    by 0x10C2CB: ft_strjoin_alloc (in /workspaces/minishell/minishell)
+==8235==    by 0x10C3CB: ft_strjoin (in /workspaces/minishell/minishell)
+==8235==    by 0x10C44A: ft_strjoin_three (in /workspaces/minishell/minishell)
+==8235==    by 0x1096C2: get_environment_array (in /workspaces/minishell/minishell)
+==8235==    by 0x10B988: initialize_minishell (in /workspaces/minishell/minishell)
+==8235==    by 0x1093C1: main (in /workspaces/minishell/minishell)
+==8235== 
+
+==8235== 2,602 bytes in 107 blocks are still reachable in loss record 45 of 75
+==8235==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==8235==    by 0x10C2CB: ft_strjoin_alloc (in /workspaces/minishell/minishell)
+==8235==    by 0x10C3CB: ft_strjoin (in /workspaces/minishell/minishell)
+==8235==    by 0x10C44A: ft_strjoin_three (in /workspaces/minishell/minishell)
+==8235==    by 0x1096C2: get_environment_array (in /workspaces/minishell/minishell)
+==8235==    by 0x10B988: initialize_minishell (in /workspaces/minishell/minishell)
+==8235==    by 0x1093C1: main (in /workspaces/minishell/minishell)
+
+==8235== 864 bytes in 1 blocks are still reachable in loss record 29 of 75
+==8235==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==8235==    by 0x10966D: get_environment_array (in /workspaces/minishell/minishell)
+==8235==    by 0x10B988: initialize_minishell (in /workspaces/minishell/minishell)
+==8235==    by 0x1093C1: main (in /workspaces/minishell/minishell)

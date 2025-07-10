@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:50:40 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/08 12:56:50 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/10 23:10:54 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,6 @@ void free_minishell(t_minishell *minishell)
 	{
 		free(minishell->input);
 		minishell->input = NULL;
-	}
-	if (minishell->expanded_input)
-	{
-		free(minishell->expanded_input);
-		minishell->expanded_input = NULL;
 	}
 	if (minishell->tokens_list)
 	{
