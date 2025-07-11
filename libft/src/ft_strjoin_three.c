@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 12:17:08 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/03 19:08:02 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/11 12:25:11 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ char	*ft_strjoin_three(char *s1, char *s2, char *s3)
 		return (NULL);
 	joined = ft_strjoin(temp, s3);
 	free(temp);
+	temp = NULL;
 	if (!joined)
 		return (NULL);
 	return (joined);

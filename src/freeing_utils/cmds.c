@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 12:32:40 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/08 13:48:59 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/11 11:59:38 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,5 @@ void free_cmds(t_cmd **cmd_head)
 		free(temp);
 		temp = NULL;
 	}
-	cmd_head = NULL;
+	*cmd_head = NULL;
 }

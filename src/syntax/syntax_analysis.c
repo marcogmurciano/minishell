@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 10:56:11 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/11 10:45:24 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/11 12:10:33 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,14 @@ static t_token *get_next_segment(t_token **token)
 		(segment_tail->token_type == TOKEN_EOF ||
 		segment_tail->token_type == TOKEN_PIPE))
 	{
-		next = segment_tail->next;
-		if (segment_tail->prev)
-			segment_tail->prev->next = NULL;
-		segment_tail->prev = NULL;
+		if (segment_tail->token_type == TOKEN_EOF) {
+            next = segment_tail;
+        } else {
+            next = segment_tail->next;
+        }
+        if (segment_tail->prev)
+            segment_tail->prev->next = NULL;
+        segment_tail->prev = NULL;
 	}
 	*token = next;
 	return(segment_head);
@@ -79,7 +83,7 @@ static t_cmd *build_cmd_from_segment(t_minishell *minishell, t_token *segment)
 	cmd->infile = get_infile(minishell, segment);
 	cmd->outfile = get_outfile(minishell, segment);
 	append_status = get_append_status(segment);
-	cmd->append = &append_status;
+	cmd->append = &append_status; // BUG: NEEDS FIXING
 	cmd->heredoc = get_heredoc_delimiter(minishell, segment);
 	free_tokens_list(&segment);
 	// print_tokens(cmd);
@@ -99,16 +103,18 @@ static t_cmd *build_cmd_from_segment(t_minishell *minishell, t_token *segment)
 static void append_command(t_minishell *minishell, t_cmd *new_cmd)
 {
 	t_cmd *current;
-
-	current = minishell->cmd_pipelines;
-	if(current == NULL)
-		current = new_cmd;
-	else
+	
+    if (!minishell || !new_cmd)
+        return;
+    if (minishell->cmd_pipelines == NULL) 
+        minishell->cmd_pipelines = new_cmd;
+	else 
 	{
-		while (current->next != NULL)
-			current = current->next;
-		current->next = new_cmd;
-	}
+        current = minishell->cmd_pipelines;
+        while (current->next != NULL)
+            current = current->next;
+        current->next = new_cmd;
+    }
 }
 
 /**
@@ -137,6 +143,7 @@ int syntax_analysis(t_minishell *minishell)
 		new_command = build_cmd_from_segment(minishell, segment);
 		append_command(minishell, new_command);
 	}
+	free_tokens_list(&token);
 	minishell->tokens_list = NULL;
 	return(0);
 }
