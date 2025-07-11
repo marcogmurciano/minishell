@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:50:40 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/10 23:10:54 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/11 12:41:55 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,11 @@ void free_minishell(t_minishell *minishell)
 		free_tokens_list(&(minishell->tokens_list));
 		minishell->tokens_list = NULL;
 	}
+	if (minishell->envp)
+	{
+		ft_free_array((void **)minishell->envp);
+		minishell->envp = NULL;
+	}
 	if (minishell->environment)
 	{
 		free_environment(&(minishell->environment));
@@ -37,6 +42,6 @@ void free_minishell(t_minishell *minishell)
 	if (minishell->cmd_pipelines)
 	{
 		free_cmds(&(minishell->cmd_pipelines));
-		minishell->environment = NULL;
+		minishell->cmd_pipelines = NULL;
 	}
 }
