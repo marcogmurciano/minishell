@@ -6,7 +6,7 @@
 #    By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/18 11:28:00 by dbarba-v          #+#    #+#              #
-#    Updated: 2025/07/09 14:30:34 by dbarba-v         ###   ########.fr        #
+#    Updated: 2025/07/11 10:45:37 by dbarba-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ LIBS = -lreadline -L./libft/lib -lft
 LIBFT = ./libft/lib/libft.a
 
 SRCS = 	src/main.c \
+		src/debug.c \
 		src/prompt/prompt_input.c \
 		src/prompt/prompt_utils.c \
 		src/environment/get_environment_array.c \

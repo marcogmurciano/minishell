@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 10:56:11 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/09 14:19:34 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/11 10:45:24 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,18 +76,13 @@ static t_cmd *build_cmd_from_segment(t_minishell *minishell, t_token *segment)
 		malloc_error(minishell);
 	}
 	cmd->argv = get_cmd_argv(minishell, segment);
-	printf("ARGV[0]: %s\n", cmd->argv[0]);
 	cmd->infile = get_infile(minishell, segment);
-	printf("INFILE: %s\n", cmd->infile);
 	cmd->outfile = get_outfile(minishell, segment);
-	printf("OUTFILE: %s\n", cmd->outfile);
 	append_status = get_append_status(segment);
 	cmd->append = &append_status;
-	printf("APPEND STATUS: %d\n", *(cmd->append));
 	cmd->heredoc = get_heredoc_delimiter(minishell, segment);
-	printf("HEREDOC DELIMETERS: %s\n", cmd->heredoc);
-	printf("================\n");
 	free_tokens_list(&segment);
+	// print_tokens(cmd);
 	return(cmd);
 }
 
@@ -138,23 +133,10 @@ int syntax_analysis(t_minishell *minishell)
 	while (token && token->token_type != TOKEN_EOF)
 	{
 		segment = get_next_segment(&token);
-		print_segment(segment); // DEBUG PRINTING
+		// print_segment(segment); // DEBUG PRINTING
 		new_command = build_cmd_from_segment(minishell, segment);
 		append_command(minishell, new_command);
 	}
 	minishell->tokens_list = NULL;
 	return(0);
-}
-
-
-/**
- * Debug function to print segments
- */
-void print_segment(t_token *token)
-{
-	while (token)
-	{
-		printf("DEBUG(print_segment): %s\n", token->value);
-		token = token->next;
-	}
 }
