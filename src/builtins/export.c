@@ -6,41 +6,68 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:28:46 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/10 23:05:53 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/11 14:21:01 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int export(t_minishell *minishell, char *pathname, const char **argv, char **envp)
+/**
+ * @brief Finds and replaces an environment variable in the linked list.
+ *        If the key matches, replaces the node and frees the old one.
+ * @param env_head Pointer to the head node of the environment list.
+ * @param new_node The new environment variable node to insert.
+ * @return 1 if replaced, 0 otherwise.
+ */
+static int	replace_env_node(t_env *env_head, t_env *new_node)
 {
-	t_env	*new_env;
-	t_env	*current_env;
-	t_env	*temp_env;
+	t_env	*previous;
+	t_env	*current;
+
+	previous = env_head;
+	current = previous;
+	while (current)
+	{
+		if (ft_strcmp(current->key, new_node->key) == 0)
+		{
+			previous->next = new_node;
+			new_node->next = current->next;
+			current->next = NULL;
+			free_environment(&current);
+			return (1);
+		}
+		previous = current;
+		current = current->next;
+	}
+	return (0);
+}
+
+/**
+ * @brief Exports environment variables to the minishell environment.
+ *        Adds new or replaces existing environment variables as needed.
+ * @param minishell Pointer to the minishell structure.
+ * @param pathname Not used.
+ * @param argv Null-terminated array of arguments. argv[0] is the command name.
+ * @param envp Not used.
+ * @return 0 on success, calls malloc_error() on allocation error.
+ */
+int	export(t_minishell *minishell, char *pathname, const char **argv,
+		char **envp)
+{
+	t_env	*new_node;
 	int		i;
 
-	(void **)envp;
+	(void)pathname;
+	(void)envp;
 	i = 1;
 	while (argv[i])
 	{
-		new_env = create_env_node(argv[i]);
-		current_env = minishell->environment;
-		while (current_env)
-		{
-			if(ft_strcmp(current_env->next->key, new_env->key) == 0)
-			{
-				temp_env = current_env->next;
-				current_env->next = new_env;
-				new_env->next = temp_env->next;
-				temp_env->next = NULL;
-				free_environment(&temp_env);
-				minishell->envp = get_environment_array(minishell->environment);
-				return(0);
-			}
-			current_env = current_env->next;
-		}
-		append_env_node(minishell->environment, new_env);
+		new_node = create_env_node(argv[i]);
+		if (!new_node)
+			malloc_error(minishell);
+		if (replace_env_node(minishell->environment, new_node) == 0)
+			append_env_node(minishell->environment, new_node);
 		minishell->envp = get_environment_array(minishell->environment);
 	}
-	return(0);
+	return (0);
 }

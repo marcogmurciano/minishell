@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 10:34:32 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/11 10:48:03 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/11 15:57:57 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void print_cmd(t_cmd *cmd)
 		printf("ARGV[%d]: %s\n", i, cmd->argv[i]);
 	printf("INFILE: %s\n", cmd->infile);
 	printf("OUTFILE: %s\n", cmd->outfile);
-	printf("APPEND STATUS: %d\n", *(cmd->append));
+	printf("APPEND STATUS: %d\n", cmd->append);
 	printf("HEREDOC DELIMETERS: %s\n", cmd->heredoc);
 	printf("================\n");
 }

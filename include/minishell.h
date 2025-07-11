@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:58:22 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/11 10:48:50 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/11 15:50:27 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ typedef struct		s_cmd
 	char			**argv;		// Array of arguments, [0] is command itshelf
 	char			*infile;	// If REDIR_IN present
 	char			*outfile;	// If REDIR_OUT present
-	int				*append;     // If APPEND present
+	int				append;     // If APPEND present
 	char			*heredoc;	// If HEREDOC present // This is the path to temp file
 	t_cmd			*next;
 } 					t_cmd;
@@ -122,7 +122,7 @@ typedef struct		s_minishell
 {
 	char			**envp;
 	char			*input;
-	int				*last_exit_status;		// "$?"
+	int				last_exit_status;		// "$?"
 	int				duplicated_std_fds[2];
 	int				pid;
 	t_token			*tokens_list;
@@ -250,7 +250,7 @@ void	free_cmds(t_cmd **cmd_head);
 //
 //
 void	malloc_error(t_minishell *minishell);
-int		syntax_error(char *origin);
+int		syntax_error(char *origin, t_minishell *minishell);
 
 ///////////////////////////////////////////////////////////////////////////////
 //

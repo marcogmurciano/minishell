@@ -1,4 +1,4 @@
-# minishell – Evaluation Checklist
+# minishell – Checklist
 
 ## 1. Compile
 
