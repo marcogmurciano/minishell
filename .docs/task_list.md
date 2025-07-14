@@ -25,7 +25,7 @@ This list breaks down the requirements from the [minishell subject](en.subject.m
 ## 3. Parsing
 
 - [x] Tokenize input line
-- [ ] Parse command, arguments, redirections, and pipes
+- [x] Parse command, arguments, redirections, and pipes
 - [ ] Detect and handle invalid syntax (e.g., unclosed quotes, unsupported characters: `\` `;`)
 - [ ] Build internal command representation (AST or linked lists)
 
