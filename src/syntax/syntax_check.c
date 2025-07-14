@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 14:44:47 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/11 15:42:08 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/14 13:59:15 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,34 @@ static int	check_pipe(t_minishell *minishell, t_token *token)
 	return (0);
 }
 
+static int check_for_unsuported_characters(t_minishell *minishell, t_token* token)
+{
+	int i;
+
+	i = 0;
+
+	if (token->quote_type == DOUBLE_QUOTE ||
+		token->quote_type == NON_QUOTE)
+	{
+		while (token->value[i])
+		{
+			if (token->value[i] == '\\' ||
+				token->value[i] == ';' ||
+				token->value[i] == '&' ||
+				token->value[i] == '+' ||
+				token->value[i] == '?' ||
+				token->value[i] == '{' ||
+				token->value[i] == '}' ||
+				token->value[i] == ')' ||
+				token->value[i] == '(' ||
+				token->value[i] == '!')
+				return(syntax_error(NULL, minishell));
+			i++;
+		}
+	}
+	return(0);
+}
+
 int	syntax_check(t_minishell *minishell)
 {
 	t_token	*token;
@@ -48,6 +76,7 @@ int	syntax_check(t_minishell *minishell)
 	token = minishell->tokens_list;
 	while (token && token->next)
 	{
+		check_for_unsuported_characters(minishell, token);
 		if (token->token_type == TOKEN_REDIR_IN
 			|| token->token_type == TOKEN_REDIR_OUT)
 			check_redirection(minishell, token);
