@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:54:45 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/14 16:10:24 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/14 16:27:52 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static char *retrieve_new_input(t_minishell *minishell)
     char *expanded_variable;
     char *line_to_free;
 
-	
     current = minishell->tokens_list;
     while (current && current->token_type != TOKEN_EOF)
     {
@@ -60,8 +59,6 @@ static char *retrieve_new_input(t_minishell *minishell)
             if (!expanded_line)
                 return NULL; // Allocation failed
         }
-        if (!line_to_free) // Only free if not transferred to expanded_line
-            free(expanded_variable);
         current = current->next;
     }
     return (expanded_line);

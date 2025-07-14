@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 11:20:56 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/14 15:30:13 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/14 16:20:31 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,16 @@ char	*ft_itoa(int n)
 	if (!str)
 		return (NULL);
 	str[len] = '\0';
+	if (num == 0)
+        str[0] = '0';
 	if (num < 0)
 	{
 		str[0] = '-';
 		num = -num;
 	}
-	if (num == 0)
-        str[0] = '0';
-	while (--len >= 0 && str[len] != '-')
+	while (num)
 	{
-		str[len] = (num % 10) + '0';
+		str[--len] = (num % 10) + '0';
 		num /= 10;
 	}
 	return (str);
