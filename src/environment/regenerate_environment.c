@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 18:10:12 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/10 15:51:37 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/14 11:07:20 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static t_env *create_env_node(char *arg)
         free(new_env);
         return (NULL);
     }
-    new_env->value = ft_substr(arg, ft_strlen(new_env->key) + 1, ft_strchr(arg, '=') - arg);
+    new_env->value = ft_substr(arg, ft_strlen(new_env->key) + 1, ft_strchr(arg, '\0') - arg);
     if (!new_env->value) 
 	{
         free(new_env->key);
