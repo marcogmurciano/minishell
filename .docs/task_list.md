@@ -47,9 +47,9 @@ Implement the following builtins (with correct behavior and error handling):
 - [ ] `echo` (with `-n`, quoting, etc.)
 - [ ] `cd` (with path, `~`, error cases)
 - [ ] `pwd`
-- [ ] `export` (new and existing variables, correct output)
-- [ ] `unset`
-- [ ] `env`
+- [x] `export` (new and existing variables, correct output)
+- [x] `unset`
+- [x] `env`
 - [ ] `exit`
 
 ---
