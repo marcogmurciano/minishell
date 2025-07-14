@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:01:24 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/10 20:45:38 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/14 10:52:57 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void tokenization(t_minishell *minishell)
 		free_tokens_list(&(minishell->tokens_list));
 		minishell->tokens_list = NULL;
 		minishell->tokens_list = tokenizer(minishell);
+		// print_tokens(minishell->tokens_list);
 	}
 	refine_token_roles(minishell->tokens_list);
 }

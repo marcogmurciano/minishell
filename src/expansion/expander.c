@@ -6,19 +6,21 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:54:45 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/14 10:46:24 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/14 11:04:32 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 /**
- * Iterates through the tokens in the minishell's tokens_list. For each token, it appends its value to a newly built string,
- * handling quoting by re-adding quotes to tokens of type SINGLE_QUOTE or DOUBLE_QUOTE.
+ * Iterates through the tokens in the minishell's tokens_list. For each token, 
+ * it appends its value to a newly built string,
+ * handling quoting by re-adding quotes to tokens of type 
+ * SINGLE_QUOTE or DOUBLE_QUOTE.
  * Empty tokens and tokens with NULL values are skipped.
  *
- * @param minishell Pointer to the minishell structure containing the tokens list.
- * @return Pointer to the newly allocated string containing the reconstructed input line.
+ * @param minishell Pointer to the minishell struct containing the tokens list.
+ * @return Newly allocated string containing the reconstructed input line.
  */
 static char *retrieve_new_input(t_minishell *minishell)
 {
@@ -66,11 +68,14 @@ static char *retrieve_new_input(t_minishell *minishell)
 }
 
 /**
- * Given a string containing a variable of the form $VAR, this function extracts the prefix, variable name,
- * and suffix, expands the variable using the environment, and then rebuilds the string with the variable's value.
+ * Given a string containing a variable of the form $VAR, this function extracts
+ * the prefix, variable name,
+ * and suffix, expands the variable using the environment, and then rebuilds the
+ * string with the variable's value.
  *
  * @param minishell Pointer to the minishell structure for environment access.
- * @param str Double pointer to the string to expand; only the first variable is expanded per call.
+ * @param str Double pointer to the string to expand; only the first variable is 
+ * expanded per call.
  * @return Newly allocated string with the variable expanded.
  */
 static char	*expansor(t_minishell *minishell, char **str)
@@ -98,13 +103,14 @@ static char	*expansor(t_minishell *minishell, char **str)
 	expander.new_word_value = ft_strjoin_three(expander.preffix,
 			expander.variable_value, expander.suffix);
 	return (free(expander.variable_value), free(expander.preffix), 
-		free(expander.suffix), free(expander.variable_name), 
-		expander.new_word_value);
+			free(expander.suffix), free(expander.variable_name),
+			expander.new_word_value);
 }
 
 /**
  * Searches for the '$' character in the word value, and for each occurrence,
- * expands the corresponding variable using the expansor function, until no more variables remain.
+ * expands the corresponding variable using the expansor function, until no 
+ * more variables remain.
  *
  * @param minishell Pointer to the minishell structure for environment access.
  * @param word_value Double pointer to the string in which to expand variables.
@@ -126,11 +132,13 @@ static void	expand_each_variable(t_minishell *minishell, char **word_value)
 }
 
 /**
- * Iterates through the tokens_list of minishell, expanding all variables in tokens of type TOKEN_WORD
- * that are either unquoted or double-quoted. After expanding, reconstructs the new input string
+ * Iterates through the tokens_list of minishell, expanding all variables in 
+ * tokens of type TOKEN_WORD
+ * that are either unquoted or double-quoted. After expanding, reconstructs 
+ * the new input string
  * by joining all tokens together.
  *
- * @param minishell Pointer to the minishell structure containing the tokens list.
+ * @param minishell Pointer to the minishell struct containing the tokens list.
  * @return Pointer to the newly allocated expanded input string.
  */
 char *expand_tokens_list(t_minishell *minishell)
