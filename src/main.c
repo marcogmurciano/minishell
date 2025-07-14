@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:06:14 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/11 15:45:53 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/14 09:51:57 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int main(int argc, char **argv, char **envp)
 	initialize_minishell(&minishell, envp);
 
 	signal(SIGINT, sigint_handler);
-    signal(SIGQUIT, sigint_handler);
+    signal(SIGQUIT, SIG_IGN);  // CTRL+\ should be ignored 
 	while (1)
 	{
 		minishell.input = get_prompt_input();
