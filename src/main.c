@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:06:14 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/14 16:08:04 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/14 22:08:29 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,35 @@
 
 volatile sig_atomic_t g_signal_status = 0;
 
+static void minishell_loop(t_minishell *minishell)
+{
+	while (1)
+	{
+		minishell->input = get_prompt_input();
+		if(!minishell->input)
+		{
+			exit_minishell(minishell);
+		}
+		tokenization(minishell);
+		if(syntax_analysis(minishell) == 1)
+			continue;
+		// > EXECUTION < //
+	}
+}
+
 int main(int argc, char **argv, char **envp)
 {
 	t_minishell minishell;
-	
+
 	(void)argc;
-    (void)argv;
-	
+	(void)argv;
+
 	initialize_minishell(&minishell, envp);
 
 	signal(SIGINT, sigint_handler);
-    signal(SIGQUIT, SIG_IGN);  // CTRL+\ should be ignored 
-	while (1)
-	{
-		minishell.input = get_prompt_input();
-		if(minishell.input)
-		{
-			tokenization(&minishell);
-			// print_tokens(minishell.tokens_list); // DEBUG PRINTING FUNCTION //
-			if(syntax_analysis(&minishell) == 1)
-				continue;
-			// > EXECUTION < //
-		}
-		else
-			exit_minishell(&minishell);
-	}
+	signal(SIGQUIT, SIG_IGN); // Ignore CTRL+\
+
+	minishell_loop(&minishell);
+
+	return 0;
 }
