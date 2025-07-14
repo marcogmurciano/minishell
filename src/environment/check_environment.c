@@ -12,28 +12,53 @@
 
 #include "../../include/minishell.h"
 
+/**
+ * @brief Creates a new environment variable node.
+ *
+ * @param key The key/name of the environment variable.
+ * @param value The value of the environment variable.
+ * @param minishell Pointer to the minishell structure (used for error handling).
+ * @return Pointer to the newly created t_env node.
+ */
+static t_env *create_env_node(const char *key, const char *value, t_minishell *minishell)
+{
+	t_env *node = ft_calloc(1, sizeof(t_env));
+	if (!node)
+		malloc_error(minishell);
+	node->key = ft_strdup(key);
+	node->value = ft_strdup(value);
+	node->next = NULL;
+	return node;
+}
+
+/**
+ * @brief Checks and initializes the environment list for minishell.
+ *
+ * If the environment is not set, creates a minimal environment with PWD, SHLVL, and _.
+ *
+ * @param minishell Pointer to the minishell structure.
+ * @return Pointer to the head of the environment list.
+ */
 t_env *check_environment(t_minishell *minishell)
 {
-	t_env *new1;
-	t_env *new2;
-	t_env *new3;
+	t_env *pwd;
+	t_env *shlvl;
+	t_env *last_cmd;
 
-	// NEEDS REFACTORING //
 	if (minishell->environment == NULL)
 	{
-		new1 = ft_calloc(1, sizeof(t_env)); //
-		new2 = ft_calloc(1, sizeof(t_env)); //
-		new3 = ft_calloc(1, sizeof(t_env)); //
-		new1->key = ft_strdup("SHLVL");
-		new1->value = ft_strdup("1");
-		new1->next = new2;
-		new2->key = ft_strdup("PWD");
-		new2->value = getcwd(NULL, 0);
-		new2->next = new3;
-		new3->key = ft_strdup("_");
-		new3->value = ft_strdup(NULL);
-		new3->next = NULL;
-		return (new1);
+		char *pwd_value = getcwd(NULL, 0);
+		if (!pwd_value)
+			malloc_error(minishell);
+		pwd = create_env_node("PWD", pwd_value, minishell);
+		shlvl = create_env_node("SHLVL", "1", minishell);
+		last_cmd = create_env_node("_", "", minishell);
+		pwd->next = shlvl;
+		shlvl->next = last_cmd;
+		last_cmd->next = NULL;
+		free(pwd_value);
+		return (pwd);
 	}
 	return (minishell->environment);
 }
+

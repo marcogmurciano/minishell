@@ -19,6 +19,7 @@ void print_tokens(t_token *token_head)
     token = token_head;
     while (token)
     {
+		printf("\n--- TOKEN ---\n");
         printf("Token type: %d\n", token->token_type);
         printf("Token quote: %d\n", token->quote_type);
         printf("Token value: %s\n", token->value);
@@ -29,11 +30,13 @@ void print_tokens(t_token *token_head)
 
 void print_segment(t_token *token)
 {
+	printf("\n--- SEGMENT ---\n");
 	while (token)
 	{
-		printf("DEBUG PRINT SEGMENT: %s\n", token->value);
+		printf("Segment: %s\n", token->value);
 		token = token->next;
 	}
+	printf("--- END SEGMENT ---\n\n");
 }
 
 void print_cmd(t_cmd *cmd)
@@ -41,7 +44,7 @@ void print_cmd(t_cmd *cmd)
 	int i;
 	i = 0;
 
-	printf("COMMAND\n");
+	printf("\n--- COMMAND ---\n");
 	while (cmd->argv[i])
 		printf("ARGV[%d]: %s\n", i, cmd->argv[i]);
 	printf("INFILE: %s\n", cmd->infile);

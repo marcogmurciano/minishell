@@ -22,13 +22,3 @@ int syntax_error(char *origin, t_minishell *minishell)
 	minishell->last_exit_status = 1;
 	return (1);
 }
-
-
-// int	too_many_error(char *origin)
-// {
-// 	ft_putstr_fd("minishell: ", STDERR_FILENO);
-// 	if(origin)
-// 		ft_putstr_fd(ft_strjoin(origin, ": "), STDERR_FILENO);
-// 	ft_putendl_fd("too many arguments", STDERR_FILENO);
-// 	return(-1);
-// }
