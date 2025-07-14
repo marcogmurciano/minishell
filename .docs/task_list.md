@@ -83,7 +83,7 @@ Implement the following builtins (with correct behavior and error handling):
 ## 9. Signal Handling
 
 - [~] Handle `ctrl-C` (SIGINT): show new prompt, reset input
-- [x] Handle `ctrl-D` (EOF): exit shell
+- [x] Handle `ctrl-D` (EOF): exit shell (NOT a signal)
 - [x] Handle `ctrl-\` (SIGQUIT): do nothing
 - [x] Use at most one global variable (for signal number)
 
