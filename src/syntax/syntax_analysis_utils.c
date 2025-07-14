@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 10:57:28 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/11 14:25:56 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/14 17:02:26 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	**get_cmd_argv(t_minishell *minishell, t_token *segment)
 			i++;
 		token = token->next;
 	}
-	new_strings_array = ft_calloc(i, sizeof(char *) + 1);
+	new_strings_array = ft_calloc(i + 1, sizeof(char *));
 	if (!new_strings_array)
 	{
 		free_tokens_list(&segment);
@@ -62,6 +62,7 @@ char	**get_cmd_argv(t_minishell *minishell, t_token *segment)
 		}
 		token = token->next;
 	}
+	new_strings_array[i] = NULL;
 	return (new_strings_array);
 }
 
