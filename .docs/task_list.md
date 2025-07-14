@@ -26,8 +26,8 @@ This list breaks down the requirements from the [minishell subject](en.subject.m
 
 - [x] Tokenize input line
 - [x] Parse command, arguments, redirections, and pipes
-- [ ] Detect and handle invalid syntax (e.g., unclosed quotes, unsupported characters: `\` `;`)
-- [ ] Build internal command representation (AST or linked lists)
+- [x] Detect and handle invalid syntax (e.g., unclosed quotes, unsupported characters: `\` `;`)
+- [x] Build internal command representation (AST or linked lists)
 
 ---
 
