@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 11:20:56 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/03 18:30:11 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/14 15:30:13 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ static int	ft_int_length(int n)
 
 	lenght = 0;
 	num = n;
-	if (num < 0)
+	if (num <= 0)
 	{
 		lenght++;
 		num = -num;
 	}
-	while (num >= 10)
+	while (num)
 	{
 		num /= 10;
 		lenght++;
