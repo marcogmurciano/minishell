@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:54:45 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/14 11:04:32 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/14 16:10:24 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,11 @@ static void	expand_each_variable(t_minishell *minishell, char **word_value)
 		return ;
 	while (ft_strchr(*word_value, '$'))
 	{
+		if(ft_strcmp(*word_value, "$?"))
+		{
+			free(*word_value);
+			*word_value = ft_itoa(minishell->last_exit_status);
+		}
 		old = *word_value;
 		expanded = expansor(minishell, word_value);
 		*word_value = expanded;
@@ -158,9 +163,7 @@ char *expand_tokens_list(t_minishell *minishell)
 			else if(ft_strcmp("$", current->value) == 0)
 				;
 			else if(strchr(current->value, '$'))
-			{
 				expand_each_variable(minishell, &(current->value));
-			}
 		}
 		current = current->next;
 	}

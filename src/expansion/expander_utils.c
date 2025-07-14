@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 15:36:32 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/10 15:51:49 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/14 16:05:48 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,13 @@ char	*get_variable_value(t_minishell *minishell, char *variable_name)
 	current = minishell->environment;
 	while (current && current->next)
 	{
-		if (ft_strcmp(current->key, variable_name) == 0)
+		if (ft_strcmp(variable_name, "?") == 0)
 		{
-			return (current->value);
+			return (ft_itoa(minishell->last_exit_status));
+		}
+		else if (ft_strcmp(current->key, variable_name) == 0)
+		{
+			return (ft_strdup(current->value));
 		}
 		else
 			current = current->next;

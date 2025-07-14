@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 10:01:27 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/10 22:27:36 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/14 16:10:53 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void initialize_minishell(t_minishell *minishell, char **envp)
 	minishell->environment = check_environment(minishell);
 	minishell->envp = get_environment_array(minishell->environment);
 	minishell->pid = -1;
+	minishell->last_exit_status = -1;
 	minishell->duplicated_std_fds[0] = dup(STDIN_FILENO);
 	minishell->duplicated_std_fds[1] = dup(STDOUT_FILENO);
 }

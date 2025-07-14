@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:58:22 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/11 15:50:27 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/14 15:42:31 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ void	sigint_handler(int signal_number);
 //
 
 char	*get_prompt_input(void);
-void clear_line_and_newline(void) ;
+void	clear_line_and_newline(void);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
