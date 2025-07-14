@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:54:45 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/02 16:22:26 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/14 10:46:24 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,8 @@ char *expand_tokens_list(t_minishell *minishell)
 				current->quote_type == DOUBLE_QUOTE))
 		{
 			if (current->prev && current->prev->token_type == TOKEN_HEREDOC)
+				;
+			else if(ft_strcmp("$", current->value) == 0)
 				;
 			else if(strchr(current->value, '$'))
 			{
