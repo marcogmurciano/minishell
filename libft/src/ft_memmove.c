@@ -6,14 +6,15 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 17:04:23 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/03 18:50:41 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:44:28 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
 /**
- * @brief Copies n bytes from memory area src to memory area dest. The memory areas may overlap.
+ * @brief Copies n bytes from memory area src to memory area dest. 
+ * The memory areas may overlap.
  * @param dest Pointer to the destination memory area.
  * @param src Pointer to the source memory area.
  * @param n Number of bytes to copy.

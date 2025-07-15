@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 10:16:17 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/03 19:21:22 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:41:40 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /**
  * @brief Converts an uppercase letter to lowercase.
  * @param c The character to convert.
- * @return The lowercase equivalent if c is uppercase, otherwise returns c unchanged.
+ * @return The lowercase equivalent if c is uppercase, otherwise returns c.
  */
 int	ft_tolower(int c)
 {

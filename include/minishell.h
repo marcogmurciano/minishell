@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:58:22 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/11 15:50:27 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/15 14:53:41 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ void	sigint_handler(int signal_number);
 //
 
 char	*get_prompt_input(void);
-void clear_line_and_newline(void) ;
+void	clear_line_and_newline(void);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -179,17 +179,17 @@ int		handle_operator(t_token **token_head, t_minishell *minishell, int i);
 int		handle_quoted_word(t_token **token_head, t_minishell *minishell, int i);
 int		handle_nonquoted_word(t_token **token_head, t_minishell *minishell, int i);
 
-t_token	*create_eof_token(void);
-t_token	*create_word_token(t_token_type t_type, char *word, char quote);
-t_token	*create_nonword_token(t_token_type t_type, char *value);
+char	*get_quoted_word(t_minishell *minishell, char delimiter, int i);
+
+char	*get_unquoted_word(t_minishell *minishell, char *input);
 
 int		add_word_token(t_token **token_head, t_token_type t_type, char *word, char quote);
 int		add_nonword_token(t_token **token_head, t_token_type t_type, char *value);
 int		add_eof_token(t_token **token_head);
 
-char	*get_quoted_word(t_minishell *minishell, char delimiter, int i);
-
-char	*get_unquoted_word(t_minishell *minishell, char *input);
+t_token	*create_eof_token(void);
+t_token	*create_word_token(t_token_type t_type, char *word, char quote);
+t_token	*create_nonword_token(t_token_type t_type, char *value);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -200,6 +200,7 @@ char	*get_unquoted_word(t_minishell *minishell, char *input);
 int		needs_expansion(t_token *tokens_list);
 char	*expand_tokens_list(t_minishell *minishell);
 int		find_dollar(char *str);
+char	*retrieve_new_input(t_minishell *minishell);
 char	*extract_var_name(char *str, int variable_start, int *variable_name_length);
 char	*get_variable_value(t_minishell *minishell, char *variable_name);
 

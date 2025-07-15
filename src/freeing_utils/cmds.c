@@ -6,19 +6,19 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 12:32:40 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/11 11:59:38 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:33:39 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void free_cmds(t_cmd **cmd_head)
+void	free_cmds(t_cmd **cmd_head)
 {
-	t_cmd *current;
-	t_cmd *temp;
+	t_cmd	*current;
+	t_cmd	*temp;
 
-	if (cmd_head == NULL || *cmd_head == NULL) 
-        return;
+	if (cmd_head == NULL || *cmd_head == NULL)
+		return ;
 	current = *cmd_head;
 	while (current)
 	{

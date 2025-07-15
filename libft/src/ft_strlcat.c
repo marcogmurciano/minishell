@@ -6,19 +6,21 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:37:31 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/03 19:08:58 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:43:22 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
 /**
- * @brief Appends the NUL-terminated string src to the end of dst, copying at most dst_memsize - strlen(dst) - 1 bytes.
+ * @brief Appends the NUL-terminated string src to the end of dst, copying at
+ * most dst_memsize - strlen(dst) - 1 bytes.
  * @param dst The destination buffer.
  * @param src The source string.
  * @param dst_memsize Total size of the destination buffer.
- * @return The total length of the string it tried to create: initial length of dst plus length of src.
- *         If return value >= dst_memsize, truncation occurred.
+ * @return The total length of the string it tried to create: initial length
+ * of dst plus length of src. If return value >= dst_memsize,
+	truncation occurred.
  */
 size_t	ft_strlcat(char *dst, const char *src, size_t dst_memsize)
 {

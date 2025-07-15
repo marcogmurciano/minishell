@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 15:36:26 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/03 19:18:31 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:47:04 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_strrchr(const char *str, int c)
 	const char	*found;
 
 	if (str == NULL)
-        return NULL;
+		return (NULL);
 	found = NULL;
 	while (1)
 	{

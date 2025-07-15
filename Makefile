@@ -6,7 +6,7 @@
 #    By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/18 11:28:00 by dbarba-v          #+#    #+#              #
-#    Updated: 2025/07/11 10:45:37 by dbarba-v         ###   ########.fr        #
+#    Updated: 2025/07/15 14:52:16 by dbarba-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRCS = 	src/main.c \
 		src/expansion/check_token_list.c \
 		src/expansion/expander_utils.c \
 		src/expansion/expander.c \
+		src/expansion/retrieve_input.c \
 		src/freeing_utils/array_i.c \
 		src/freeing_utils/environ_list.c \
 		src/freeing_utils/minishell.c \
@@ -45,6 +46,7 @@ SRCS = 	src/main.c \
 		src/syntax/syntax_analysis.c \
 		src/syntax/syntax_analysis_utils.c \
 		src/syntax/syntax_check.c \
+		src/syntax/syntax_getcmd.c \
 		src/initialization/minishell.c \
 		src/error/malloc.c \
 		src/error/syntax.c \

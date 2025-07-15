@@ -6,14 +6,15 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 13:17:22 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/03 18:51:17 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:44:23 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
 /**
- * @brief Sets the first n bytes of the memory area pointed to by dest to the specified value.
+ * @brief Sets the first n bytes of the memory area pointed to by dest 
+ * to the specified value.
  * @param dest Pointer to the memory area to fill.
  * @param c Value to set (converted to unsigned char).
  * @param n Number of bytes to set.

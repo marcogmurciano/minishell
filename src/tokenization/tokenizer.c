@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:01:24 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/14 10:52:57 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:20:42 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,20 @@
  * @return Pointer to the head of the linked list of tokens.
  *         Returns NULL if allocation for trimmed_input fails.
  */
-static t_token *tokenizer(t_minishell *minishell)
+static t_token	*tokenizer(t_minishell *minishell)
 {
-	t_token 	*token_head;
-	int i;
+	t_token	*token_head;
+	int		i;
 
 	token_head = NULL;
 	i = 0;
-	while(minishell->input && minishell->input[i])
+	while (minishell->input && minishell->input[i])
 	{
-		if(ft_isspace(minishell->input[i]))
+		if (ft_isspace(minishell->input[i]))
 			i++;
-		else if(ft_isoperator(minishell->input, i))
+		else if (ft_isoperator(minishell->input, i))
 			i += handle_operator(&token_head, minishell, i);
-		else if(ft_isquote(minishell->input, i))
+		else if (ft_isquote(minishell->input, i))
 			i += handle_quoted_word(&token_head, minishell, i);
 		else
 			i += handle_nonquoted_word(&token_head, minishell, i);
@@ -51,12 +51,12 @@ static t_token *tokenizer(t_minishell *minishell)
  * frees the old input, expands the tokens, and retokenizes the input.
  * Then it refines the token roles.
  *
- * @param minishell Pointer to the minishell structure containing input and tokens list.
+ * @param minishell Pointer to the minishell structure containing needed info.
  */
-void tokenization(t_minishell *minishell)
+void	tokenization(t_minishell *minishell)
 {
 	minishell->tokens_list = tokenizer(minishell);
-	if(needs_expansion(minishell->tokens_list))
+	if (needs_expansion(minishell->tokens_list))
 	{
 		free(minishell->input);
 		minishell->input = NULL;
@@ -64,7 +64,6 @@ void tokenization(t_minishell *minishell)
 		free_tokens_list(&(minishell->tokens_list));
 		minishell->tokens_list = NULL;
 		minishell->tokens_list = tokenizer(minishell);
-		// print_tokens(minishell->tokens_list);
 	}
 	refine_token_roles(minishell->tokens_list);
 }

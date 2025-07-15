@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:50:40 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/11 12:41:55 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:33:49 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * After freeing, all pointers are set to NULL to avoid dangling pointers.
  * @param minishell
  */
-void free_minishell(t_minishell *minishell)
+void	free_minishell(t_minishell *minishell)
 {
 	if (minishell->input)
 	{

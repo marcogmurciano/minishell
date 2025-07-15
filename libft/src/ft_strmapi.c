@@ -6,14 +6,15 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 10:48:54 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/03 19:12:57 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:42:28 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
 /**
- * @brief Applies a function to each character of a string, returning a new allocated string.
+ * @brief Applies a function to each character of a string, returning a new 
+ * allocated string.
  * @param s The input string.
  * @param f The function to apply, which takes the index and character.
  * @return Pointer to the new string on success, or NULL on failure.

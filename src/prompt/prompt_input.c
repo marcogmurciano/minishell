@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 18:17:55 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/06/25 18:28:00 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:32:00 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,11 @@ char	*get_prompt_input(void)
 
 	input = NULL;
 	prompt = NULL;
-	user =  getenv("USER");
+	user = getenv("USER");
 	if (user)
 		prompt = ft_strjoin_three(user, "@", "minishell> ");
 	else
 		prompt = ft_strjoin_three("USER", "@", "minishell> ");
-
 	input = readline(prompt);
 	if (input)
 	{

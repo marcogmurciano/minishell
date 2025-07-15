@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 14:44:47 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/11 15:42:08 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/15 15:40:43 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,22 +41,52 @@ static int	check_pipe(t_minishell *minishell, t_token *token)
 	return (0);
 }
 
+static int	check_for_unsuported_characters(t_minishell *minishell,
+		t_token *token)
+{
+	int	i;
+
+	i = 0;
+	if (token->quote_type == DOUBLE_QUOTE || token->quote_type == NON_QUOTE)
+	{
+		while (token->value[i])
+		{
+			if (token->value[i] == '\\' || token->value[i] == ';'
+				|| token->value[i] == '&' || token->value[i] == '+'
+				|| token->value[i] == '?' || token->value[i] == '{'
+				|| token->value[i] == '}' || token->value[i] == ')'
+				|| token->value[i] == '(' || token->value[i] == '!')
+			{
+				syntax_error(NULL, minishell);
+				return (1);
+			}
+			i++;
+		}
+	}
+	return (0);
+}
+
 int	syntax_check(t_minishell *minishell)
 {
 	t_token	*token;
+	int		syntax_error;
 
+	syntax_error = 0;
 	token = minishell->tokens_list;
 	while (token && token->next)
 	{
-		if (token->token_type == TOKEN_REDIR_IN
-			|| token->token_type == TOKEN_REDIR_OUT)
-			check_redirection(minishell, token);
-		else if (token->token_type == TOKEN_HEREDOC
-			|| token->token_type == TOKEN_APPEND)
-			check_heredoc_append(minishell, token);
-		else if (token->token_type == TOKEN_PIPE)
-			check_pipe(minishell, token);
+		syntax_error = check_for_unsuported_characters(minishell, token);
+		if ((token->token_type == TOKEN_REDIR_IN
+				|| token->token_type == TOKEN_REDIR_OUT) && !syntax_error)
+			syntax_error = check_redirection(minishell, token);
+		else if ((token->token_type == TOKEN_HEREDOC
+				|| token->token_type == TOKEN_APPEND) && !syntax_error)
+			syntax_error = check_heredoc_append(minishell, token);
+		else if (token->token_type == TOKEN_PIPE && !syntax_error)
+			syntax_error = check_pipe(minishell, token);
+		if(syntax_error)
+			break;
 		token = token->next;
 	}
-	return (0);
+	return (syntax_error);
 }
