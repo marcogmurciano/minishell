@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 10:01:27 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/14 17:08:54 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:32:10 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
  * @param minishell Pointer to the t_minishell structure to initialize.
  * @param envp      The environment variable array from main().
  */
-void initialize_minishell(t_minishell *minishell, char **envp)
+void	initialize_minishell(t_minishell *minishell, char **envp)
 {
 	ft_bzero(minishell, sizeof(t_minishell));
 	minishell->environment = regenerate_environment(envp);

@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 10:56:11 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/14 22:08:41 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:30:57 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 /**
  * @brief Extracts the next segment of tokens up to TOKEN_PIPE or TOKEN_EOF.
  *
- * @param token Double pointer to the current token; updated to the next segment.
- * @return Pointer to the head of the extracted segment, or NULL if input is invalid.
+ * @param token Double pointer to the current token; updated to the next segm.
+ * @return Pointer to the head of the new segment, or NULL if input is invalid.
  */
 static t_token	*get_next_segment(t_token **token)
 {
-	t_token *segment_ends[2];
+	t_token	*segment_ends[2];
 	t_token	*next;
 
 	if (!token || !*token)
@@ -28,12 +28,11 @@ static t_token	*get_next_segment(t_token **token)
 	segment_ends[0] = *token;
 	segment_ends[1] = segment_ends[0];
 	next = NULL;
-	while (segment_ends[1] && 
-		segment_ends[1]->token_type != TOKEN_EOF && 
-		segment_ends[1]->token_type != TOKEN_PIPE)
+	while (segment_ends[1] && segment_ends[1]->token_type != TOKEN_EOF
+		&& segment_ends[1]->token_type != TOKEN_PIPE)
 		segment_ends[1] = segment_ends[1]->next;
-	if (segment_ends[1] && (segment_ends[1]->token_type == TOKEN_EOF ||
-		segment_ends[1]->token_type == TOKEN_PIPE))
+	if (segment_ends[1] && (segment_ends[1]->token_type == TOKEN_EOF
+			|| segment_ends[1]->token_type == TOKEN_PIPE))
 	{
 		if (segment_ends[1]->token_type == TOKEN_EOF)
 			next = segment_ends[1];
@@ -71,7 +70,6 @@ static t_cmd	*build_cmd_from_segment(t_minishell *minishell,
 	cmd->append = get_append_status(segment);
 	cmd->heredoc = get_heredoc_delimiter(minishell, segment);
 	free_tokens_list(&segment);
-	// print_tokens(cmd);
 	return (cmd);
 }
 

@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 10:41:51 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/03 18:36:29 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:47:37 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /**
  * @brief Adds a new element to the end of the linked list.
- * 
+ *
  * @param lst Address of a pointer to the first link of a list.
  * @param new The element to add to the end of the list.
  */
@@ -23,7 +23,7 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 	t_list	*last;
 
 	if (!lst || !new)
-        return ;
+		return ;
 	if (*lst == NULL)
 	{
 		*lst = new;

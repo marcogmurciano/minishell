@@ -6,14 +6,14 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 11:20:56 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/14 16:20:31 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:46:02 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
 /**
- * @brief Calculates the length (in digits) required to represent an integer 
+ * @brief Calculates the length (in digits) required to represent an integer
  * as a string, including sign.
  * @param n The integer to measure.
  * @return The number of characters needed.
@@ -41,7 +41,8 @@ static int	ft_int_length(int n)
 /**
  * @brief Converts an integer to a newly allocated string representation.
  * @param n The integer to convert.
- * @return Pointer to the string representation (must be freed by caller), or NULL on allocation failure.
+ * @return Pointer to the string representation (must be freed by caller),
+ * or NULL on allocation failure.
  */
 char	*ft_itoa(int n)
 {
@@ -56,7 +57,7 @@ char	*ft_itoa(int n)
 		return (NULL);
 	str[len] = '\0';
 	if (num == 0)
-        str[0] = '0';
+		str[0] = '0';
 	if (num < 0)
 	{
 		str[0] = '-';

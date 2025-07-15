@@ -6,43 +6,39 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:06:14 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/14 22:08:29 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/15 12:47:07 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-volatile sig_atomic_t g_signal_status = 0;
+volatile sig_atomic_t	g_signal_status = 0;
 
-static void minishell_loop(t_minishell *minishell)
+static void	minishell_loop(t_minishell *minishell)
 {
 	while (1)
 	{
 		minishell->input = get_prompt_input();
-		if(!minishell->input)
+		if (!minishell->input)
 		{
 			exit_minishell(minishell);
 		}
 		tokenization(minishell);
-		if(syntax_analysis(minishell) == 1)
-			continue;
+		if (syntax_analysis(minishell) == 1)
+			continue ;
 		// > EXECUTION < //
 	}
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	t_minishell minishell;
+	t_minishell	minishell;
 
 	(void)argc;
 	(void)argv;
-
 	initialize_minishell(&minishell, envp);
-
 	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, SIG_IGN); // Ignore CTRL+\
-
+	signal(SIGQUIT, SIG_IGN);
 	minishell_loop(&minishell);
-
-	return 0;
+	return (0);
 }

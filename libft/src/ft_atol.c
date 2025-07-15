@@ -6,14 +6,15 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:06:06 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/03 18:07:47 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:46:39 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
 /**
- * @brief Converts the initial portion of the string to a long integer representation.
+ * @brief Converts the initial portion of the string to a 
+ * long integer representation.
  * 
  * @param nptr The string to convert.
  * @return The converted value as a long integer.

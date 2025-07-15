@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 15:23:52 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/03 19:06:30 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:44:08 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ char	*ft_strdup(const char *s)
 	if (s == NULL)
 	{
 		new_str = (char *)malloc(1);
-        if (new_str != NULL)
-            new_str[0] = '\0';
-        return (new_str);
+		if (new_str != NULL)
+			new_str[0] = '\0';
+		return (new_str);
 	}
 	new_str = (char *)malloc(sizeof(char) * (ft_strlen((char *)s) + 1));
 	if (!new_str)

@@ -6,14 +6,14 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 15:36:32 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/14 17:09:07 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:37:01 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 /**
- * Iterates through the input string and returns the index of the first '$' character found.
+ * Iterates through the input string and returns the index of the first '$'.
  * Returns -1 if no '$' is present.
  *
  * @param str The input string to search.
@@ -35,7 +35,8 @@ int	find_dollar(char *str)
 }
 
 /**
- * Starting at variable_start, reads until a delimiter is found (whitespace, pipe, redirect, quote, or another '$').
+ * Starting at variable_start, reads until a delimiter is found
+ * (whitespace, pipe, redirect, quote, or another '$').
  * The resulting variable name is returned as a newly allocated string.
  * The length of the variable name is stored in variable_name_length.
  *
@@ -51,13 +52,10 @@ char	*extract_var_name(char *str, int variable_start,
 	int		i;
 
 	i = 0;
-	while (str[variable_start + i] && !ft_isspace(str[variable_start + i]) && 
-		str[variable_start + i] != '|' &&
-		str[variable_start + i] != '<' &&
-		str[variable_start + i] != '>' &&
-		str[variable_start + i] != '\'' &&
-		str[variable_start + i] != '\"' &&
-		str[variable_start + i] != '$')
+	while (str[variable_start + i] && !ft_isspace(str[variable_start + i])
+		&& str[variable_start + i] != '|' && str[variable_start + i] != '<'
+		&& str[variable_start + i] != '>' && str[variable_start + i] != '\''
+		&& str[variable_start + i] != '\"' && str[variable_start + i] != '$')
 		i++;
 	variable_name = ft_substr(str, variable_start, i);
 	*variable_name_length = ft_strlen(variable_name);
@@ -68,13 +66,13 @@ char	*extract_var_name(char *str, int variable_start,
  * Searches the minishell's environment linked list for the given variable name.
  * Returns the value if found, or NULL otherwise.
  *
- * @param minishell Pointer to the minishell structure containing the environment.
+ * @param minishell Pointer to the minishell structure containing the env.
  * @param variable_name The name of the variable to search for.
  * @return The value of the variable, or NULL if not found.
  */
 char	*get_variable_value(t_minishell *minishell, char *variable_name)
 {
-	t_env *current;
+	t_env	*current;
 
 	current = minishell->environment;
 	while (current && current->next)
