@@ -43,16 +43,22 @@ void	print_cmd(t_cmd *cmd)
 {
 	int	i;
 
-	i = 0;
-	printf("\n--- COMMAND ---\n");
-	while (cmd->argv[i])
+	t_cmd *current;
+	current = cmd;
+	while(current)
 	{
-		printf("ARGV[%d]: %s\n", i, cmd->argv[i]);
+		i = 0;
+		printf("\n--- COMMAND ---\n");
+		while (cmd->argv[i])
+		{
+			printf("ARGV[%d]: %s\n", i, cmd->argv[i]);
+			i++;
+		}
 		printf("INFILE: %s\n", cmd->infile);
 		printf("OUTFILE: %s\n", cmd->outfile);
 		printf("APPEND STATUS: %d\n", cmd->append);
 		printf("HEREDOC DELIMETERS: %s\n", cmd->heredoc);
 		printf("================\n");
-		i++;
+		current = current->next;
 	}
 }
