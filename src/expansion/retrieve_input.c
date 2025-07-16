@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 12:55:30 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/15 14:52:50 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/16 12:15:24 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,42 +24,43 @@ static char	*expand_token_value(t_token *token)
 		return (ft_strdup(token->value));
 }
 
-static char *append_expanded_variable(char *expanded_line, char *expanded_variable)
+static char	*append_exp_variable(char *expanded_line,
+		char *expanded_variable)
 {
-    char *line_to_free;
+	char	*line_to_free;
 
 	line_to_free = expanded_line;
-    expanded_line = ft_strjoin_three(expanded_line, " ", expanded_variable);
-    free(line_to_free);
-    free(expanded_variable);
-    return (expanded_line);
+	expanded_line = ft_strjoin_three(expanded_line, " ", expanded_variable);
+	free(line_to_free);
+	free(expanded_variable);
+	return (expanded_line);
 }
 
 char	*retrieve_new_input(t_minishell *minishell)
 {
 	t_token	*current;
-	char	*expanded_line;
-	char	*expanded_variable;
+	char	*exp_line;
+	char	*exp_variable;
 
 	current = minishell->tokens_list;
-	expanded_line = NULL;
+	exp_line = NULL;
 	while (current && current->token_type != TOKEN_EOF)
 	{
-		expanded_variable = expand_token_value(current);
-		if (!expanded_variable)
+		exp_variable = expand_token_value(current);
+		if (!exp_variable)
 		{
 			current = current->next;
 			continue ;
 		}
-		if (!expanded_line)
-			expanded_line = expanded_variable;
+		if (!exp_line)
+			exp_line = exp_variable;
 		else
 		{
-			expanded_line = append_expanded_variable(expanded_line, expanded_variable);
-			if (!expanded_line)
+			exp_line = append_exp_variable(exp_line, exp_variable);
+			if (!exp_line)
 				return (NULL);
 		}
 		current = current->next;
 	}
-	return (expanded_line);
+	return (exp_line);
 }

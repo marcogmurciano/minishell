@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 14:44:47 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/15 15:40:43 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/16 09:40:51 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ int	syntax_check(t_minishell *minishell)
 			syntax_error = check_heredoc_append(minishell, token);
 		else if (token->token_type == TOKEN_PIPE && !syntax_error)
 			syntax_error = check_pipe(minishell, token);
-		if(syntax_error)
-			break;
+		if (syntax_error)
+			break ;
 		token = token->next;
 	}
 	return (syntax_error);
