@@ -42,23 +42,27 @@ void	print_segment(t_token *token)
 void	print_cmd(t_cmd *cmd)
 {
 	int	i;
+	int	cmd_num;
 
-	t_cmd *current;
-	current = cmd;
-	while(current)
+	cmd_num = 0;
+	while (cmd)
 	{
 		i = 0;
-		printf("\n--- COMMAND ---\n");
-		while (cmd->argv[i])
+		printf("\n--- COMMAND %d ---\n", cmd_num);
+		if (cmd->argv)
 		{
-			printf("ARGV[%d]: %s\n", i, cmd->argv[i]);
-			i++;
+			while (cmd->argv[i])
+			{
+				printf("ARGV[%d]: %s\n", i, cmd->argv[i]);
+				i++;
+			}
 		}
 		printf("INFILE: %s\n", cmd->infile);
 		printf("OUTFILE: %s\n", cmd->outfile);
 		printf("APPEND STATUS: %d\n", cmd->append);
 		printf("HEREDOC DELIMETERS: %s\n", cmd->heredoc);
 		printf("================\n");
-		current = current->next;
+		cmd = cmd->next;
+		cmd_num++;
 	}
 }
