@@ -2,7 +2,7 @@
 
 ## 1. Compile
 
-- [ ] **Run `make -n`**: Does it use `-Wall -Wextra -Werror`?
+- [x] **Run `make -n`**: Does it use `-Wall -Wextra -Werror`?
   - [ ] If **not**, select the “invalid compilation” flag.
 - [ ] **Does minishell compile without any errors?**
   - [ ] If **not**, select the flag.
@@ -14,9 +14,9 @@
 ## 2. Simple Command & Global Variables
 
 - [ ] **Execute a simple command** (e.g., `/bin/ls` or another command without options).
-- [ ] **How many global variables are used? Why?**
-  - [ ] Ask the student for a concrete example of why a global variable is mandatory or logical.
-  - [ ] Check that the global variable only provides info about the number of a received signal (not more).
+- [x] **How many global variables are used? Why?**
+  - [x] Ask the student for a concrete example of why a global variable is mandatory or logical.
+  - [x] Check that the global variable only provides info about the number of a received signal (not more).
 - [ ] **Test:**
   - [ ] An empty command
   - [ ] Only spaces or tabs
@@ -65,15 +65,15 @@
 
 ## 7. Signals
 
-- [ ] **In empty prompt:**
-  - [ ] `ctrl-C` displays a new line and prompt.
-  - [ ] `ctrl-\` does nothing.
-  - [ ] `ctrl-D` quits minishell (relaunch for further tests).
-- [ ] **After typing input:**
-  - [ ] `ctrl-C` displays new line and prompt, buffer is clean.
-  - [ ] Press Enter to ensure nothing from the previous line is executed.
-  - [ ] `ctrl-D` does nothing.
-  - [ ] `ctrl-\` does nothing.
+- [x] **In empty prompt:**
+  - [x] `ctrl-C` displays a new line and prompt.
+  - [x] `ctrl-\` does nothing.
+  - [x] `ctrl-D` quits minishell (relaunch for further tests).
+- [x] **After typing input:**
+  - [x] `ctrl-C` displays new line and prompt, buffer is clean.
+  - [x] Press Enter to ensure nothing from the previous line is executed.
+  - [x] `ctrl-D` does nothing.
+  - [x] `ctrl-\` does nothing.
 - [ ] **During blocking command (e.g., `cat` or `grep "something"` with no input):**
   - [ ] Test `ctrl-C`, `ctrl-\`, and `ctrl-D`.
   - [ ] Repeat with different commands.
