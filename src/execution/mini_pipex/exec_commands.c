@@ -12,6 +12,39 @@
 
 #include "../../../include/minishell.h"
 
+
+
+
+////////////////////////////////////////////
+//     hay que liberar así tras los execve?
+	// free(cmd_path);
+	// free_bidimensional_array(args);
+////////////////////////////////////
+
+
+void	manual_execution(cmd)
+{
+	char **split_cmd;
+
+	split_cmd = ft_split(cmd);
+	if (!split_cmd)
+		exit(1);
+	if (strcmp(split_cmd[0], "echo") == 0)
+    	// builtin_echo();
+	if (strcmp(split_cmd[0], "export") == 0)
+	    // builtin_export();
+	if (strcmp(split_cmd[0], "cd") == 0)
+	    // builtin_cd();
+	if (strcmp(split_cmd[0], "pwd") == 0)
+	    builtin_pwd();
+	if (strcmp(split_cmd[0], "unset") == 0)
+	    // builtin_unset();
+	if (strcmp(split_cmd[0], "env") == 0)
+	    // builtin_env();
+	if (strcmp(split_cmd[0], "exit") == 0)
+	    // builtin_exit();
+}
+
 void	exec_cmd(char *cmd, int input_fd, int output_fd, t_fds *fd)
 {
 	char	**args;
@@ -34,9 +67,9 @@ void	exec_cmd(char *cmd, int input_fd, int output_fd, t_fds *fd)
 		close(input_fd);
 	if (output_fd != -1 && output_fd != 1)
 		close(output_fd);
-	execve(cmd_path, args, fd->env);
-	free(cmd_path);
-	free_bidimensional_array(args);
+	manual_execution(cmd);
+	else
+		execve(cmd_path, args, fd->env);
 	perror("pipex");
 }
 
@@ -58,6 +91,7 @@ void	exec_pathed_cmd(char *cmd, int input_fd, int output_fd, t_fds *fd)
 		close(input_fd);
 	if (output_fd != -1 && output_fd != 1)
 		close(output_fd);
+	manual_execution(cmd);
 	execve(cmd, argv, fd->env);
 	perror("pipex");
 }

@@ -17,6 +17,7 @@
 #include "readline/history.h"
 #include "readline/readline.h"
 #include <signal.h>
+#include "pipex.h"
 
 /**
  * Signals global variable
@@ -214,12 +215,20 @@ void	refine_token_roles(t_token *tokens_head);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
+//    EXECUTION
+//
+//
+
+int 	execution(t_minishell *minishell);
+
+///////////////////////////////////////////////////////////////////////////////
+//
 //    SYNTAX ANALYSIS
 //
 //
 
-int	syntax_analysis(t_minishell *minishell);
-int	syntax_check(t_minishell *minishell);
+int		syntax_analysis(t_minishell *minishell);
+int		syntax_check(t_minishell *minishell);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -267,8 +276,8 @@ void	exit_minishell(t_minishell *minishell);
 //
 //
 
-void print_tokens(t_token *token_head);
-void print_segment(t_token *token);
-void print_cmd(t_cmd *cmd);
+void	 print_tokens(t_token *token_head);
+void 	print_segment(t_token *token);
+void 	print_cmd(t_cmd *cmd);
 
 #endif

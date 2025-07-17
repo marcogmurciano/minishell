@@ -142,11 +142,22 @@ int execution(t_minishell *minishell)
 
     files_flag = 11;
     cmd_count = 0;
-    print_cmd_list(head);
+    // //debug
+    print_cmd(head);
+    //
     full_pipe_line = create_cmd_array(head, &cmd_count, &files_flag);
     if (!full_pipe_line)
         return (1);
-    //debug
+    // //debug
+    print_ft_pipex_arguments(cmd_count, full_pipe_line, files_flag);
+    //
+    result = ft_pipex(cmd_count, full_pipe_line, minishell->envp, files_flag);
+    ft_free_array((void *)full_pipe_line);
+    return (result);
+}
+
+    print_ft_pipex_arguments(int cmd_count, char **full_pipe_line, int files_flag)
+{
     int i = 0;
     printf("le estamos pasando a pipex:\n  cdm_count: %d\n", cmd_count);
     while (full_pipe_line[i])
@@ -155,14 +166,10 @@ int execution(t_minishell *minishell)
         i++;
     }
     printf("  files_flag: %d\n", files_flag);
-    i = 0;
-    while (minishell->envp[i])
-    {
-        printf("      elemento %d de minishell->envp: %s\n", i, minishell->envp[i]);
-        i++;
-    }
-    //debug
-    result = ft_pipex(cmd_count, full_pipe_line, minishell->envp, files_flag);
-    ft_free_array((void *)full_pipe_line);
-    return (result);
+    // i = 0;
+    // while (minishell->envp[i])
+    // {
+    //     printf("      elemento %d de minishell->envp: %s\n", i, minishell->envp[i]);
+    //     i++;
+    // }
 }

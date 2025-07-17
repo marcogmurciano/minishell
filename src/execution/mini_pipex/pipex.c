@@ -106,7 +106,6 @@ int	ft_pipex(int ac, char *av[], char **envp, int has_files)
 	fd.out_dir = ft_strdup(av[(ac + fd.has_infile + fd.has_outfile) - 1]);
 	fd.buffer = -1;
 	fd.status = -1;
-	printf("hola???\n");
 	if (!fd.is_pathed)
 		return(1);
 	fd.how_many_cmd = ac;
@@ -115,6 +114,8 @@ int	ft_pipex(int ac, char *av[], char **envp, int has_files)
 		pid = fork();
 		if (pid == 0)
 			only_child(&fd, av[fd.has_infile]);
+		waitpid(pid, &(fd.status), 0);
+		return (WEXITSTATUS(fd.status));
 	}
 	return (create_children(&fd, &av[fd.has_infile], envp, 0));
 }

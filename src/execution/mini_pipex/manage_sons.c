@@ -123,7 +123,6 @@ int	create_children(t_fds *fd, char **cmds, char **env, int i)
 	setup_pipes(pipes, i, fd->how_many_cmd);
 	if (i == fd->how_many_cmd)
 		return (cleanup(fd));
-	printf("%dra vuelta comenzada\n", i);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -139,7 +138,6 @@ int	create_children(t_fds *fd, char **cmds, char **env, int i)
 		exit(1);
 	}
 	manage_parent_fds(fd, pipes, i);
-	printf("%dra vuelta terminada\n", i);
 	create_children(fd, cmds, env, (i + 1));
 	return (wait_and_exit(fd, pid, i, &(fd->status)));
 }
