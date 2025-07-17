@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 12:29:40 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/14 17:08:42 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/17 22:25:52 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@
  */
 void	sigint_handler(int signal_number)
 {
-	if (signal_number == SIGINT)
-		clear_line_and_newline();
-	g_signal_status = signal_number;
+   if (signal_number == SIGINT) 
+   {
+	   clear_line_and_newline();
+	   g_signal_status = SIGINT;
+   }
 }
