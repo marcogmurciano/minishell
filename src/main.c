@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:06:14 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/16 17:21:56 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/17 15:17:22 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ static void	minishell_loop(t_minishell *minishell)
 {
 	while (1)
 	{
+		free_cmds(&(minishell->cmd_pipelines)); /// ONLY FOR DEBUGGING WITHOUT EXECUTION
+		
 		minishell->input = get_prompt_input();
 		if (!minishell->input)
 		{

@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:58:22 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/15 14:53:41 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/17 15:56:22 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ typedef enum		e_token_type
 	TOKEN_REDIR_OUT,	  // 4
 	TOKEN_HEREDOC,		  // 5
 	TOKEN_APPEND,		  // 6
-	//
+	//	
 	// 	v EXTRAS ASSIGNED DURING REFINING PHASE v
-	//
+	//	
 	TOKEN_REDIR_IN_FILE,  // 7
 	TOKEN_REDIR_OUT_FILE, // 8
 	TOKEN_HEREDOC_DELIM,  // 9
@@ -114,6 +114,7 @@ typedef struct		s_token
 	char			*value;
 	t_quote_type	quote_type;
 	t_token_type	token_type;
+	int				spaced;
 	struct s_token	*next;
 	struct s_token	*prev;
 } 					t_token;
@@ -183,7 +184,7 @@ char	*get_quoted_word(t_minishell *minishell, char delimiter, int i);
 
 char	*get_unquoted_word(t_minishell *minishell, char *input);
 
-int		add_word_token(t_token **token_head, t_token_type t_type, char *word, char quote);
+int		add_word_token(t_token **token_head, t_token_type t_type, char *word, char *quote);
 int		add_nonword_token(t_token **token_head, t_token_type t_type, char *value);
 int		add_eof_token(t_token **token_head);
 
