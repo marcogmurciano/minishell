@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:58:22 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/17 15:56:22 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/17 21:18:21 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,6 +268,7 @@ void	exit_minishell(t_minishell *minishell);
 //
 //
 
+void join_tokens(t_token **tokens_head);
 void print_tokens(t_token *token_head);
 void print_segment(t_token *token);
 void print_cmd(t_cmd *cmd);

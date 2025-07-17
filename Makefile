@@ -6,7 +6,7 @@
 #    By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/18 11:28:00 by dbarba-v          #+#    #+#              #
-#    Updated: 2025/07/15 14:52:16 by dbarba-v         ###   ########.fr        #
+#    Updated: 2025/07/17 20:40:58 by dbarba-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ SRCS = 	src/main.c \
 		src/error/malloc.c \
 		src/error/syntax.c \
 		src/exits/minishell.c \
+		src/tokenization/join_tokens.c \
 	
 OBJS = $(SRCS:.c=.o)
 

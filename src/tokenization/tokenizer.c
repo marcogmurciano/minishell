@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:01:24 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/17 16:04:47 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/17 21:01:37 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,13 @@ static t_token	*tokenizer(t_minishell *minishell)
 {
 	t_token	*token_head;
 	int		i;
-	int		spaced;
 
 	token_head = NULL;
 	i = 0;
-	spaced = 0;
 	while (minishell->input && minishell->input[i])
 	{
 		if (ft_isspace(minishell->input[i]))
-		{
-			spaced = 1;
 			i++;
-		}
 		else if (ft_isoperator(minishell->input, i))
 			i += handle_operator(&token_head, minishell, i);
 		else if (ft_isquote(minishell->input, i))
@@ -70,10 +65,6 @@ void	tokenization(t_minishell *minishell)
 		minishell->tokens_list = NULL;
 		minishell->tokens_list = tokenizer(minishell);
 	}
-	// print_tokens(minishell->tokens_list);
-	//////////////////////////////////////
-	// QUOTES WITHOUT SPACES MANAGEMENT //
-	// merge_nonspaced_word_tokens();   //
-	//////////////////////////////////////
+	join_tokens(&(minishell->tokens_list));
 	refine_token_roles(minishell->tokens_list);
 }

@@ -6,16 +6,18 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 12:55:30 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/16 12:15:24 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/17 20:38:26 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static char	*expand_token_value(t_token *token)
+static char	*expanded_token_value(t_token *token)
 {
 	if (token->value == NULL || *(token->value) == 0)
-		return (NULL);
+	{
+		return ft_strdup("__EMPTY__TOKEN__");
+	}
 	if (token->quote_type == SINGLE_QUOTE)
 		return (ft_strjoin_three("'", ft_strdup(token->value), "'"));
 	else if (token->quote_type == DOUBLE_QUOTE)
@@ -46,12 +48,7 @@ char	*retrieve_new_input(t_minishell *minishell)
 	exp_line = NULL;
 	while (current && current->token_type != TOKEN_EOF)
 	{
-		exp_variable = expand_token_value(current);
-		if (!exp_variable)
-		{
-			current = current->next;
-			continue ;
-		}
+		exp_variable = expanded_token_value(current);
 		if (!exp_line)
 			exp_line = exp_variable;
 		else
