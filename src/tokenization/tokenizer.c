@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:01:24 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/17 15:16:44 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/17 16:04:47 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	tokenization(t_minishell *minishell)
 		free(minishell->input);
 		minishell->input = NULL;
 		minishell->input = expand_tokens_list(minishell);
-		printf("NEW INPUT: %s\n", minishell->input);
 		free_tokens_list(&(minishell->tokens_list));
 		minishell->tokens_list = NULL;
 		minishell->tokens_list = tokenizer(minishell);
@@ -77,5 +76,4 @@ void	tokenization(t_minishell *minishell)
 	// merge_nonspaced_word_tokens();   //
 	//////////////////////////////////////
 	refine_token_roles(minishell->tokens_list);
-	print_tokens(minishell->tokens_list);
 }

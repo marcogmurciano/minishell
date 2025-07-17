@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:06:14 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/17 15:17:22 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/17 16:05:21 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static void	minishell_loop(t_minishell *minishell)
 		tokenization(minishell);
 		if (syntax_analysis(minishell) == 1)
 			continue ;
-		print_cmd(minishell->cmd_pipelines);
 		// > EXECUTION < //
 	}
 }
