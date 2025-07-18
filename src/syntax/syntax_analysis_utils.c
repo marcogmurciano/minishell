@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 10:57:28 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/18 12:10:42 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/18 16:26:40 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,21 @@ char	*get_infile(t_minishell *minishell, t_token *segment)
 	char	*infile;
 
 	current = segment;
-	while (current)
+	while (current && current->next)
 	{
 		if (current->token_type == TOKEN_REDIR_IN)
 		{
 			current = current->next;
-			infile = ft_strdup(current->value);
-			if (!infile)
+			if (current->token_type == TOKEN_REDIR_IN_FILE)
 			{
-				free_tokens_list(&segment);
-				malloc_error(minishell);
+				infile = ft_strdup(current->value);
+				if (!infile)
+				{
+					free_tokens_list(&segment);
+					malloc_error(minishell);
+				}
+				return (infile);
 			}
-			return (infile);
 		}
 		current = current->next;
 	}
@@ -67,22 +70,25 @@ char	*get_outfile(t_minishell *minishell, t_token *segment)
 	char	*outfile;
 
 	current = segment;
-	while (current->next && current->next->token_type != TOKEN_EOF)
+	while (current && current->next)
 	{
-		current = current->next;
-	}
-	if (current && (current->next == NULL
-			|| current->next->token_type == TOKEN_EOF)
-		&& (current->token_type == TOKEN_REDIR_OUT_FILE
-			|| current->token_type == TOKEN_APPEND_FILE))
-	{
-		outfile = ft_strdup(current->value);
-		if (!outfile)
+		if (current->token_type == TOKEN_REDIR_OUT ||
+			current->token_type == TOKEN_APPEND)
 		{
-			free_tokens_list(&segment);
-			malloc_error(minishell);
+			current = current->next;
+			if (current->token_type == TOKEN_REDIR_OUT_FILE ||
+				current->token_type == TOKEN_APPEND_FILE)
+			{
+				outfile = ft_strdup(current->value);
+				if (!outfile)
+				{
+					free_tokens_list(&segment);
+					malloc_error(minishell);
+				}
+				return (outfile);
+			}
 		}
-		return (outfile);
+		current = current->next;
 	}
 	return (NULL);
 }
