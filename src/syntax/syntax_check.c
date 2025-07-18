@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 14:44:47 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/18 12:10:59 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/18 17:00:00 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ static int	check_for_unsuported_characters(t_minishell *minishell,
 	{
 		if ((token->value[1] == '\0') &&
 			(token->value[0] == '\\' || token->value[0] == ';'
-			|| token->value[0] == '&' || token->value[0] == '+'
-			|| token->value[0] == '?' || token->value[0] == '{'
-			|| token->value[0] == '}' || token->value[0] == ')'
-			|| token->value[0] == '(' || token->value[0] == '!'))
+			|| token->value[0] == '&' || token->value[0] == '?' 
+			|| token->value[0] == '{' || token->value[0] == '}' 
+			|| token->value[0] == ')' || token->value[0] == '(' 
+			|| token->value[0] == '!'))
 		{
 			syntax_error(NULL, minishell);
 			return (1);
