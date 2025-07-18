@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:58:22 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/15 14:53:41 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/17 21:18:21 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@ char	*get_quoted_word(t_minishell *minishell, char delimiter, int i);
 
 char	*get_unquoted_word(t_minishell *minishell, char *input);
 
-int		add_word_token(t_token **token_head, t_token_type t_type, char *word, char quote);
+int		add_word_token(t_token **token_head, t_token_type t_type, char *word, char *quote);
 int		add_nonword_token(t_token **token_head, t_token_type t_type, char *value);
 int		add_eof_token(t_token **token_head);
 
@@ -281,8 +281,9 @@ void	exit_minishell(t_minishell *minishell);
 //
 //
 
-void	 print_tokens(t_token *token_head);
-void 	print_segment(t_token *token);
-void 	print_cmd(t_cmd *cmd);
+void join_tokens(t_token **tokens_head);
+void print_tokens(t_token *token_head);
+void print_segment(t_token *token);
+void print_cmd(t_cmd *cmd);
 
 #endif

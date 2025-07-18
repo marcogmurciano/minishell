@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:05:01 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/15 11:28:26 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/18 12:11:08 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,12 @@ int	add_nonword_token(t_token **token_head, t_token_type t_type, char *value)
  * @return 0 on success, 1 on allocation failure.
  */
 int	add_word_token(t_token **token_head, t_token_type t_type, char *word,
-		char quote)
+		char *quote)
 {
 	t_token	*new_token;
 	t_token	*token_last;
 
-	new_token = create_word_token(t_type, word, quote);
+	new_token = create_word_token(t_type, word, *quote);
 	if (!new_token)
 	{
 		return (1);
@@ -87,6 +87,8 @@ int	add_word_token(t_token **token_head, t_token_type t_type, char *word,
 		token_last->next = new_token;
 		new_token->prev = token_last;
 	}
+	if(quote[-1] && ft_isspace(quote[-1]))
+		new_token->spaced = 1;
 	return (0);
 }
 

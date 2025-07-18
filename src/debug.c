@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 10:34:32 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/15 11:40:17 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/18 12:08:53 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	print_tokens(t_token *token_head)
 		printf("\n--- TOKEN ---\n");
 		printf("Token type: %d\n", token->token_type);
 		printf("Token quote: %d\n", token->quote_type);
+		printf("Space before: %d\n", token->spaced);
 		printf("Token value: %s\n", token->value);
 		printf("==================\n");
 		token = token->next;

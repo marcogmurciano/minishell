@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:08:49 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/15 15:43:36 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/18 12:11:36 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,17 @@ int	handle_operator(t_token **token_head, t_minishell *minishell, int i)
  */
 int	handle_quoted_word(t_token **token_head, t_minishell *minishell, int i)
 {
-	char	quote;
+	char	*quote;
 	char	*word;
 	int		len;
 
-	quote = minishell->input[i];
-	word = get_quoted_word(minishell, quote, i);
+	quote = &(minishell->input[i]);
+	if (ft_strncmp(quote, "__EMPTY__TOKEN__", 15) == 0)
+	{
+		add_word_token(token_head, TOKEN_WORD, "", quote);
+		return (15);
+	}
+	word = get_quoted_word(minishell, *quote, i);
 	add_word_token(token_head, TOKEN_WORD, word, quote);
 	len = ft_strlen(word);
 	free(word);
@@ -88,11 +93,13 @@ int	handle_quoted_word(t_token **token_head, t_minishell *minishell, int i)
  */
 int	handle_nonquoted_word(t_token **token_head, t_minishell *minishell, int i)
 {
+	char	*first_char;
 	char	*word;
 	int		len;
 
-	word = get_unquoted_word(minishell, &(minishell->input[i]));
-	add_word_token(token_head, TOKEN_WORD, word, '\0');
+	first_char = &(minishell->input[i]);
+	word = get_unquoted_word(minishell, first_char);
+	add_word_token(token_head, TOKEN_WORD, word, first_char);
 	len = ft_strlen(word);
 	free(word);
 	return (len);

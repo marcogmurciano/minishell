@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 10:57:28 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/15 11:31:20 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/18 12:10:42 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,20 @@ char	*get_infile(t_minishell *minishell, t_token *segment)
 	char	*infile;
 
 	current = segment;
-	if (current && current->token_type == TOKEN_REDIR_IN)
+	while (current)
 	{
-		current = current->next;
-		infile = ft_strdup(current->value);
-		if (!infile)
+		if (current->token_type == TOKEN_REDIR_IN)
 		{
-			free_tokens_list(&segment);
-			malloc_error(minishell);
+			current = current->next;
+			infile = ft_strdup(current->value);
+			if (!infile)
+			{
+				free_tokens_list(&segment);
+				malloc_error(minishell);
+			}
+			return (infile);
 		}
-		return (infile);
+		current = current->next;
 	}
 	return (NULL);
 }

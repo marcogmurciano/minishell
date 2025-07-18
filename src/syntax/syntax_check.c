@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 14:44:47 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/16 09:40:51 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/18 12:10:59 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,11 @@ static int	check_heredoc_append(t_minishell *minishell, t_token *token)
 
 static int	check_pipe(t_minishell *minishell, t_token *token)
 {
-	if (token->next->token_type != TOKEN_CMD)
+	if (token->next && (token->next->token_type != TOKEN_CMD &&
+		token->next->token_type != TOKEN_REDIR_IN &&
+		token->next->token_type != TOKEN_REDIR_OUT &&
+		token->next->token_type != TOKEN_HEREDOC &&
+		token->next->token_type != TOKEN_APPEND))
 		return (syntax_error(NULL, minishell));
 	return (0);
 }
@@ -44,23 +48,17 @@ static int	check_pipe(t_minishell *minishell, t_token *token)
 static int	check_for_unsuported_characters(t_minishell *minishell,
 		t_token *token)
 {
-	int	i;
-
-	i = 0;
 	if (token->quote_type == DOUBLE_QUOTE || token->quote_type == NON_QUOTE)
 	{
-		while (token->value[i])
+		if ((token->value[1] == '\0') &&
+			(token->value[0] == '\\' || token->value[0] == ';'
+			|| token->value[0] == '&' || token->value[0] == '+'
+			|| token->value[0] == '?' || token->value[0] == '{'
+			|| token->value[0] == '}' || token->value[0] == ')'
+			|| token->value[0] == '(' || token->value[0] == '!'))
 		{
-			if (token->value[i] == '\\' || token->value[i] == ';'
-				|| token->value[i] == '&' || token->value[i] == '+'
-				|| token->value[i] == '?' || token->value[i] == '{'
-				|| token->value[i] == '}' || token->value[i] == ')'
-				|| token->value[i] == '(' || token->value[i] == '!')
-			{
-				syntax_error(NULL, minishell);
-				return (1);
-			}
-			i++;
+			syntax_error(NULL, minishell);
+			return (1);
 		}
 	}
 	return (0);

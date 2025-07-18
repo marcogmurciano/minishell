@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:28:46 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/16 10:59:03 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/16 17:33:39 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,16 +76,20 @@ int	builtin_export(t_minishell *minishell, char **argv)
 	int		i;
 
 	i = 1;
-	if(check_key_syntax(argv[i]) == 1)
-		return (1);
 	while (argv[i])
 	{
+		if(check_key_syntax(argv[i]) == 1)
+		{
+			i++;
+			continue;
+		}
 		new_node = create_env_node(argv[i]);
 		if (!new_node)
 			malloc_error(minishell);
 		if (replace_env_node(minishell->environment, new_node) == 0)
 			append_env_node(&(minishell->environment), new_node);
 		minishell->envp = get_environment_array(minishell->environment);
+		i++;
 	}
 	return (0);
 }
