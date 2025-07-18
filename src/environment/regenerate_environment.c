@@ -17,7 +17,7 @@
  * @param arg The environment string in "NAME=VALUE" format.
  * @return Pointer to the newly created node, or NULL on failure.
  */
-static t_env	*create_env_node(char *arg)
+t_env	*create_env_node(char *arg)
 {
 	t_env	*new_env;
 

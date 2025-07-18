@@ -19,7 +19,7 @@
  */
 void	sigint_handler(int signal_number)
 {
-	if (signal_number == SIGINT)
-		clear_line_and_newline();
+	// if (signal_number == SIGINT)
+	clear_line_and_newline();
 	g_signal_status = signal_number;
 }

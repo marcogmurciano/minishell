@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-void    builtin_pwd(void)
+int    builtin_pwd(void)
 {
     char *cwd;
 
@@ -21,9 +21,9 @@ void    builtin_pwd(void)
     {
         // fprintf(stderr, "pwd: error: %s\n", strerror(errno));
         perror("pwd");
-        exit(1);
+        return (1);
     }
     printf("%s\n", cwd);
-    free(cwd);    
-    exit(0);
+    free(cwd);
+    return (0);
 }

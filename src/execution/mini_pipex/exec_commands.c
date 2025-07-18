@@ -18,31 +18,32 @@
 	// free_bidimensional_array(args);
 ////////////////////////////////////
 
-//recordar exit y cleanup al finla de cada builtin
+//recordar exit y cleanup al final de cada builtin
 
-
-static void	manual_execution(char *cmd)
+static void	manual_execution(char *cmd, t_fds *fd)
 {
 	char **split_cmd;
 
-	printf("builtin\n");
 	split_cmd = ft_split(cmd, ' ');
 	if (!split_cmd)
 		exit(1);
 	// if (strcmp(split_cmd[0], "echo") == 0)
     // 	// builtin_echo();
-	// if (strcmp(split_cmd[0], "export") == 0)
-	//     builtin_export();
+	if (strcmp(split_cmd[0], "export") == 0)
+	    builtin_export(fd->minishell, split_cmd);
 	// if (strcmp(split_cmd[0], "cd") == 0)
 	//     // builtin_cd();
 	if (strcmp(split_cmd[0], "pwd") == 0)
 	    builtin_pwd();
 	// if (strcmp(split_cmd[0], "unset") == 0)
 	//     // builtin_unset();
-	// if (strcmp(split_cmd[0], "env") == 0)
-	//     // builtin_env();
+	if (strcmp(split_cmd[0], "env") == 0)
+	    builtin_env(fd->minishell, split_cmd);
 	// if (strcmp(split_cmd[0], "exit") == 0)
 	//     // builtin_exit();
+
+	// cleanup
+	// exit
 }
 
 void	exec_cmd(char *cmd, int input_fd, int output_fd, t_fds *fd)
@@ -67,7 +68,7 @@ void	exec_cmd(char *cmd, int input_fd, int output_fd, t_fds *fd)
 		close(input_fd);
 	if (output_fd != -1 && output_fd != 1)
 		close(output_fd);
-	manual_execution(cmd);
+	manual_execution(cmd, fd);
 	execve(cmd_path, args, fd->env);
 	perror("pipex");
 }
@@ -90,7 +91,7 @@ void	exec_pathed_cmd(char *cmd, int input_fd, int output_fd, t_fds *fd)
 		close(input_fd);
 	if (output_fd != -1 && output_fd != 1)
 		close(output_fd);
-	manual_execution(cmd);
+	manual_execution(cmd, fd);
 	execve(cmd, argv, fd->env);
 	perror("pipex");
 }

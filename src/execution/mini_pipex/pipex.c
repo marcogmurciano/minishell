@@ -54,15 +54,15 @@ int	process_cmds_errors(char *av[], int i, char **envp)
 	return (f_exit);
 }
 
-void	build_is_pathed(int ac, char *av[], char **is_pathed)
+void	build_is_pathed(int ac, char *av[], char **is_pathed, int has_infile)
 {
 	int		i;
 	char	*tmp;
 
 	i = -1;
-	while (++i < ac - 2)
+	while (++i < ac)
 	{
-		if (ft_strchr(av[1 + i], '/'))
+		if (ft_strchr(av[has_infile + i], '/'))
 		{
 			tmp = *is_pathed;
 			*is_pathed = ft_strjoin(tmp, "1");
@@ -77,31 +77,17 @@ void	build_is_pathed(int ac, char *av[], char **is_pathed)
 	}
 }
 
-
-
-
-
-
-//new junk for minishell
-
-
-	//has files numero de dos digitos 
-	// 11 es no en ambos 
-	// 22 es si en ambos 
-	// 12 es infile no y outfile si 
-	// 21 es infile si y outfile no
-
-
-int	ft_pipex(int ac, char *av[], char **envp, int has_files)
+int	ft_pipex(int ac, char *av[], t_minishell *minishell, int has_files)
 {
 	t_fds	fd;
 	pid_t	pid;
 
 	fd.has_infile = (has_files / 10) - 1;
     fd.has_outfile = (has_files % 10) - 1;
-	fd.env = ft_strdup_arr(envp);
+	fd.env = ft_strdup_arr(minishell->envp);
 	fd.is_pathed = ft_strdup("");
-	build_is_pathed((ac + fd.has_infile + fd.has_outfile), av, &fd.is_pathed);
+	build_is_pathed(ac, av, &fd.is_pathed, fd.has_infile);
+	fd.minishell = minishell;
 	fd.in_dir = ft_strdup(av[0]);
 	fd.out_dir = ft_strdup(av[(ac + fd.has_infile + fd.has_outfile) - 1]);
 	fd.buffer = -1;
@@ -117,22 +103,5 @@ int	ft_pipex(int ac, char *av[], char **envp, int has_files)
 		waitpid(pid, &(fd.status), 0);
 		return (WEXITSTATUS(fd.status));
 	}
-	return (create_children(&fd, &av[fd.has_infile], envp, 0));
+	return (create_children(&fd, &av[fd.has_infile], fd.env, 0));
 }
-
-// int main (int ac, char *av[], char **envp)
-// {
-// 	char *avb[120];
-// 	(void)ac;
-// 	(void)av;
-
-// 	avb[0] = "infile"; 
-// 	avb[1] = "cmd1"; 
-// 	avb[2] = "cmd2"; 
-// 	avb[3] = "cmd3"; 
-// 	avb[4] = "cmd4"; 
-// 	avb[5] = "cmd5";
-// 	avb[6] = "outfile"; 
-// 	avb[7] = NULL; 
-// 	ft_pipex(5, avb, envp, 22);
-// }

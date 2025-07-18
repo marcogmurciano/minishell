@@ -1,15 +1,1 @@
-marcoga@minishell> holaaaaaaaaaaaa
-entramos a execution
---- COMMAND 0 ---
-ARGV[0]: holaaaaaaaaaaaa
-INFILE: (null)
-OUTFILE: (null)
-APPEND STATUS: 0
-HEREDOC DELIMETERS: (null)
-================
-le estamos pasando a pipex:
-  cdm_count: 1
-      elemento 0 de full pipeline: holaaaaaaaaaaaa
-  files_flag: 11
-pipex: command not found: holaaaaaaaaaaaa
-marcoga@minishell> exit
+holaaaaaaaaaaaaholaaaaaaaaaaaaholaaaaaaaaaaaaholaaaaaaaaaaaa

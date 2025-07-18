@@ -29,7 +29,7 @@ static void	minishell_loop(t_minishell *minishell)
 			continue ;
 		//print_cmd(minishell->cmd_pipelines);
 		// > EXECUTION < //
-		printf("entramos a execution");
+		// printf("entramos a execution");
 		minishell->last_exit_status = execution(minishell);
 		free_cmds(&(minishell->cmd_pipelines));
 	}
