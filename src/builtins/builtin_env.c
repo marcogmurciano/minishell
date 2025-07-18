@@ -12,19 +12,19 @@
 
 #include "../../include/minishell.h"
 
-int	env(t_minishell *minishell, char *pathname, char **argv, char **envp)
+int	builtin_env(t_minishell *minishell, char **argv)
 {
 	int	i;
 
-	if (argv[1] != '\0')
+	if (argv[1] != NULL)
 	{
-		syntax_error(pathname, minishell);
+		syntax_error("env", minishell);
 		return (1);
 	}
 	i = 0;
-	while (envp[i])
+	while (minishell->envp[i])
 	{
-		ft_putendl_fd(envp[i], STDOUT_FILENO);
+		ft_putendl_fd(minishell->envp[i], STDOUT_FILENO);
 		i++;
 	}
 	return (0);

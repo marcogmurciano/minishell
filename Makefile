@@ -51,6 +51,17 @@ SRCS = 	src/main.c \
 		src/error/malloc.c \
 		src/error/syntax.c \
 		src/exits/minishell.c \
+		src/execution/execution.c \
+		src/execution/mini_pipex/exec_commands.c \
+		src/execution/mini_pipex/manage_sons.c \
+		src/execution/mini_pipex/pipex_utils.c \
+		src/execution/mini_pipex/pipex_utils2.c \
+		src/execution/mini_pipex/pipex.c \
+		src/builtins/builtin_pwd.c \
+		src/builtins/builtin_env.c \
+		src/builtins/builtin_export.c \
+
+
 		src/tokenization/join_tokens.c \
 	
 OBJS = $(SRCS:.c=.o)
