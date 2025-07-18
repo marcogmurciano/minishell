@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 14:44:47 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/17 21:15:07 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/18 11:41:54 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,11 @@ static int	check_heredoc_append(t_minishell *minishell, t_token *token)
 
 static int	check_pipe(t_minishell *minishell, t_token *token)
 {
-	if (token->next->token_type != TOKEN_CMD)
+	if (token->next && (token->next->token_type != TOKEN_CMD &&
+		token->next->token_type != TOKEN_REDIR_IN &&
+		token->next->token_type != TOKEN_REDIR_OUT &&
+		token->next->token_type != TOKEN_HEREDOC &&
+		token->next->token_type != TOKEN_APPEND))
 		return (syntax_error(NULL, minishell));
 	return (0);
 }

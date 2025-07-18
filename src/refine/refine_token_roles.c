@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 10:31:02 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/15 11:31:37 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/18 11:41:53 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static int	get_new_token_type(t_token *current, t_token *prev)
 		return (TOKEN_HEREDOC_DELIM);
 	if (prev->token_type == TOKEN_PIPE
 		|| prev->token_type == TOKEN_REDIR_IN_FILE
+		|| prev->token_type == TOKEN_REDIR_OUT_FILE
 		|| prev->token_type == TOKEN_HEREDOC_DELIM)
 		return (TOKEN_CMD);
 	if (prev->token_type == TOKEN_CMD || prev->token_type == TOKEN_ARG)
