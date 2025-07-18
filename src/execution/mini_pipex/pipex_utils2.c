@@ -20,6 +20,7 @@ int	cleanup(t_fds *fd)
 	free_bidimensional_array(fd->env);
 	free(fd->in_dir);
 	free(fd->out_dir);
+	free_minishell(fd->minishell);
 	return (0);
 }
 

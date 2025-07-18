@@ -22,28 +22,29 @@
 
 static void	manual_execution(char *cmd, t_fds *fd)
 {
-	char **split_cmd;
+	char	**split_cmd;
+	int		exitcode;
 
 	split_cmd = ft_split(cmd, ' ');
 	if (!split_cmd)
 		exit(1);
 	// if (strcmp(split_cmd[0], "echo") == 0)
-    // 	// builtin_echo();
+    // 	// exitcode = builtin_echo();
 	if (strcmp(split_cmd[0], "export") == 0)
-	    builtin_export(fd->minishell, split_cmd);
+	    exitcode = builtin_export(fd->minishell, split_cmd);
 	// if (strcmp(split_cmd[0], "cd") == 0)
-	//     // builtin_cd();
+	//     // exitcode = builtin_cd();
 	if (strcmp(split_cmd[0], "pwd") == 0)
-	    builtin_pwd();
+	    exitcode = builtin_pwd();
 	// if (strcmp(split_cmd[0], "unset") == 0)
-	//     // builtin_unset();
+	//     // exitcode = builtin_unset();
 	if (strcmp(split_cmd[0], "env") == 0)
-	    builtin_env(fd->minishell, split_cmd);
+	    exitcode = builtin_env(fd->minishell, split_cmd);
 	// if (strcmp(split_cmd[0], "exit") == 0)
-	//     // builtin_exit();
+	//     // exitcode = builtin_exit();
 
-	// cleanup
-	// exit
+	cleanup(fd);
+	exit(exitcode);
 }
 
 void	exec_cmd(char *cmd, int input_fd, int output_fd, t_fds *fd)

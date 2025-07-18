@@ -101,6 +101,7 @@ int	ft_pipex(int ac, char *av[], t_minishell *minishell, int has_files)
 		if (pid == 0)
 			only_child(&fd, av[fd.has_infile]);
 		waitpid(pid, &(fd.status), 0);
+		cleanup(&fd);
 		return (WEXITSTATUS(fd.status));
 	}
 	return (create_children(&fd, &av[fd.has_infile], fd.env, 0));

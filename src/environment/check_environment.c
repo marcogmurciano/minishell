@@ -20,7 +20,7 @@
  * @param minishell Pointer to the minishell structure (used for errors).
  * @return Pointer to the newly created t_env node.
  */
-static t_env	*create_env_node(const char *key, const char *value,
+static t_env	*create_env_node2(const char *key, const char *value,
 		t_minishell *minishell)
 {
 	t_env	*node;
@@ -55,9 +55,9 @@ t_env	*check_environment(t_minishell *minishell)
 		pwd_value = getcwd(NULL, 0);
 		if (!pwd_value)
 			malloc_error(minishell);
-		pwd = create_env_node("PWD", pwd_value, minishell);
-		shlvl = create_env_node("SHLVL", "1", minishell);
-		last_cmd = create_env_node("_", "", minishell);
+		pwd = create_env_node2("PWD", pwd_value, minishell);
+		shlvl = create_env_node2("SHLVL", "1", minishell);
+		last_cmd = create_env_node2("_", "", minishell);
 		pwd->next = shlvl;
 		shlvl->next = last_cmd;
 		last_cmd->next = NULL;
