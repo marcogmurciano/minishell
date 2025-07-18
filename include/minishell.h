@@ -86,6 +86,8 @@ t_token	*create_eof_token(void);
 t_token	*create_word_token(t_token_type t_type, char *word, char quote);
 t_token	*create_nonword_token(t_token_type t_type, char *value);
 
+void join_tokens(t_token **tokens_head);
+
 ///////////////////////////////////////////////////////////////////////////////
 //
 //    EXPANDER
@@ -174,7 +176,7 @@ void	exit_minishell(t_minishell *minishell);
 //
 //
 
-void join_tokens(t_token **tokens_head);
+void	print_envp(char **envp);
 void print_tokens(t_token *token_head);
 void print_segment(t_token *token);
 void print_cmd(t_cmd *cmd);
