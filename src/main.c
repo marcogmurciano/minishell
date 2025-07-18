@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:06:14 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/18 12:09:27 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/18 12:17:42 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,3 @@ int	main(int argc, char **argv, char **envp)
 	minishell_loop(&minishell);
 	return (0);
 }
->>>>>>> f354ecfdec943de0ac2c7fd4c4b39e67d49812b5
