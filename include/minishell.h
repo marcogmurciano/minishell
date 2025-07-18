@@ -220,6 +220,8 @@ void	refine_token_roles(t_token *tokens_head);
 //
 
 int 	execution(t_minishell *minishell);
+void    builtin_pwd(void);
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //

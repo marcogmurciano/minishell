@@ -1,31 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/09 11:28:43 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/11 16:08:06 by dbarba-v         ###   ########.fr       */
+/*   Created: 2025-07-18 08:50:42 by user              #+#    #+#             */
+/*   Updated: 2025-07-18 08:50:42 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	env(t_minishell *minishell, char *pathname, char **argv, char **envp)
+void    builtin_pwd(void)
 {
-	int	i;
+    char *cwd;
 
-	if (argv[1] != '\0')
-	{
-		syntax_error(pathname, minishell);
-		return (1);
-	}
-	i = 0;
-	while (envp[i])
-	{
-		ft_putendl_fd(envp[i], STDOUT_FILENO);
-		i++;
-	}
-	return (0);
+    cwd = getcwd(NULL, 0);
+    if (cwd == NULL)
+    {
+        // fprintf(stderr, "pwd: error: %s\n", strerror(errno));
+        perror("pwd");
+        exit(1);
+    }
+    printf("%s\n", cwd);
+    free(cwd);    
+    exit(0);
 }

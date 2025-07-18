@@ -70,7 +70,7 @@ static int check_key_syntax(char *key)
  * @param envp Not used.
  * @return 0 on success, calls malloc_error() on allocation error.
  */
-int	export(t_minishell *minishell, char *pathname, const char **argv,
+int	builtin_export(t_minishell *minishell, char *pathname, const char **argv,
 		char **envp)
 {
 	t_env	*new_node;
