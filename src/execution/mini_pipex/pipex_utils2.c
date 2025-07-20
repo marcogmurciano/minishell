@@ -45,8 +45,7 @@ int	process_single_command(char **full_cmd, t_fds *fd)
 	int		result;
 	char	*joined_cmd;
 
-	if (ft_strcmp(full_cmd[0], "export") == 0 
-		|| ft_strcmp(full_cmd[0], "unset") == 0)
+	if (is_builtin(full_cmd[0]) == 0)
 		return (0);
 	joined_cmd = join_cmd(full_cmd);
 	result = 0;
