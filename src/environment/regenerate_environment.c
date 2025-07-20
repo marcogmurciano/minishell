@@ -21,24 +21,28 @@ t_env	*create_env_node(char *arg)
 {
 	t_env	*new_env;
 
-	if (!ft_strchr(arg, '='))
-		return (NULL);
 	new_env = ft_calloc(1, sizeof(t_env));
 	if (!new_env)
 		return (NULL);
-	new_env->key = ft_substr(arg, 0, ft_strchr(arg, '=') - arg);
+	if (!ft_strchr(arg, '='))
+		new_env->key = ft_strdup(arg);
+	else
+		new_env->key = ft_substr(arg, 0, ft_strchr(arg, '=') - arg);
 	if (!new_env->key)
 	{
 		free(new_env);
 		return (NULL);
 	}
-	new_env->value = ft_substr(arg, ft_strlen(new_env->key) + 1, ft_strchr(arg,
-				'\0') - arg);
-	if (!new_env->value)
+	if (ft_strchr(arg, '='))
 	{
-		free(new_env->key);
-		free(new_env);
-		return (NULL);
+		new_env->value = ft_substr(arg, ft_strlen(new_env->key) + 1, 
+			ft_strlen(arg) - (ft_strlen(new_env->key) + 1));
+		if (!new_env->value)
+		{
+			free(new_env->key);
+			free(new_env);
+			return (NULL);
+		}
 	}
 	return (new_env);
 }
