@@ -25,86 +25,68 @@ int	ft_cmdsize(t_cmd *lst)
 	return (counter);
 }
 
-static void process_cmd_node(t_cmd *node, char **array, int *count, int *flag)
-{
-    int     i;
-    char    *temp;
+// static void process_cmd_node(t_cmd *node, char **array, int *count, int *flag)
+// {
+//     int     i;
+//     char    *temp;
 
-    i = 0;
-    if (node->infile)
-    {
-        array[*count] = ft_strdup(node->infile);
-        *flag += 10;
-        (*count)++;
-    }
-    while (node->argv[i])
-    {
-        if (i == 0)
-            array[*count] = ft_strdup(node->argv[i]);
-        else
-        {
-            temp = array[*count]; 
-            array[*count] = ft_strjoin(temp, " ");
-            temp = array[*count]; 
-            array[*count] = ft_strjoin(temp, node->argv[i]);
-            free(temp);
-        }
-        i++;
-    }
-    (*count)++;
-}
+//     i = 0;
+//     if (node->infile)
+//     {
+//         array[*count] = ft_strdup(node->infile);
+//         *flag += 10;
+//         (*count)++;
+//     }
+//     while (node->argv[i])
+//     {
+//         if (i == 0)
+//             array[*count] = ft_strdup(node->argv[i]);
+//         else
+//         {
+//             temp = array[*count]; 
+//             array[*count] = ft_strjoin(temp, " ");
+//             temp = array[*count]; 
+//             array[*count] = ft_strjoin(temp, node->argv[i]);
+//             free(temp);
+//         }
+//         i++;
+//     }
+//     (*count)++;
+// }
 
-static void process_final_node(t_cmd *node, char **array, int *count, int *flag)
-{
-    process_cmd_node(node, array, count, flag);
-    if (node->outfile)
-    {
-        array[*count] = ft_strdup(node->outfile);
-        *flag += 1;
-        (*count)++;
-    }
-}
+// static void process_final_node(t_cmd *node, char **array, int *count, int *flag)
+// {
+//     process_cmd_node(node, array, count, flag);
+//     if (node->outfile)
+//     {
+//         array[*count] = ft_strdup(node->outfile);
+//         *flag += 1;
+//         (*count)++;
+//     }
+// }
 
-static char **create_cmd_array(t_cmd *head, int *cmd_count, int *files_flag)
-{
-    char **full_pipe_line;
-    int count;
-    t_cmd *current;
+// static char **create_cmd_array(t_cmd *head, int *cmd_count, int *files_flag)
+// {
+//     char **full_pipe_line;
+//     int count;
+//     t_cmd *current;
 
-    *cmd_count = ft_cmdsize(head);
-    full_pipe_line = (char **)malloc(sizeof(char *) * (*cmd_count + 3));
-    if (!full_pipe_line)
-        return (NULL);
-    current = head;
-    count = 0;
-    while (current && current->next)
-    {
-        process_cmd_node(current, full_pipe_line, &count, files_flag);
-        current = current->next;
-    }
-    if (current)
-        process_final_node(current, full_pipe_line, &count, files_flag);
-    full_pipe_line[count] = NULL;
-    return (full_pipe_line);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//     *cmd_count = ft_cmdsize(head);
+//     full_pipe_line = (char **)malloc(sizeof(char *) * (*cmd_count + 3));
+//     if (!full_pipe_line)
+//         return (NULL);
+//     current = head;
+//     count = 0;
+//     while (current && current->next)
+//     {
+//         process_cmd_node(current, full_pipe_line, &count, files_flag);
+//         current = current->next;
+//     }
+//     if (current)
+//         process_final_node(current, full_pipe_line, &count, files_flag);
+//     full_pipe_line[count] = NULL;
+//     return (full_pipe_line);
+// }
 
 void    print_cmd_list(t_cmd *cmd)
 {
@@ -151,24 +133,26 @@ void    print_cmd_list(t_cmd *cmd)
 int execution(t_minishell *minishell)
 {
     t_cmd *head = minishell->cmd_pipelines;
-    char **full_pipe_line;
     int cmd_count;
-    int files_flag;
     int result;
+    // char **full_pipe_line;
+    // int files_flag;
 
-    files_flag = 11;
-    cmd_count = 0;
+    // files_flag = 11;
+    cmd_count = ft_cmdsize(head);
+    if (!head)
+        return (1);
     // //debug
     // print_cmd(head);
     //
-    full_pipe_line = create_cmd_array(head, &cmd_count, &files_flag);
-    if (!full_pipe_line)
-        return (1);
+    // full_pipe_line = create_cmd_array(head, &cmd_count, &files_flag);
+    // if (!full_pipe_line)
+    //     return (1);
     // //debug
     // print_ft_pipex_arguments(cmd_count, full_pipe_line, files_flag);
     //
-    result = ft_pipex(cmd_count, full_pipe_line, minishell, files_flag);
-    ft_free_array((void *)full_pipe_line);
+    result = ft_pipex(cmd_count, head, minishell);
+    //ft_free_array((void *)full_pipe_line);
     return (result);
 }
 
