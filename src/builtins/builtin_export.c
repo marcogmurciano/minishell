@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:28:46 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/18 18:20:58 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/20 22:38:24 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int check_key_syntax(char *key)
 	{
 		return(1);
 	}
-	while (key[i])
+	while (key[i] && key[i] != '=')
 	{
 		if(ft_isalnum(key[i]) || key[i] == '_')
 			i++;
@@ -82,17 +82,19 @@ void print_ordered_envp(t_minishell *minishell)
 		env_count++;
 	sorted_envp = ft_calloc(env_count, sizeof(char *));
 	i = 0;
-	while (i++ < env_count)
+	while (i < env_count)
 		sorted_envp[i] = ft_strdup(minishell->envp[i]);
 	i = 0;
-	while (i++ < env_count - 1)
+	while (i < env_count - 1)
 	{
 		j = 0;
-		while(j++ < env_count - 1)
+		while(j < env_count - 1)
 		{
 			if (ft_strcmp(sorted_envp[i], sorted_envp[i + 1]) > 0)
 				ft_swap(&sorted_envp[i], &sorted_envp[i + 1]);
+			j++;
 		}
+		i++;
 	}
 	i = 0;
 	while (sorted_envp[i++])
