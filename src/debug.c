@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 10:34:32 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/18 17:54:10 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/20 22:34:00 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,15 @@ void	print_envp(char **envp)
 	{
 		printf("%s\n", envp[i]);
 		i++;
+	}
+}
+
+void	print_environ(t_env *env)
+{
+	t_env *curr = env;
+	while (curr)
+	{
+		printf("%s=%s\n", curr->key, curr->value);
+		curr = curr->next;
 	}
 }
