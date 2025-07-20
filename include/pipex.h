@@ -61,5 +61,6 @@ void	print_child_error(char *s, t_fds *fd);
 void	only_child(t_fds *fd, t_cmd *cmd);
 int		ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell);
 char	*join_cmd(char **full_cmd);
+int 	is_builtin(char *split_cmd);
 
 #endif

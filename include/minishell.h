@@ -119,7 +119,7 @@ int 	execution(t_minishell *minishell);
 int		builtin_pwd(void);
 int		builtin_env(t_minishell *minishell, char **argv);
 int		builtin_export(t_minishell *minishell, char **argv);
-int		builtin_echo(char *s);
+int		builtin_echo(t_minishell *minishell, char **argv);
 int		builtin_unset(t_minishell *minishell, char **argv);
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -181,5 +181,6 @@ void	print_envp(char **envp);
 void print_tokens(t_token *token_head);
 void print_segment(t_token *token);
 void print_cmd(t_cmd *cmd);
+void	print_environ(t_env *env);
 
 #endif
