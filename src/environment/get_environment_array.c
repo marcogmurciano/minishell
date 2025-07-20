@@ -66,14 +66,19 @@ char	**get_environment_array(t_env *env)
 	if (!envp)
 		return (NULL);
 	i = 0;
-	while (env)
-	{
-		envp[i] = ft_strjoin_three(env->key, "=", env->value);
-		if (!envp[i])
-			return (free_envp(envp, i), NULL);
-		i++;
-		env = env->next;
-	}
+       while (env)
+       {
+	       if (env->value == NULL)
+	       {
+		       env = env->next;
+		       continue;
+	       }
+	       envp[i] = ft_strjoin_three(env->key, "=", env->value);
+	       if (!envp[i])
+		       return (free_envp(envp, i), NULL);
+	       i++;
+	       env = env->next;
+       }
 	envp[i] = NULL;
 	return (envp);
 }
