@@ -12,14 +12,12 @@
 
 #include "../../include/minishell.h"
 
-int	unset(t_minishell *minishell, char *pathname, const char **argv,
-		char **envp)
+int	builtin_unset(t_minishell *minishell, char **argv)
 {
 	t_env	*current_env;
 	t_env	*temp_env;
 	int		i;
-
-	(void **)envp;
+;
 	i = 1;
 	while (argv[i])
 	{
@@ -38,6 +36,7 @@ int	unset(t_minishell *minishell, char *pathname, const char **argv,
 			}
 			current_env = current_env->next;
 		}
+		i++;
 	}
 	return (0);
 }

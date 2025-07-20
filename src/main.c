@@ -19,7 +19,6 @@ static void	minishell_loop(t_minishell *minishell)
 	while (1)
 	{
 		free_cmds(&(minishell->cmd_pipelines)); /// ONLY FOR DEBUGGING WITHOUT EXECUTION
-		
 		minishell->input = get_prompt_input();
 		if (!minishell->input)
 		{

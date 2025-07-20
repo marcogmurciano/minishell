@@ -12,15 +12,52 @@
 
 #include "../../../include/minishell.h"
 
-void	first_child(t_fds *fd, int *pipes, char **cmds, int i)
+char *join_cmd(char **cmd)
 {
+	int i;
+	char *t;
+	char *r;
+
+	i = 0;
+	while (cmd[i])
+	{
+		if (i == 0)
+			r = ft_strdup(cmd[i]);
+		else
+		{
+			t = r;
+			r = ft_strjoin(t, " ");
+			free(t);
+			t = r;
+			r = ft_strjoin(t, cmd[i]);
+			free(t);
+		}
+		i++;
+	}
+	return (r);
+}
+
+void	cosasdelout(t_cmd *cmd, t_fds *fd)
+{
+	if (cmd->outfile != NULL && cmd->append)
+		fd->out = open(cmd->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (cmd->outfile != NULL && !cmd->append)
+		fd->out = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+}
+
+
+void	first_child(t_fds *fd, int *pipes, t_cmd *cmd)
+{
+	char *joined_cmd;
+	
 	fd->in = 0;
-	if (fd->has_infile == 1)
-		fd->in = open(fd->in_dir, O_RDONLY);
-	if (fd->in == -1 || process_single_command(cmds[i], fd) != 0)
+	joined_cmd = join_cmd(cmd->argv);
+	if (cmd->infile != NULL)
+		fd->in = open(cmd->infile, O_RDONLY);
+	if (fd->in == -1 || process_single_command(cmd->argv, fd) != 0)
 	{
 		if (fd->in == -1)
-			print_child_error(fd);
+			print_child_error(cmd->infile, fd);
 		else
 		{
 			if (fd->in != 0)
@@ -30,25 +67,33 @@ void	first_child(t_fds *fd, int *pipes, char **cmds, int i)
 		}
 		exit(1);
 	}
-	if (fd->is_pathed[i] == '1')
-		exec_pathed_cmd(cmds[i], fd->in, pipes[1], fd);
+	if (ft_strchr(joined_cmd, '/') != NULL)
+		exec_pathed_cmd(joined_cmd, fd->in, pipes[1], fd);
 	else
-		exec_cmd(cmds[i], fd->in, pipes[1], fd);
+		exec_cmd(joined_cmd, fd->in, pipes[1], fd);
 	cleanup(fd);
 }
 
-void	only_child(t_fds *fd, char *cmd)
+void	only_child(t_fds *fd, t_cmd *cmd)
 {
+	char *joined_cmd;
+	
+	joined_cmd = join_cmd(cmd->argv);
+	//debug
+	// printf("joined cmd en only child: %s\n", joined_cmd);
+	//
 	fd->in = 0;
 	fd->out = 1;
-	if (fd->has_infile == 1)
-		fd->in = open(fd->in_dir, O_RDONLY);
-	if (fd->has_outfile == 1)
-		fd->out = open(fd->out_dir, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd->out == -1 || fd->in == -1 || process_single_command(cmd, fd) != 0)
+	if (cmd->infile != NULL)
+		fd->in = open(cmd->infile, O_RDONLY);
+	cosasdelout(cmd, fd);
+	if (fd->out == -1 || fd->in == -1 || process_single_command(cmd->argv, fd) != 0)
+
 	{
-		if (fd->out == -1 || fd->in == -1)
-			print_child_error(fd);
+		if (fd->out == -1)
+			print_child_error(cmd->outfile, fd);
+		else if (fd->in == -1)
+			print_child_error(cmd->infile, fd);
 		else
 		{
 			if (fd->in != 0)
@@ -59,46 +104,53 @@ void	only_child(t_fds *fd, char *cmd)
 		}
 		exit(1);
 	}
-	if (fd->is_pathed[0] == '1')
-		exec_pathed_cmd(cmd, fd->in, fd->out, fd);
+	if (ft_strchr(joined_cmd, '/') != NULL)
+		exec_pathed_cmd(joined_cmd, fd->in, fd->out, fd);
 	else
-		exec_cmd(cmd, fd->in, fd->out, fd);
+		exec_cmd(joined_cmd, fd->in, fd->out, fd);
 	cleanup(fd);
 }
 
-void	middle_child(t_fds *fd, int *pipes, char **cmds, int i)
+void	middle_child(t_fds *fd, int *pipes, t_cmd *cmd)
 {
-	if (process_single_command(cmds[i], fd) != 0)
+	char *joined_cmd;
+
+	joined_cmd = join_cmd(cmd->argv);
+	cosasdelout(cmd, fd);
+	if (process_single_command(cmd->argv, fd) != 0)
 		exit(1);
-	if (fd->is_pathed[i] == '1')
-		exec_pathed_cmd(cmds[i], fd->buffer, pipes[1], fd);
+	if (ft_strchr(joined_cmd, '/') != NULL)
+		exec_pathed_cmd(joined_cmd, fd->buffer, pipes[1], fd);
 	else
-		exec_cmd(cmds[i], fd->buffer, pipes[1], fd);
+		exec_cmd(joined_cmd, fd->buffer, pipes[1], fd);
 	cleanup(fd);
 }
 
-void	last_child(t_fds *fd, int *pipes, char **cmds, int i)
+void	last_child(t_fds *fd, int *pipes, t_cmd *cmd)
 {
+	char *joined_cmd;
+
+	joined_cmd = join_cmd(cmd->argv);
 	if (pipes[1] != -1)
 		close(pipes[1]);
 	fd->out = 1;
-	if (fd->has_outfile == 1)
-		fd->out = open(fd->out_dir, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (process_single_command(cmds[i], fd) != 0)
+	cosasdelout(cmd, fd);
+	if (process_single_command(cmd->argv, fd) != 0)
+
 	{
 		cleanup(fd);
 		exit(127);
 	}
 	if (fd->out == -1)
 	{
-		printf("pipex: permission denied: %s\n", fd->out_dir);
+		printf("pipex: permission denied: %s\n", cmd->outfile);
 		cleanup(fd);
 		exit(1);
 	}
-	if (fd->is_pathed[i] == '1')
-		exec_pathed_cmd(cmds[i], fd->buffer, fd->out, fd);
+	if (ft_strchr(joined_cmd, '/') != NULL)
+		exec_pathed_cmd(joined_cmd, fd->buffer, fd->out, fd);
 	else
-		exec_cmd(cmds[i], fd->buffer, fd->out, fd);
+		exec_cmd(joined_cmd, fd->buffer, fd->out, fd);
 	cleanup(fd);
 }
 
@@ -115,7 +167,7 @@ static int	wait_and_exit(t_fds *fd, pid_t pid, int i, int *status)
 	return (56);
 }
 
-int	create_children(t_fds *fd, char **cmds, char **env, int i)
+int	create_children(t_fds *fd, t_cmd *cmds, char **env, int i)
 {
 	pid_t	pid;
 	int		pipes[2];
@@ -129,15 +181,16 @@ int	create_children(t_fds *fd, char **cmds, char **env, int i)
 		if (i != fd->how_many_cmd - 1 && pipes[0] != -1)
 			close(pipes[0]);
 		if (i == 0)
-			first_child(fd, pipes, cmds, i);
+			first_child(fd, pipes, cmds);
 		else if (i == fd->how_many_cmd - 1)
-			last_child(fd, pipes, cmds, i);
+			last_child(fd, pipes, cmds);
 		else
-			middle_child(fd, pipes, cmds, i);
+			middle_child(fd, pipes, cmds);
 		close(pipes[1]);
 		exit(1);
 	}
 	manage_parent_fds(fd, pipes, i);
+	cmds = cmds->next;
 	create_children(fd, cmds, env, (i + 1));
 	return (wait_and_exit(fd, pid, i, &(fd->status)));
 }

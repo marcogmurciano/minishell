@@ -119,7 +119,8 @@ int 	execution(t_minishell *minishell);
 int		builtin_pwd(void);
 int		builtin_env(t_minishell *minishell, char **argv);
 int		builtin_export(t_minishell *minishell, char **argv);
-
+int		builtin_echo(char *s);
+int		builtin_unset(t_minishell *minishell, char **argv);
 
 ///////////////////////////////////////////////////////////////////////////////
 //

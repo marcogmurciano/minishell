@@ -40,25 +40,26 @@ typedef struct s_fds
 }			t_fds;
 
 int		process_cmds_errors(char *av[], int i, char **envp);
-void	build_is_pathed(int ac, char *av[], char **is_pathed, int has_infile);
+
 void	exec_pathed_cmd(char *cmd, int input_fd, int output_fd, t_fds *fd);
 void	exec_cmd(char *cmd, int input_fd, int output_fd, t_fds *fd);
 int		cleanup(t_fds *fd);
-int		create_children(t_fds *fd, char **cmds, char **env, int i);
+int		create_children(t_fds *fd, t_cmd *cmds, char **env, int i);
 char	*get_cmd_path(char *cmd, char **env);
 void	free_bidimensional_array(char **arr);
 char	*split_cmd_after_slash(const char *s);
 char	*has_command(char **paths, char *cmd);
 char	**ft_strdup_arr(char **arr);
-void	first_child(t_fds *fd, int *pipes, char **cmds, int i);
-void	middle_child(t_fds *fd, int *pipes, char **cmds, int i);
-void	last_child(t_fds *fd, int *pipes, char **cmds, int i);
-int		process_single_command(char *cmd, t_fds *fd);
-int		process_cmd_errors(char *cmd, char **env);
+void	first_child(t_fds *fd, int *pipes, t_cmd *cmd);
+void	middle_child(t_fds *fd, int *pipes, t_cmd *cmd);
+void	last_child(t_fds *fd, int *pipes, t_cmd *cmd);
+int		process_single_command(char **full_cmd, t_fds *fd);
+int		process_cmd_errors(char **full_cmd, char **env);
 void	setup_pipes(int *pipes, int i, int how_many_cmd);
 void	manage_parent_fds(t_fds *fd, int *pipes, int i);
-void	print_child_error(t_fds *fd);
-void	only_child(t_fds *fd, char *cmd);
-int		ft_pipex(int ac, char *av[], t_minishell *minishell, int has_files);
+void	print_child_error(char *s, t_fds *fd);
+void	only_child(t_fds *fd, t_cmd *cmd);
+int		ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell);
+char	*join_cmd(char **full_cmd);
 
 #endif

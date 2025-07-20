@@ -54,54 +54,63 @@ int	process_cmds_errors(char *av[], int i, char **envp)
 	return (f_exit);
 }
 
-void	build_is_pathed(int ac, char *av[], char **is_pathed, int has_infile)
-{
-	int		i;
-	char	*tmp;
+int	ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell)
 
-	i = -1;
-	while (++i < ac)
-	{
-		if (ft_strchr(av[has_infile + i], '/'))
-		{
-			tmp = *is_pathed;
-			*is_pathed = ft_strjoin(tmp, "1");
-			free(tmp);
-		}
-		else
-		{
-			tmp = *is_pathed;
-			*is_pathed = ft_strjoin(tmp, "0");
-			free(tmp);
-		}
-	}
-}
 
-int	ft_pipex(int ac, char *av[], t_minishell *minishell, int has_files)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {
 	t_fds	fd;
 	pid_t	pid;
 
-	fd.has_infile = (has_files / 10) - 1;
-    fd.has_outfile = (has_files % 10) - 1;
+
+
 	fd.env = ft_strdup_arr(minishell->envp);
-	fd.is_pathed = ft_strdup("");
-	build_is_pathed(ac, av, &fd.is_pathed, fd.has_infile);
+
+
 	fd.minishell = minishell;
-	fd.in_dir = ft_strdup(av[0]);
-	fd.out_dir = ft_strdup(av[(ac + fd.has_infile + fd.has_outfile) - 1]);
+
+
 	fd.buffer = -1;
 	fd.status = -1;
-	if (!fd.is_pathed)
-		return(1);
+
+
 	fd.how_many_cmd = ac;
+	//debug
+	// int i = 0;
+	// printf("minishell envp en ft_pipex: \n");
+	// while(minishell->envp[i])
+	// {
+	// 	printf("%s \n", minishell->envp[i]);
+	// 	i++;
+	// }
+	//
 	if (fd.how_many_cmd == 1)
 	{
 		pid = fork();
 		if (pid == 0)
-			only_child(&fd, av[fd.has_infile]);
+			only_child(&fd, cmd_list);
 		waitpid(pid, &(fd.status), 0);
 		return (WEXITSTATUS(fd.status));
 	}
-	return (create_children(&fd, &av[fd.has_infile], fd.env, 0));
+	return (create_children(&fd, cmd_list, fd.env, 0));
 }

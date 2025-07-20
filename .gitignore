@@ -1,0 +1,12 @@
+# Object files
+*.o
+
+# Executable
+minishell
+
+# Library
+*.a
+
+# Build directories
+libft/lib/
+libft/objs/

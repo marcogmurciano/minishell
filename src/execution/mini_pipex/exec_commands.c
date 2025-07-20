@@ -23,27 +23,28 @@
 static void	manual_execution(char *cmd, t_fds *fd)
 {
 	char **split_cmd;
+	int		status;
 
 	split_cmd = ft_split(cmd, ' ');
 	if (!split_cmd)
 		exit(1);
-	// if (ft_strcmp(split_cmd[0], "echo") == 0)
-    // 	// builtin_echo();
+	if (ft_strcmp(split_cmd[0], "echo") == 0)
+    	status = builtin_echo(join_cmd(split_cmd + 1));
 	if (ft_strcmp(split_cmd[0], "export") == 0)
-	    builtin_export(fd->minishell, split_cmd);
+	    status = builtin_export(fd->minishell, split_cmd);
+	if (ft_strcmp(split_cmd[0], "pwd") == 0)
+	    status = builtin_pwd();
+	if (strcmp(split_cmd[0], "unset") == 0)
+	    status = builtin_unset(fd->minishell, split_cmd);
+	if (ft_strcmp(split_cmd[0], "env") == 0)
+	    status = builtin_env(fd->minishell, split_cmd);
 	// if (ft_strcmp(split_cmd[0], "cd") == 0)
 	//     // builtin_cd();
-	if (ft_strcmp(split_cmd[0], "pwd") == 0)
-	    builtin_pwd();
-	// if (ft_strcmp(split_cmd[0], "unset") == 0)
-	//     // builtin_unset();
-	if (ft_strcmp(split_cmd[0], "env") == 0)
-	    builtin_env(fd->minishell, split_cmd);
 	// if (ft_strcmp(split_cmd[0], "exit") == 0)
 	//     // builtin_exit();
-
-	// cleanup
-	// exit
+	free(split_cmd);
+	cleanup(fd);
+	exit(status);
 }
 
 void	exec_cmd(char *cmd, int input_fd, int output_fd, t_fds *fd)
@@ -96,13 +97,13 @@ void	exec_pathed_cmd(char *cmd, int input_fd, int output_fd, t_fds *fd)
 	perror("pipex");
 }
 
-void	print_child_error(t_fds *fd)
+void	print_child_error(char *s, t_fds *fd)
 {
 	if (errno == ENOENT)
-		printf("pipex: No such file or directory: %s\n", fd->in_dir);
+		printf("pipex: No such file or directory: %s\n", s);
 	else if (errno == EACCES)
-		printf("pipex: Permission denied: %s\n", fd->in_dir);
+		printf("pipex: Permission denied: %s\n", s);
 	else
-		printf("pipex: Error opening file: %s\n", fd->in_dir);
+		printf("pipex: Error opening file: %s\n", s);
 	cleanup(fd);
 }

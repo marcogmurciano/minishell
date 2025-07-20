@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_env.c                                      :+:      :+:    :+:   */
+/*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/09 11:28:43 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/18 18:35:52 by dbarba-v         ###   ########.fr       */
+/*   Created: 2025-07-19 11:54:42 by user              #+#    #+#             */
+/*   Updated: 2025-07-19 11:54:42 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
-int	builtin_env(t_minishell *minishell, char **argv)
+int builtin_echo(char *s)
 {
-	if (argv[1] != NULL)
-	{
-		syntax_error("env", minishell);
-		return (1);
-	}
-	print_envp(minishell->envp);
-	return (0);
+    if (ft_strchr(s, '$'))
+    {
+        printf("not implemented echo variables yet, relaja la raja\n");
+        return (1);
+    }
+    printf("%s\n", s);
+    return (0);
 }

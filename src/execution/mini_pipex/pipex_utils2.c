@@ -16,42 +16,51 @@ int	cleanup(t_fds *fd)
 {
 	if (fd->buffer != -1)
 		close(fd->buffer);
-	free(fd->is_pathed);
+
 	free_bidimensional_array(fd->env);
-	free(fd->in_dir);
-	free(fd->out_dir);
+
+
 	return (0);
 }
 
-int	process_cmd_errors(char *cmd, char **env)
+int	process_cmd_errors(char **full_cmd, char **env)
 {
 	char	*path_cmd;
 	int		result;
 
 	result = 0;
-	path_cmd = get_cmd_path(cmd, env);
+	path_cmd = get_cmd_path(join_cmd(full_cmd), env);
 	if (path_cmd == NULL)
 	{
 		result = 1;
-		printf("pipex: command not found: %s\n", cmd);
+		printf("pipex: command not found: %s\n", full_cmd[0]);
 	}
 	else
 		free(path_cmd);
 	return (result);
 }
 
-int	process_single_command(char *cmd, t_fds *fd)
+int	process_single_command(char **full_cmd, t_fds *fd)
 {
-	int	result;
+	int		result;
+	char	*joined_cmd;
 
+	if (ft_strcmp(full_cmd[0], "export") == 0 
+		|| ft_strcmp(full_cmd[0], "unset") == 0)
+		return (0);
+	joined_cmd = join_cmd(full_cmd);
 	result = 0;
-	if (ft_strchr(cmd, '/'))
+	//debug
+	// printf("processisnglecommand: %s", joined_cmd);
+	//
+	if (ft_strchr(joined_cmd, '/'))
 	{
-		if (access(cmd, F_OK) != 0)
-			result = printf("pipex: command not found: %s\n", cmd);
+		if (access(joined_cmd, F_OK) != 0)
+			result = printf("pipex: command not found: %s\n", full_cmd[0]);
 	}
 	else
-		result = process_cmd_errors(cmd, fd->env);
+		result = process_cmd_errors(full_cmd, fd->env);
+	free(joined_cmd);
 	return (result);
 }
 

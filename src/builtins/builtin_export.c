@@ -119,6 +119,7 @@ int	builtin_export(t_minishell *minishell, char **argv)
 	{
 		if(check_key_syntax(argv[i]) == 1)
 		{
+			syntax_error("export", minishell);
 			i++;
 			continue;
 		}
@@ -127,6 +128,7 @@ int	builtin_export(t_minishell *minishell, char **argv)
 			malloc_error(minishell);
 		if (replace_env_node(minishell->environment, new_node) == 0)
 			append_env_node(&(minishell->environment), new_node);
+		ft_free_array((void **)minishell->envp);
 		minishell->envp = get_environment_array(minishell->environment);
 		i++;
 	}
