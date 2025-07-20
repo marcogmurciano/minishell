@@ -3,22 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  #+#  +:+       +#+        */
+/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-07-19 11:54:42 by user              #+#    #+#             */
-/*   Updated: 2025-07-19 11:54:42 by user             ###   ########.fr       */
+/*   Created: 2025/07/19 11:54:42 by marcoga2          #+#    #+#             */
+/*   Updated: 2025/07/20 20:00:17 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int builtin_echo(char *s)
+int builtin_echo(t_minishell *minishell, char **argv)
 {
-    if (ft_strchr(s, '$'))
+    int i;
+
+    (void)minishell;
+    i = 1;
+    while (argv[i])
     {
-        printf("not implemented echo variables yet, relaja la raja\n");
-        return (1);
+        ft_putstr_fd(argv[i], STDIN_FILENO);
+        ft_putstr_fd(" ", STDIN_FILENO);
+        i++;
     }
-    printf("%s\n", s);
+    ft_putstr_fd("\n", STDIN_FILENO);
     return (0);
 }
