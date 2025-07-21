@@ -24,6 +24,7 @@ static int execute_built_in(t_minishell *minishell, char **split_cmd)
 {
 	int		status;
 
+	status = 0;
 	if (ft_strcmp(split_cmd[0], "echo") == 0)
 		status = builtin_echo(minishell, split_cmd);
 	else if (ft_strcmp(split_cmd[0], "export") == 0)

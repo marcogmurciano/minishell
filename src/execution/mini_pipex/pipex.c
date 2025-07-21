@@ -55,45 +55,14 @@ int	process_cmds_errors(char *av[], int i, char **envp)
 }
 
 int	ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 {
 	t_fds	fd;
 	pid_t	pid;
 
-
-
 	fd.env = ft_strdup_arr(minishell->envp);
-
-
 	fd.minishell = minishell;
-
-
 	fd.buffer = -1;
 	fd.status = -1;
-
-
 	fd.how_many_cmd = ac;
 	//debug
 	// int i = 0;

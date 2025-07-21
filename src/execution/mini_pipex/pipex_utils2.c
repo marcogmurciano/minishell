@@ -16,10 +16,7 @@ int	cleanup(t_fds *fd)
 {
 	if (fd->buffer != -1)
 		close(fd->buffer);
-
 	free_bidimensional_array(fd->env);
-
-
 	return (0);
 }
 
@@ -45,10 +42,10 @@ int	process_single_command(char **full_cmd, t_fds *fd)
 	int		result;
 	char	*joined_cmd;
 
-	if (is_builtin(full_cmd[0]) == 0)
-		return (0);
 	joined_cmd = join_cmd(full_cmd);
 	result = 0;
+	if (is_builtin(full_cmd[0]) == 0)
+		return (0);
 	//debug
 	// printf("processisnglecommand: %s", joined_cmd);
 	//
