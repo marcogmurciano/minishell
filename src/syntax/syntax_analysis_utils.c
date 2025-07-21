@@ -6,103 +6,133 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 10:57:28 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/18 16:26:40 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/21 17:35:43 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 /**
- * @brief Retrieves the input file name from a segment of tokens.
- *
- * If the segment starts with an input redirection token (TOKEN_REDIR_IN),
- * this function duplicates and returns the value of the next token, which is
- * assumed to be the input file name. Handles allocation failures.
- *
- * @param minishell Pointer to the minishell structure for error handling.
- * @param segment Pointer to the head of the token segment.
- * @return Duplicated input file name string, or NULL if not found or on error.
+ * Recreates array + 1 in size and inserts the given infile in the first pos,
+ * copies the rest.
  */
-char	*get_infile(t_minishell *minishell, t_token *segment)
+char  **insert_into_array(char *infile, char **array, t_minishell *minishell)
 {
-	t_token	*current;
-	char	*infile;
+	char **new_array;
+	int new_array_size;
+	int i;
 
+	new_array_size = 0;
+	while(array && array[new_array_size])
+		new_array_size++;
+	new_array = ft_calloc(new_array_size + 1, sizeof(char *));
+	if (!new_array)
+		malloc_error(minishell);
+	i = 0;
+	while (array[i])
+	{
+		new_array[i] = ft_strdup(array[i]);
+		i++;
+	}
+	new_array[i] = infile;
+	ft_free_array((void **)array);
+	return(new_array);
+}
+
+/**
+ * From the given segments it builds an array of all infiles
+ */
+char **get_infile_array(t_minishell *minishell, t_token *segment)
+{
+	t_token *current;
+	char 	*infile;
+	char	**array;
+
+	array = ft_calloc(1, sizeof(char *));
+	if(!array)
+		malloc_error(minishell);
 	current = segment;
-	while (current && current->next)
+	while(current && current->next)
 	{
 		if (current->token_type == TOKEN_REDIR_IN)
 		{
 			current = current->next;
-			if (current->token_type == TOKEN_REDIR_IN_FILE)
+			infile = ft_strdup(current->value);
+			if (!infile)
 			{
-				infile = ft_strdup(current->value);
-				if (!infile)
-				{
-					free_tokens_list(&segment);
-					malloc_error(minishell);
-				}
-				return (infile);
+				free_tokens_list(&segment);
+				malloc_error(minishell);
 			}
+			array = insert_into_array(infile, array, minishell);
 		}
 		current = current->next;
 	}
-	return (NULL);
+	return (array);
 }
 
 /**
- * @brief Retrieves the output file name from a segment of tokens.
- *
- * This function traverses the given segment of tokens, searching for an output
- * redirection token (TOKEN_REDIR_OUT_FILE or TOKEN_APPEND_FILE) at the end of
- * the segment. If found, it duplicates and returns the output file name.
- * If memory allocation fails, it frees the token segment and calls the
- * minishell's error handler.
- *
- * @param minishell Pointer to the minishell structure for error handling.
- * @param segment Pointer to the head of the token segment.
- * @return A duplicated string of the output file name, or NULL if not found
- * or on error.
+ * From the given segments it builds an array of all outfiles (append and redirections)
  */
-char	*get_outfile(t_minishell *minishell, t_token *segment)
+char **get_outfile_array(t_minishell *minishell, t_token *segment)
 {
-	t_token	*current;
-	char	*outfile;
+	t_token *current;
+	char 	*outfile;
+	char	**array;
 
+	array = ft_calloc(1, sizeof(char *));
+	if(!array)
+		malloc_error(minishell);
 	current = segment;
-	while (current && current->next)
+	while(current && current->next)
 	{
 		if (current->token_type == TOKEN_REDIR_OUT ||
 			current->token_type == TOKEN_APPEND)
 		{
 			current = current->next;
-			if (current->token_type == TOKEN_REDIR_OUT_FILE ||
-				current->token_type == TOKEN_APPEND_FILE)
+			outfile = ft_strdup(current->value);
+			if (!outfile)
 			{
-				outfile = ft_strdup(current->value);
-				if (!outfile)
-				{
-					free_tokens_list(&segment);
-					malloc_error(minishell);
-				}
-				return (outfile);
+				free_tokens_list(&segment);
+				malloc_error(minishell);
 			}
+			array = insert_into_array(outfile, array, minishell);
 		}
 		current = current->next;
 	}
-	return (NULL);
+	return (array);
 }
 
 /**
- * @brief Determines if the given segment ends with an append redirection.
- *
- * This function checks if the segment of tokens ends with a TOKEN_APPEND
- * (typically representing ">>" in shell syntax) just before the end-of-file
- * token.
- *
- * @param segment Pointer to the head of the token segment.
- * @return 1 if the segment ends with an append redirection, 0 otherwise.
+ * From the given segments it builds an array of all heredoc delimiters
  */
+char **get_heredoc_array(t_minishell *minishell, t_token *segment)
+{
+	t_token *current;
+	char 	*delimiter;
+	char	**array;
+
+	array = ft_calloc(1, sizeof(char *));
+	if(!array)
+		malloc_error(minishell);
+	current = segment;
+	while(current && current->next)
+	{
+		if (current->token_type == TOKEN_HEREDOC)
+		{
+			current = current->next;
+			delimiter = ft_strdup(current->value);
+			if (!delimiter)
+			{
+				free_tokens_list(&segment);
+				malloc_error(minishell);
+			}
+			array = insert_into_array(delimiter, array, minishell);
+		}
+		current = current->next;
+	}
+	return (array);
+}
+
 int	get_append_status(t_token *segment)
 {
 	t_token	*current;
@@ -110,44 +140,38 @@ int	get_append_status(t_token *segment)
 	current = segment;
 	while (current && current->next != NULL
 		&& current->next->token_type != TOKEN_EOF)
-		current = current->next;
-	if (current->prev && current->prev->token_type == TOKEN_APPEND)
 	{
-		return (1);
+		current = current->next;
+	}
+	while (current && current->prev != NULL)
+	{
+		if(current->token_type == TOKEN_APPEND_FILE ||
+			current->token_type == TOKEN_REDIR_OUT_FILE)
+		{
+			if (current->token_type == TOKEN_APPEND_FILE)
+				return (1);
+			else
+				return (0);
+		}
+		current = current->prev;
 	}
 	return (0);
 }
 
-/**
- * @brief Retrieves the heredoc delimiter string from a segment of tokens.
- *
- * If the segment starts with a TOKEN_HEREDOC, this function returns a
- * duplicated str of the next token's value, used as the heredoc delim.
- * Handles allocation failures and malformed token sequences.
- *
- * @param minishell Pointer to the minishell structure for error handling.
- * @param segment Pointer to the head of the token segment.
- * @return Duplicated delimiter string, or NULL if not found or on error.
- */
-char	*get_heredoc_delimiter(t_minishell *minishell, t_token *segment)
+int get_last_in_type(t_token *segment)
 {
-	t_token	*current;
-	char	*delimeter;
+	t_token* current;
+	int i;
 
+	i = 0;
 	current = segment;
-	while (current && current->token_type != TOKEN_EOF)
+	while (current)
 	{
-		if (current->token_type == TOKEN_HEREDOC_DELIM)
-		{
-			delimeter = ft_strdup(current->value);
-			if (!delimeter)
-			{
-				free_tokens_list(&segment);
-				malloc_error(minishell);
-			}
-			return (delimeter);
-		}
+		if (current->token_type == TOKEN_REDIR_IN)
+			i = 1;
+		else if (current->token_type == TOKEN_HEREDOC)
+			i = 0;
 		current = current->next;
 	}
-	return (NULL);
+	return (i);	
 }

@@ -86,7 +86,7 @@ t_token	*create_eof_token(void);
 t_token	*create_word_token(t_token_type t_type, char *word, char quote);
 t_token	*create_nonword_token(t_token_type t_type, char *value);
 
-void join_tokens(t_token **tokens_head);
+void	join_tokens(t_token **tokens_head);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -138,10 +138,12 @@ int		syntax_check(t_minishell *minishell);
 //
 
 char	**get_cmd_argv(t_minishell *minishell, t_token *segment);
-char	*get_infile(t_minishell *minishell, t_token *token);
-char	*get_outfile(t_minishell *minishell, t_token *token);
+char	**get_infile_array(t_minishell *minishell, t_token *segment);
+char	**get_heredoc_array(t_minishell *minishell, t_token *segment);
+char 	**get_outfile_array(t_minishell *minishell, t_token *segment);
+char	**insert_into_array(char *infile, char **array, t_minishell *minishell);
 int		get_append_status(t_token *token);
-char	*get_heredoc_delimiter(t_minishell *minishell, t_token *token);
+int		get_last_in_type(t_token *segment);
 
 ///////////////////////////////////////////////////////////////////////////////
 //

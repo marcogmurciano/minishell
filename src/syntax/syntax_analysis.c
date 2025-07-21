@@ -64,11 +64,13 @@ static t_cmd	*build_cmd_from_segment(t_minishell *minishell,
 		free_tokens_list(&segment);
 		malloc_error(minishell);
 	}
+
 	cmd->argv = get_cmd_argv(minishell, segment);
-	cmd->infile = get_infile(minishell, segment);
-	cmd->outfile = get_outfile(minishell, segment);
+	cmd->infiles = get_infile_array(minishell, segment);
+	cmd->heredocs = get_heredoc_array(minishell, segment);
+	cmd->last_in = get_last_in_type(segment);
+	cmd->outfiles = get_outfile_array(minishell, segment);
 	cmd->append = get_append_status(segment);
-	cmd->heredoc = get_heredoc_delimiter(minishell, segment);
 	free_tokens_list(&segment);
 	return (cmd);
 }

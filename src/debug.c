@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 10:34:32 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/20 22:34:00 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/21 16:40:39 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,33 @@ void	print_cmd(t_cmd *cmd)
 				i++;
 			}
 		}
-		printf("INFILE: %s\n", cmd->infile);
-		printf("OUTFILE: %s\n", cmd->outfile);
+		if (cmd->infile)
+		{
+			while (cmd->infile[i])
+			{
+				printf("INFILE[%d]: %s\n", i, cmd->infile[i]);
+				i++;
+			}
+		}
+		if (cmd->heredoc)
+		{
+			while (cmd->heredoc[i])
+			{
+				printf("HEREDOC[%d]: %s\n", i, cmd->heredoc[i]);
+				i++;
+			}
+		}
+		printf("EXPAND HEREDOC: %d\n", cmd->expand_heredoc_content);
+		printf("LAST REDIR_IN TYEP: %d\n", cmd->last_in);
+		if (cmd->outfile)
+		{
+			while (cmd->outfile[i])
+			{
+				printf("OUTFILE[%d]: %s\n", i, cmd->outfile[i]);
+				i++;
+			}
+		}
 		printf("APPEND STATUS: %d\n", cmd->append);
-		printf("HEREDOC DELIMETERS: %s\n", cmd->heredoc);
 		printf("================\n");
 		cmd = cmd->next;
 		cmd_num++;
