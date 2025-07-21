@@ -58,23 +58,21 @@ int	ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell)
 {
 	t_fds	fd;
 	pid_t	pid;
+	int		status;
 
 	fd.env = ft_strdup_arr(minishell->envp);
 	fd.minishell = minishell;
 	fd.buffer = -1;
 	fd.status = -1;
 	fd.how_many_cmd = ac;
-	//debug
-	// int i = 0;
-	// printf("minishell envp en ft_pipex: \n");
-	// while(minishell->envp[i])
-	// {
-	// 	printf("%s \n", minishell->envp[i]);
-	// 	i++;
-	// }
-	//
 	if (fd.how_many_cmd == 1)
 	{
+		if (is_builtin(cmd_list->argv[0]))
+		{
+			status = (execute_built_in(minishell, cmd_list->argv));
+			cleanup(&fd);
+			return (status);
+		}
 		pid = fork();
 		if (pid == 0)
 			only_child(&fd, cmd_list);

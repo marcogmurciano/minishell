@@ -20,7 +20,7 @@
 
 //recordar exit y cleanup al final de cada builtin
 
-static int execute_built_in(t_minishell *minishell, char **split_cmd)
+int execute_built_in(t_minishell *minishell, char **split_cmd)
 {
 	int		status;
 
@@ -39,20 +39,20 @@ static int execute_built_in(t_minishell *minishell, char **split_cmd)
 	//     // builtin_cd();
 	//else if (ft_strcmp(split_cmd[0], "exit") == 0)
 	//     // builtin_exit();
+	
 	return(status);
 }
 
-int is_builtin(char *split_cmd)
+int is_builtin(char *cmd)
 {
-	if (ft_strcmp(split_cmd, "echo") == 0 ||
-		ft_strcmp(split_cmd, "export") == 0 || 
-		ft_strcmp(split_cmd, "pwd") == 0 ||
-		ft_strcmp(split_cmd, "unset") == 0 ||
-		ft_strcmp(split_cmd, "env") == 0 ||
-		ft_strcmp(split_cmd, "cd") == 0 ||
-		ft_strcmp(split_cmd, "exit") == 0)
-		return (1);
-	return(0);
+    return
+        (ft_strcmp(cmd, "echo") == 0)   ||
+		(ft_strcmp(cmd, "pwd") == 0)    ||
+		(ft_strcmp(cmd, "export") == 0) ||
+        (ft_strcmp(cmd, "unset") == 0)  ||
+        (ft_strcmp(cmd, "env") == 0)    ||
+        (ft_strcmp(cmd, "cd") == 0)     ||
+        (ft_strcmp(cmd, "exit") == 0);
 }
 
 static int	manual_execution(char *cmd, t_fds *fd)
