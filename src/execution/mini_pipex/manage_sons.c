@@ -37,40 +37,81 @@ char *join_cmd(char **cmd)
 	return (r);
 }
 
-void	cosasdelout(t_cmd *cmd, t_fds *fd)
+static int	cosasdelout(t_cmd *cmd, t_fds *fd)
 {
-	if (cmd->outfile != NULL && cmd->append)
-		fd->out = open(cmd->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (cmd->outfile != NULL && !cmd->append)
-		fd->out = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	int i;
+
+	i = 0;
+	while (cmd->outfiles[i])
+	{
+		if (cmd->outfiles[i] != NULL && cmd->append)
+		{
+			printf("appendeamos el archivo %s desde cossasdelout\n", cmd->outfiles[i]);
+			fd->out = open(cmd->outfiles[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
+		}
+		if (cmd->outfiles[i] != NULL && !cmd->append)
+		{
+			printf("creamos el archivo %s desde cossasdelout\n", cmd->outfiles[i]);
+			fd->out = open(cmd->outfiles[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		}
+		if (fd->out == -1)
+		{
+			print_child_error(cmd->outfiles[i], fd);
+			exit (1);
+		}
+		i++;
+	}
+	return (fd->out);
 }
 
+static int	cosasdelin(t_cmd *cmd, t_fds *fd)
+{
+	int i;
+
+	i = 0;
+	while (cmd->infiles[i])
+	{
+		if (cmd->infiles[i] != NULL && cmd->append)
+		{
+			printf("leemos el archivo con append (wtf) %s desde cossasdelin\n", cmd->infiles[i]);
+			fd->in = open(cmd->infiles[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
+		}
+		if (cmd->infiles[i] != NULL && !cmd->append)
+		{
+			printf("leemos el archivo %s desde cossasdelin\n", cmd->infiles[i]);
+			fd->in = open(cmd->infiles[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		}
+		if (fd->in == -1)
+		{
+			print_child_error(cmd->infiles[i], fd);
+			exit (1);
+		}
+		i++;
+	}
+	return (fd->in);
+}
 
 void	first_child(t_fds *fd, int *pipes, t_cmd *cmd)
 {
 	char *joined_cmd;
-	
+
 	fd->in = 0;
-	joined_cmd = join_cmd(cmd->argv);
-	if (cmd->infile != NULL)
-		fd->in = open(cmd->infile, O_RDONLY);
-	if (fd->in == -1 || process_single_command(cmd->argv, fd) != 0)
+	fd->out = pipes[1];
+	fd->in = cosasdelin(cmd, fd);
+	fd->out = cosasdelout(cmd, fd);
+	if (process_single_command(cmd->argv, fd) != 0)
 	{
-		if (fd->in == -1)
-			print_child_error(cmd->infile, fd);
-		else
-		{
-			if (fd->in != 0)
-				close(fd->in);
-			close(pipes[1]);
-			cleanup(fd);
-		}
-		exit(1);
+		if (fd->in != 0)
+			close(fd->in);
+		close(pipes[1]);
+		cleanup(fd);
+		exit(127);
 	}
+	joined_cmd = join_cmd(cmd->argv);
 	if (ft_strchr(joined_cmd, '/') != NULL)
-		exec_pathed_cmd(joined_cmd, fd->in, pipes[1], fd);
+		exec_pathed_cmd(joined_cmd, fd->in, fd->out, fd);
 	else
-		exec_cmd(joined_cmd, fd->in, pipes[1], fd);
+		exec_cmd(joined_cmd, fd->in, fd->out, fd);
 	cleanup(fd);
 }
 
@@ -84,25 +125,16 @@ void	only_child(t_fds *fd, t_cmd *cmd)
 	//
 	fd->in = 0;
 	fd->out = 1;
-	if (cmd->infile != NULL)
-		fd->in = open(cmd->infile, O_RDONLY);
-	cosasdelout(cmd, fd);
-	if (fd->out == -1 || fd->in == -1 || process_single_command(cmd->argv, fd) != 0)
-
+	fd->in = cosasdelin(cmd, fd);
+	fd->out = cosasdelout(cmd, fd);
+	if (process_single_command(cmd->argv, fd) != 0)
 	{
-		if (fd->out == -1)
-			print_child_error(cmd->outfile, fd);
-		else if (fd->in == -1)
-			print_child_error(cmd->infile, fd);
-		else
-		{
-			if (fd->in != 0)
-				close(fd->in);
-			if (fd->out != 1)
-				close(fd->out);
-			cleanup(fd);
-		}
-		exit(1);
+		if (fd->in != 0)
+			close(fd->in);
+		if (fd->out != 1)
+			close(fd->out);
+		cleanup(fd);
+		exit(127);
 	}
 	if (ft_strchr(joined_cmd, '/') != NULL)
 		exec_pathed_cmd(joined_cmd, fd->in, fd->out, fd);
@@ -116,13 +148,16 @@ void	middle_child(t_fds *fd, int *pipes, t_cmd *cmd)
 	char *joined_cmd;
 
 	joined_cmd = join_cmd(cmd->argv);
-	cosasdelout(cmd, fd);
+	fd->in = fd->buffer;
+	fd->out = pipes[1];
+	fd->in = cosasdelin(cmd, fd);
+	fd->out = cosasdelout(cmd, fd);
 	if (process_single_command(cmd->argv, fd) != 0)
-		exit(1);
+		exit(127);
 	if (ft_strchr(joined_cmd, '/') != NULL)
-		exec_pathed_cmd(joined_cmd, fd->buffer, pipes[1], fd);
+		exec_pathed_cmd(joined_cmd, fd->in, fd->out, fd);
 	else
-		exec_cmd(joined_cmd, fd->buffer, pipes[1], fd);
+		exec_cmd(joined_cmd, fd->in, fd->out, fd);
 	cleanup(fd);
 }
 
@@ -133,24 +168,18 @@ void	last_child(t_fds *fd, int *pipes, t_cmd *cmd)
 	joined_cmd = join_cmd(cmd->argv);
 	if (pipes[1] != -1)
 		close(pipes[1]);
+	fd->in = fd->buffer;
 	fd->out = 1;
 	cosasdelout(cmd, fd);
 	if (process_single_command(cmd->argv, fd) != 0)
-
 	{
 		cleanup(fd);
 		exit(127);
 	}
-	if (fd->out == -1)
-	{
-		printf("pipex: permission denied: %s\n", cmd->outfile);
-		cleanup(fd);
-		exit(1);
-	}
 	if (ft_strchr(joined_cmd, '/') != NULL)
-		exec_pathed_cmd(joined_cmd, fd->buffer, fd->out, fd);
+		exec_pathed_cmd(joined_cmd, fd->in, fd->out, fd);
 	else
-		exec_cmd(joined_cmd, fd->buffer, fd->out, fd);
+		exec_cmd(joined_cmd, fd->in, fd->out, fd);
 	cleanup(fd);
 }
 

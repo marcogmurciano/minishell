@@ -25,25 +25,25 @@ int	ft_cmdsize(t_cmd *lst)
 	return (counter);
 }
 
-void    print_cmd_list(t_cmd *cmd)
-{
-    int cmd_count;
+// void    print_cmd_list(t_cmd *cmd)
+// {
+//     int cmd_count;
     
-    if (!cmd)
-    {
-        printf("Lista de comandos vacía\n");
-        return;
-    }
-    cmd_count = 1;
-    while (cmd)
-    {
-        printf("\n========== COMANDO %d ==========\n", cmd_count);
-        print_cmd(cmd);
-        cmd = cmd->next;
-        cmd_count++;
-    }
-    printf("Total de comandos: %d\n", cmd_count - 1);
-}
+//     if (!cmd)
+//     {
+//         printf("Lista de comandos vacía\n");
+//         return;
+//     }
+//     cmd_count = 1;
+//     while (cmd)
+//     {
+//         printf("\n========== COMANDO %d ==========\n", cmd_count);
+//         print_cmd(cmd);
+//         cmd = cmd->next;
+//         cmd_count++;
+//     }
+//     printf("Total de comandos: %d\n", cmd_count - 1);
+// }
 
 // static void process_cmd_node(t_cmd *node, char **array, int *count, int *flag)
 // {
@@ -132,24 +132,12 @@ int execution(t_minishell *minishell)
     t_cmd *head = minishell->cmd_pipelines;
     int cmd_count;
     int result;
-    // char **full_pipe_line;
-    // int files_flag;
 
-    // files_flag = 11;
+    //debug
+    // print_cmd(head);
     cmd_count = ft_cmdsize(head);
     if (!head)
         return (1);
-    // //debug
-    // print_cmd(head);
-    //
-    // full_pipe_line = create_cmd_array(head, &cmd_count, &files_flag);
-    // if (!full_pipe_line)
-    //     return (1);
-    // //debug
-    // print_ft_pipex_arguments(cmd_count, full_pipe_line, files_flag);
-    //
     result = ft_pipex(cmd_count, head, minishell);
-    //ft_free_array((void *)full_pipe_line);
     return (result);
 }
-
