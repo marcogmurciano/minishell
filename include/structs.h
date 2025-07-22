@@ -50,16 +50,16 @@ typedef enum		e_quote_type
  * Command structure
  */
 typedef struct		s_cmd t_cmd;
-typedef struct		s_cmd
-{
-	char			**argv;		// Array of arguments, [0] is command itshelf
-	char			*infile;	// If REDIR_IN present
-	char			*outfile;	// If REDIR_OUT present
-	int				append;     // If APPEND present
-	char			*heredoc;	// If HEREDOC present // This is the path to temp file
-	t_cmd			*next;
-} 					t_cmd;
-
+typedef struct s_cmd {
+    char    **argv;                  // Array of command arguments; argv[0] is the command itself.
+    char    **infiles;               // Array of input file paths (REDIR_IN_FILES).
+    char    **heredocs;              // Array of heredoc delimiters.
+    int     expand_heredoc_content;  // If 1, expand variables in heredoc content; if 0, do not expand.
+    int     last_in;                 // If 0, last input redirection is infile; if 1, last input is heredoc.
+    char    **outfiles;              // Array of output file paths (REDIR_OUT_FILES).
+    int     append;                  // If 1, append to last output file; if 0, overwrite.
+    t_cmd   *next;                   // Pointer to the next command in the pipeline.
+} t_cmd;
 /**
  * Minishell structure
  * Dependencies:
