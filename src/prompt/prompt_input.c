@@ -12,6 +12,34 @@
 
 #include "../../include/minishell.h"
 
+char	*build_prompt(t_minishell *minishell)
+{
+	char *user;
+	char cwd[1024];
+	char *colored_cwd;
+	char *prompt;
+	char *new_prompt;
+
+	user = getenv("USER");
+	if(!user)
+		user = "USER";
+	user = ft_strjoin_three("\033[0;32m", user, "\033[0m");
+	if(!user)
+		malloc_error(minishell);
+	getcwd(cwd, sizeof(cwd));
+	colored_cwd = ft_strjoin_three("\033[0;33m", cwd, "\033[0m");
+	if(!colored_cwd)
+		malloc_error(minishell);
+	prompt = ft_strjoin_three(user, "@", cwd);
+	if(!prompt)
+		malloc_error(minishell);
+	new_prompt = ft_strjoin(prompt, "$> ");
+	if(!new_prompt)
+		malloc_error(minishell);
+	free(prompt);
+	return(new_prompt);
+}
+
 /**
  * @brief Prompt the user for input using a custom prompt string.
  *
@@ -24,24 +52,17 @@
  *
  * @return A pointer to the input string, or NULL if EOF is encountered.
  */
-char	*get_prompt_input(void)
+char	*get_prompt_input(t_minishell *minishell)
 {
 	char	*input;
-	char	*user;
 	char	*prompt;
 
 	input = NULL;
 	prompt = NULL;
-	user = getenv("USER");
-	if (user)
-		prompt = ft_strjoin_three(user, "@", "minishell> ");
-	else
-		prompt = ft_strjoin_three("USER", "@", "minishell> ");
+	prompt = build_prompt(minishell);
 	input = readline(prompt);
 	if (input)
-	{
 		add_history(input);
-	}
 	free(prompt);
 	return (input);
 }

@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 16:41:19 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/18 16:53:03 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/21 17:54:50 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,18 @@ typedef enum		e_quote_type
  * Command structure
  */
 typedef struct		s_cmd t_cmd;
-typedef struct s_cmd {
-    char    **argv;                  // Array of command arguments; argv[0] is the command itself.
-    char    **infiles;               // Array of input file paths (REDIR_IN_FILES).
-    char    **heredocs;              // Array of heredoc delimiters.
-    int     expand_heredoc_content;  // If 1, expand variables in heredoc content; if 0, do not expand.
-    int     last_in;                 // If 0, last input redirection is infile; if 1, last input is heredoc.
-    char    **outfiles;              // Array of output file paths (REDIR_OUT_FILES).
-    int     append;                  // If 1, append to last output file; if 0, overwrite.
-    t_cmd   *next;                   // Pointer to the next command in the pipeline.
-} t_cmd;
+typedef struct		s_cmd
+{
+	char			**argv;		              // Array of arguments, [0] is command itshelf
+	char			**infiles;	              // Array of REDIR_IN_FILES
+	char			**heredocs;	              // Array of HEREDOC delimiters
+	int				expand_heredoc_content;   // 0 If content doesn't expand, 1 expand variables of heredoc content
+	int				last_in;                  // 0 = Last redir_in is infile, 1 = last redir_in is heredoc
+	char			**outfiles;	              // Array of REDIR_OUT_FILES
+	int				append;                   // Append status of last (valid) outfile redirection: 0 or 1
+	t_cmd			*next;
+} 					t_cmd;
+
 /**
  * Minishell structure
  * Dependencies:

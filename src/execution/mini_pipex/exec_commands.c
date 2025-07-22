@@ -43,21 +43,22 @@ int execute_built_in(t_minishell *minishell, char **split_cmd)
 	return(status);
 }
 
-int is_builtin(char *cmd)
+int	is_builtin(char *split_cmd)
 {
-    return
-        (ft_strcmp(cmd, "echo") == 0)   ||
-		(ft_strcmp(cmd, "pwd") == 0)    ||
-		(ft_strcmp(cmd, "export") == 0) ||
-        (ft_strcmp(cmd, "unset") == 0)  ||
-        (ft_strcmp(cmd, "env") == 0)    ||
-        (ft_strcmp(cmd, "cd") == 0)     ||
-        (ft_strcmp(cmd, "exit") == 0);
+	if (ft_strcmp(split_cmd, "echo") == 0
+		|| ft_strcmp(split_cmd, "export") == 0
+		|| ft_strcmp(split_cmd, "pwd") == 0
+		|| ft_strcmp(split_cmd, "unset") == 0
+		|| ft_strcmp(split_cmd, "env") == 0
+		|| ft_strcmp(split_cmd, "cd") == 0
+		|| ft_strcmp(split_cmd, "exit") == 0)
+		return (1);
+	return (0);
 }
 
 static int	manual_execution(char *cmd, t_fds *fd)
 {
-	char **split_cmd;
+	char	**split_cmd;
 	int		status;
 
 	split_cmd = ft_split(cmd, ' ');
