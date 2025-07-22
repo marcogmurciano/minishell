@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 10:57:28 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/22 17:13:08 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/22 20:26:26 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char **get_outfile_array(t_minishell *minishell, t_token *segment)
 	char 	*outfile;
 	char	**array;
 
-	array = ft_calloc(0, sizeof(char *));
+	array = ft_calloc(1, sizeof(char *));
 	if(!array)
 		malloc_error(minishell);
 	current = segment;
