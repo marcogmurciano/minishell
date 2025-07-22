@@ -45,9 +45,15 @@ static int	cosasdelout(t_cmd *cmd, t_fds *fd)
 	while (cmd->outfiles[i])
 	{
 		if (cmd->outfiles[i] != NULL && cmd->append)
+		{
+			printf("appendeamos el archivo %s desde cossasdelout\n", cmd->outfiles[i]);
 			fd->out = open(cmd->outfiles[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
+		}
 		if (cmd->outfiles[i] != NULL && !cmd->append)
+		{
+			printf("creamos el archivo %s desde cossasdelout\n", cmd->outfiles[i]);
 			fd->out = open(cmd->outfiles[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		}
 		if (fd->out == -1)
 		{
 			print_child_error(cmd->outfiles[i], fd);
@@ -66,9 +72,15 @@ static int	cosasdelin(t_cmd *cmd, t_fds *fd)
 	while (cmd->infiles[i])
 	{
 		if (cmd->infiles[i] != NULL && cmd->append)
+		{
+			printf("leemos el archivo con append (wtf) %s desde cossasdelin\n", cmd->infiles[i]);
 			fd->in = open(cmd->infiles[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
+		}
 		if (cmd->infiles[i] != NULL && !cmd->append)
+		{
+			printf("leemos el archivo %s desde cossasdelin\n", cmd->infiles[i]);
 			fd->in = open(cmd->infiles[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		}
 		if (fd->in == -1)
 		{
 			print_child_error(cmd->infiles[i], fd);

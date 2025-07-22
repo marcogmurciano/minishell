@@ -48,8 +48,9 @@ void	print_cmd(t_cmd *cmd)
 	cmd_num = 0;
 	while (cmd)
 	{
-		i = 0;
 		printf("\n--- COMMAND %d ---\n", cmd_num);
+		
+		i = 0; // Reiniciar i antes del bucle
 		if (cmd->argv)
 		{
 			while (cmd->argv[i])
@@ -58,34 +59,43 @@ void	print_cmd(t_cmd *cmd)
 				i++;
 			}
 		}
-		if (cmd->infile)
+		
+		i = 0; // Reiniciar i antes del bucle
+		if (cmd->infiles)
 		{
-			while (cmd->infile[i])
+			while (cmd->infiles[i])
 			{
-				printf("INFILE[%d]: %s\n", i, cmd->infile[i]);
+				printf("INFILE[%d]: %s\n", i, cmd->infiles[i]);
 				i++;
 			}
 		}
-		if (cmd->heredoc)
+		
+		i = 0; // Reiniciar i antes del bucle
+		if (cmd->heredocs)
 		{
-			while (cmd->heredoc[i])
+			while (cmd->heredocs[i])
 			{
-				printf("HEREDOC[%d]: %s\n", i, cmd->heredoc[i]);
+				printf("HEREDOC[%d]: %s\n", i, cmd->heredocs[i]);
 				i++;
 			}
 		}
+		
 		printf("EXPAND HEREDOC: %d\n", cmd->expand_heredoc_content);
-		printf("LAST REDIR_IN TYEP: %d\n", cmd->last_in);
-		if (cmd->outfile)
+		printf("LAST REDIR_IN TYPE: %d\n", cmd->last_in); // Corregido "TYEP"
+		
+		i = 0; // Reiniciar i antes del bucle
+		if (cmd->outfiles)
 		{
-			while (cmd->outfile[i])
+			while (cmd->outfiles[i])
 			{
-				printf("OUTFILE[%d]: %s\n", i, cmd->outfile[i]);
+				printf("OUTFILE[%d]: %s\n", i, cmd->outfiles[i]);
 				i++;
 			}
 		}
+		
 		printf("APPEND STATUS: %d\n", cmd->append);
 		printf("================\n");
+		
 		cmd = cmd->next;
 		cmd_num++;
 	}
