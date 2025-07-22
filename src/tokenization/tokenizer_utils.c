@@ -36,7 +36,7 @@ char	*get_quoted_word(t_minishell *minishell, char delimiter, int i)
 		word_length++;
 	}
 	if (minishell->input[(i + 1) + word_length] == '\0')
-		return (syntax_error(NULL, minishell), NULL);
+		return (syntax_error(NULL, minishell, 4), NULL);
 	word = ft_substr(minishell->input, i + 1, word_length);
 	if (!word)
 		malloc_error(minishell);

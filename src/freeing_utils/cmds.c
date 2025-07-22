@@ -22,16 +22,17 @@ void	free_cmds(t_cmd **cmd_head)
 	current = *cmd_head;
 	while (current)
 	{
-		ft_free_array((void **)(current->argv));
-		if (current->infile)
-			free(current->infile);
-		if (current->outfile)
-			free(current->outfile);
-		if (current->heredoc)
-			free(current->heredoc);
-		current->outfile = NULL;
-		current->infile = NULL;
-		current->heredoc = NULL;
+		if (current->argv)
+			ft_free_array((void **)(current->argv));
+		if (current->infiles)
+			ft_free_array((void **)(current->infiles));
+		if (current->outfiles)
+			ft_free_array((void **)(current->outfiles));
+		if (current->heredocs)
+			ft_free_array((void **)(current->heredocs));
+		current->outfiles = NULL;
+		current->infiles = NULL;
+		current->heredocs = NULL;
 		temp = current;
 		current = current->next;
 		free(temp);

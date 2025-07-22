@@ -1,34 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_echo.c                                     :+:      :+:    :+:   */
+/*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/19 11:54:42 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/07/22 12:27:17 by dbarba-v         ###   ########.fr       */
+/*   Created: 2025/07/22 12:28:24 by dbarba-v          #+#    #+#             */
+/*   Updated: 2025/07/22 12:39:42 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../include/minishell.h"
 
-int builtin_echo(t_minishell *minishell, char **argv)
+int    builtin_cd(t_minishell *minishell, char **argv)
 {
-    int i;
+    int argc;
+	int chdir_status;
 
-    (void)minishell;
-    i = 1;
-    while (argv[i])
-    {
-        if(strcmp(argv[1], "-n"))
-        {
-            ft_putstr_fd(argv[i], STDIN_FILENO);
-        }
-        else
-        {
-            ft_putendl_fd(argv[i], STDIN_FILENO);
-        }
-        i++;
-    }
+	argc = 0;
+	chdir_status = 0;
+	while (argv[argc])
+		argc++;
+	if(argc == 1)
+		return (0);
+	if(argc > 2)
+	{
+		ft_putendl_fd("minishell: cd: too many arguments", STDERR_FILENO);
+		return (1);
+	}
+	chdir_status = chdir(argv[1]);
+	if(chdir(argv[1]) == -1)
+	{
+		perror("minishell: cd: ");
+		return (1);
+	}
     return (0);
 }

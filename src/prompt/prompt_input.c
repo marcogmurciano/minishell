@@ -30,7 +30,7 @@ char	*build_prompt(t_minishell *minishell)
 	colored_cwd = ft_strjoin_three("\033[0;33m", cwd, "\033[0m");
 	if(!colored_cwd)
 		malloc_error(minishell);
-	prompt = ft_strjoin_three(user, "@", cwd);
+	prompt = ft_strjoin_three(user, "\033[0;90m@\033[0m", cwd);
 	if(!prompt)
 		malloc_error(minishell);
 	new_prompt = ft_strjoin(prompt, "$> ");

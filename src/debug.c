@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 10:34:32 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/21 16:40:39 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/22 15:21:11 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,29 +58,29 @@ void	print_cmd(t_cmd *cmd)
 				i++;
 			}
 		}
-		if (cmd->infile)
+		if (cmd->infiles)
 		{
-			while (cmd->infile[i])
+			while (cmd->infiles[i])
 			{
-				printf("INFILE[%d]: %s\n", i, cmd->infile[i]);
+				printf("INFILE[%d]: %s\n", i, cmd->infiles[i]);
 				i++;
 			}
 		}
-		if (cmd->heredoc)
+		if (cmd->heredocs)
 		{
-			while (cmd->heredoc[i])
+			while (cmd->heredocs[i])
 			{
-				printf("HEREDOC[%d]: %s\n", i, cmd->heredoc[i]);
+				printf("HEREDOC[%d]: %s\n", i, cmd->heredocs[i]);
 				i++;
 			}
 		}
 		printf("EXPAND HEREDOC: %d\n", cmd->expand_heredoc_content);
 		printf("LAST REDIR_IN TYEP: %d\n", cmd->last_in);
-		if (cmd->outfile)
+		if (cmd->outfiles)
 		{
-			while (cmd->outfile[i])
+			while (cmd->outfiles[i])
 			{
-				printf("OUTFILE[%d]: %s\n", i, cmd->outfile[i]);
+				printf("OUTFILE[%d]: %s\n", i, cmd->outfiles[i]);
 				i++;
 			}
 		}
