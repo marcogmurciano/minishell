@@ -39,7 +39,7 @@ void	sigint_handler(int signal_number);
 //
 //
 
-char	*get_prompt_input(void);
+char	*get_prompt_input(t_minishell *minishell);
 void	clear_line_and_newline(void);
 
 ///////////////////////////////////////////////////////////////////////////////
