@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:08:49 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/18 12:11:36 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/22 16:31:40 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	handle_quoted_word(t_token **token_head, t_minishell *minishell, int i)
 	int		len;
 
 	quote = &(minishell->input[i]);
-	if (ft_strncmp(quote, "__EMPTY__TOKEN__", 15) == 0)
+	if (ft_strncmp(quote + 1, "_EMPTY_", 15) == 0)
 	{
 		add_word_token(token_head, TOKEN_WORD, "", quote);
 		return (15);
@@ -82,8 +82,8 @@ int	handle_quoted_word(t_token **token_head, t_minishell *minishell, int i)
 /**
  * @brief Handles non-quoted word tokens in the input string.
  *
- * This function extracts word starting at the given index, adds it as a word
- * token to the token list, frees the temporary buffer, and returns
+ * This function extracts word starting at the given index, adds it as a 
+ * word token to the token list, frees the temporary buffer, and returns
  * the length of the word.
  *
  * @param token_head Pointer to the head of the token list.
@@ -98,6 +98,11 @@ int	handle_nonquoted_word(t_token **token_head, t_minishell *minishell, int i)
 	int		len;
 
 	first_char = &(minishell->input[i]);
+	if (ft_strncmp(first_char, "_EMPTY_", 15) == 0)
+	{
+		add_word_token(token_head, TOKEN_WORD, "", first_char);
+		return (15);
+	}
 	word = get_unquoted_word(minishell, first_char);
 	add_word_token(token_head, TOKEN_WORD, word, first_char);
 	len = ft_strlen(word);
