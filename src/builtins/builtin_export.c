@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:28:46 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/22 12:16:46 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/23 14:01:26 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,29 +76,34 @@ void print_ordered_envp(t_minishell *minishell)
 	int		i;
 	int		j;
 	char	**sorted_envp;
-
 	env_count = 0;
 	while(minishell->envp[env_count])
 		env_count++;
-	sorted_envp = ft_calloc(env_count, sizeof(char *));
+	sorted_envp = ft_calloc(env_count + 1, sizeof(char *));
 	i = 0;
 	while (i < env_count)
+	{
 		sorted_envp[i] = ft_strdup(minishell->envp[i]);
+		i++;
+	}
 	i = 0;
 	while (i < env_count - 1)
 	{
-		j = 0;
-		while(j < env_count - 1)
+		j = i + 1;
+		while(j < env_count)
 		{
-			if (ft_strcmp(sorted_envp[i], sorted_envp[i + 1]) > 0)
-				ft_swap(&sorted_envp[i], &sorted_envp[i + 1]);
+			if (ft_strcmp(sorted_envp[i], sorted_envp[j]) > 0)
+				ft_swap(&sorted_envp[i], &sorted_envp[j]);
 			j++;
 		}
 		i++;
 	}
 	i = 0;
-	while (sorted_envp[i++])
+	while (i < env_count - 1)
+	{
 		printf("declare -x %s\n", sorted_envp[i]);
+		i++;
+	}
 	ft_free_array((void **)sorted_envp);
 }
 

@@ -6,11 +6,22 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:28:43 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/22 12:16:02 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/23 13:04:23 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void	print_envp(char **envp)
+{
+	int	i;
+	i = 0;
+	while (envp[i])
+	{
+		printf("%s\n", envp[i]);
+		i++;
+	}
+}
 
 int	builtin_env(t_minishell *minishell, char **argv)
 {

@@ -2,15 +2,19 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   get_environment_array.c                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2025/06/30 11:25:22 by dbarba-v          #+#    #+#             */
 /*   Updated: 2025/07/15 11:39:24 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
 
 /**
  * @brief Counts the number of environment variables in the linked list.
@@ -20,7 +24,7 @@
  */
 static int	env_count(t_env *env)
 {
-	int	count;
+	int count;
 
 	count = 0;
 	while (env)
@@ -59,26 +63,26 @@ static void	free_envp(char **envp, int i)
  */
 char	**get_environment_array(t_env *env)
 {
-	char	**envp;
-	int		i;
+	char **envp;
+	int i;
 
 	envp = malloc(sizeof(char *) * (env_count(env) + 1));
 	if (!envp)
 		return (NULL);
 	i = 0;
-       while (env)
-       {
-	       if (env->value == NULL)
-	       {
-		       env = env->next;
-		       continue;
-	       }
-	       envp[i] = ft_strjoin_three(env->key, "=", env->value);
-	       if (!envp[i])
-		       return (free_envp(envp, i), NULL);
-	       i++;
-	       env = env->next;
-       }
+	while (env)
+	{
+		if (env->value == NULL)
+		{
+			env = env->next;
+			continue ;
+		}
+		envp[i] = ft_strjoin_three(env->key, "=", env->value);
+		if (!envp[i])
+			return (free_envp(envp, i), NULL);
+		i++;
+		env = env->next;
+	}
 	envp[i] = NULL;
 	return (envp);
 }
