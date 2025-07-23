@@ -15,7 +15,7 @@
 char	*build_prompt(t_minishell *minishell)
 {
 	char *user;
-	char cwd[1024];
+	char cwd1[1024];
 	char *colored_cwd;
 	char *prompt;
 	char *new_prompt;
@@ -26,11 +26,11 @@ char	*build_prompt(t_minishell *minishell)
 	user = ft_strjoin_three("\033[0;32m", user, "\033[0m");
 	if(!user)
 		malloc_error(minishell);
-	getcwd(cwd, sizeof(cwd));
-	colored_cwd = ft_strjoin_three("\033[0;33m", cwd, "\033[0m");
+	getcwd(cwd1, sizeof(cwd1));
+	colored_cwd = ft_strjoin_three("\033[0;33m", cwd1, "\033[0m");
 	if(!colored_cwd)
 		malloc_error(minishell);
-	prompt = ft_strjoin_three(user, "\033[0;90m@\033[0m", cwd);
+	prompt = ft_strjoin_three(user, "\033[0;90m@\033[0m", cwd1);
 	if(!prompt)
 		malloc_error(minishell);
 	new_prompt = ft_strjoin(prompt, "$ ");
