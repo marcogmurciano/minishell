@@ -134,7 +134,7 @@ int execution(t_minishell *minishell)
     int result;
 
     //debug
-    // print_cmd(head);
+    print_cmd(head);
     cmd_count = ft_cmdsize(head);
     if (!head)
         return (1);
