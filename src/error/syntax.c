@@ -12,13 +12,25 @@
 
 #include "../../include/minishell.h"
 
-int	syntax_error(char *origin, t_minishell *minishell)
+int	syntax_error(char *origin, t_minishell *minishell, int code)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	if (ft_strcmp(origin, "heredoc") == 0)
-		ft_putendl_fd("syntax error: invalid heredoc delimeter", STDERR_FILENO);
-	else
-		ft_putendl_fd("syntax error: invalid syntax", STDERR_FILENO);
+	if (origin)
+	{
+		ft_putstr_fd(origin, STDERR_FILENO);
+		ft_putstr_fd(":  ", STDERR_FILENO);
+	}
+	if (code == 0)
+		ft_putstr_fd("\033[0;31msyntax error\033[0m: unsupported character", STDERR_FILENO);
+	else if (code == 1)
+		ft_putstr_fd("\033[0;31msyntax error\033[0m: invalid file redirection", STDERR_FILENO);
+	else if (code == 2)
+		ft_putstr_fd("\033[0;31msyntax error\033[0m: invalid token after heredoc", STDERR_FILENO);
+	else if (code == 3)
+		ft_putstr_fd("\033[0;31msyntax error\033[0m: invalid token after pipe", STDERR_FILENO);
+	else if (code == 4)
+		ft_putstr_fd("\033[0;31msyntax error\033[0m: invalid argument syntax", STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
 	minishell->last_exit_status = 1;
 	return (1);
 }

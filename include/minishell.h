@@ -163,7 +163,7 @@ void	free_cmds(t_cmd **cmd_head);
 //
 //
 void	malloc_error(t_minishell *minishell);
-int		syntax_error(char *origin, t_minishell *minishell);
+int		syntax_error(char *origin, t_minishell *minishell, int code);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -180,9 +180,9 @@ void	exit_minishell(t_minishell *minishell);
 //
 
 void	print_envp(char **envp);
-void print_tokens(t_token *token_head);
-void print_segment(t_token *token);
-void print_cmd(t_cmd *cmd);
+void	print_tokens(t_token *token_head);
+void	print_segment(t_token *token);
+void	print_cmd(t_cmd *cmd);
 void	print_environ(t_env *env);
 
 #endif

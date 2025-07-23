@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:28:46 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/20 22:38:24 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/22 12:16:46 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	builtin_export(t_minishell *minishell, char **argv)
 	{
 		if(check_key_syntax(argv[i]) == 1)
 		{
-			syntax_error("export", minishell);
+			syntax_error("export", minishell, 4);
 			i++;
 			continue;
 		}

@@ -64,7 +64,6 @@ static t_cmd	*build_cmd_from_segment(t_minishell *minishell,
 		free_tokens_list(&segment);
 		malloc_error(minishell);
 	}
-
 	cmd->argv = get_cmd_argv(minishell, segment);
 	cmd->infiles = get_infile_array(minishell, segment);
 	cmd->heredocs = get_heredoc_array(minishell, segment);

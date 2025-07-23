@@ -141,4 +141,3 @@ int execution(t_minishell *minishell)
     result = ft_pipex(cmd_count, head, minishell);
     return (result);
 }
-

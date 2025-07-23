@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:54:42 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/07/20 20:00:17 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/22 16:28:09 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,23 @@
 
 int builtin_echo(t_minishell *minishell, char **argv)
 {
-    int i;
+    int i = 1;
+    int newline = 1;
 
     (void)minishell;
-    i = 1;
-    while (argv[i])
+    if (argv[i] && strcmp(argv[i], "-n") == 0)
     {
-        ft_putstr_fd(argv[i], STDIN_FILENO);
-        ft_putstr_fd(" ", STDIN_FILENO);
+        newline = 0;
         i++;
     }
-    ft_putstr_fd("\n", STDIN_FILENO);
-    return (0);
+    while (argv[i])
+    {
+        ft_putstr_fd(argv[i], STDOUT_FILENO);
+        if (argv[i + 1])
+            ft_putstr_fd(" ", STDOUT_FILENO);
+        i++;
+    }
+    if (newline)
+        ft_putstr_fd("\n", STDOUT_FILENO);
+    return 0;
 }

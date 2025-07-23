@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 10:57:28 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/21 17:35:43 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/22 20:26:26 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char  **insert_into_array(char *infile, char **array, t_minishell *minishell)
 	new_array_size = 0;
 	while(array && array[new_array_size])
 		new_array_size++;
-	new_array = ft_calloc(new_array_size + 1, sizeof(char *));
+	new_array = ft_calloc(new_array_size + 2, sizeof(char *));
 	if (!new_array)
 		malloc_error(minishell);
 	i = 0;
@@ -85,8 +85,8 @@ char **get_outfile_array(t_minishell *minishell, t_token *segment)
 	current = segment;
 	while(current && current->next)
 	{
-		if (current->token_type == TOKEN_REDIR_OUT ||
-			current->token_type == TOKEN_APPEND)
+		if (current->token_type == TOKEN_REDIR_OUT 
+			|| current->token_type == TOKEN_APPEND)
 		{
 			current = current->next;
 			outfile = ft_strdup(current->value);

@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:06:14 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/22 11:37:06 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/22 20:28:27 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static void	minishell_loop(t_minishell *minishell)
 {
 	while (1)
 	{
-		free_cmds(&(minishell->cmd_pipelines)); /// ONLY FOR DEBUGGING WITHOUT EXECUTION
 		minishell->input = get_prompt_input(minishell);
 		if (!minishell->input)
 		{
@@ -31,6 +30,7 @@ static void	minishell_loop(t_minishell *minishell)
 		// > EXECUTION < //
 		// printf("entramos a execution");
 		minishell->last_exit_status = execution(minishell);
+		free_cmds(&(minishell->cmd_pipelines)); /// ONLY FOR DEBUGGING WITHOUT EXECUTION
 	}
 }
 

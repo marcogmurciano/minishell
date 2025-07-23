@@ -1,24 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_env.c                                      :+:      :+:    :+:   */
+/*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/09 11:28:43 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/22 12:16:02 by dbarba-v         ###   ########.fr       */
+/*   Created: 2025/07/22 12:28:24 by dbarba-v          #+#    #+#             */
+/*   Updated: 2025/07/22 12:39:42 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	builtin_env(t_minishell *minishell, char **argv)
+int    builtin_cd(t_minishell *minishell, char **argv)
 {
-	if (argv[1] != NULL)
+    int argc;
+	int chdir_status;
+
+	argc = 0;
+	chdir_status = 0;
+	while (argv[argc])
+		argc++;
+	if(argc == 1)
+		return (0);
+	if(argc > 2)
 	{
-		syntax_error("env", minishell, 4);
+		ft_putendl_fd("minishell: cd: too many arguments", STDERR_FILENO);
 		return (1);
 	}
-	print_envp(minishell->envp);
-	return (0);
+	chdir_status = chdir(argv[1]);
+	if(chdir(argv[1]) == -1)
+	{
+		perror("minishell: cd: ");
+		return (1);
+	}
+    return (0);
 }

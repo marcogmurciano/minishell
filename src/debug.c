@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 10:34:32 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/21 16:40:39 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/22 20:28:20 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,8 @@ void	print_cmd(t_cmd *cmd)
 	cmd_num = 0;
 	while (cmd)
 	{
+		i = 0;
 		printf("\n--- COMMAND %d ---\n", cmd_num);
-		
-		i = 0; // Reiniciar i antes del bucle
 		if (cmd->argv)
 		{
 			while (cmd->argv[i])
@@ -59,8 +58,7 @@ void	print_cmd(t_cmd *cmd)
 				i++;
 			}
 		}
-		
-		i = 0; // Reiniciar i antes del bucle
+		i = 0;
 		if (cmd->infiles)
 		{
 			while (cmd->infiles[i])
@@ -69,8 +67,7 @@ void	print_cmd(t_cmd *cmd)
 				i++;
 			}
 		}
-		
-		i = 0; // Reiniciar i antes del bucle
+		i = 0;
 		if (cmd->heredocs)
 		{
 			while (cmd->heredocs[i])
@@ -79,11 +76,9 @@ void	print_cmd(t_cmd *cmd)
 				i++;
 			}
 		}
-		
 		printf("EXPAND HEREDOC: %d\n", cmd->expand_heredoc_content);
-		printf("LAST REDIR_IN TYPE: %d\n", cmd->last_in); // Corregido "TYEP"
-		
-		i = 0; // Reiniciar i antes del bucle
+		printf("LAST REDIR_IN TYPE: %d\n", cmd->last_in);
+		i = 0;
 		if (cmd->outfiles)
 		{
 			while (cmd->outfiles[i])
@@ -92,10 +87,8 @@ void	print_cmd(t_cmd *cmd)
 				i++;
 			}
 		}
-		
 		printf("APPEND STATUS: %d\n", cmd->append);
 		printf("================\n");
-		
 		cmd = cmd->next;
 		cmd_num++;
 	}
