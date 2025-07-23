@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-int    builtin_cd(t_minishell *minishell, char **argv)
+int    builtin_cd(char **argv)
 {
     int argc;
 	int chdir_status;
@@ -29,7 +29,7 @@ int    builtin_cd(t_minishell *minishell, char **argv)
 		return (1);
 	}
 	chdir_status = chdir(argv[1]);
-	if(chdir(argv[1]) == -1)
+	if(chdir_status == -1)
 	{
 		perror("minishell: cd: ");
 		return (1);

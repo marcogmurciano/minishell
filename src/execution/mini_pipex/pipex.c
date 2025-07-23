@@ -40,20 +40,6 @@ void	setup_pipes(int *pipes, int i, int how_many_cmd)
 		pipe(pipes);
 }
 
-int	process_cmds_errors(char *av[], int i, char **envp)
-{
-	char	*path_cmd;
-	int		f_exit;
-
-	f_exit = 0;
-	path_cmd = get_cmd_path(av[2 + i], envp);
-	if (path_cmd == NULL)
-		f_exit = printf("pipex: command not found: %s\n", av[2 + i]);
-	else
-		free(path_cmd);
-	return (f_exit);
-}
-
 int	ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell)
 {
 	t_fds	fd;

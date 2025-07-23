@@ -56,7 +56,8 @@ int	process_cmd_errors(char **full_cmd, char **env)
 	if (path_cmd == NULL)
 	{
 		result = 1;
-		printf("pipex: command not found: %s\n", full_cmd[0]);
+		if (join_cmd(full_cmd) != NULL)
+			printf("pipex: command not found: %s\n", full_cmd[0]);
 	}
 	else
 		free(path_cmd);

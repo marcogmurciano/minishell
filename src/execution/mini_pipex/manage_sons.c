@@ -138,7 +138,7 @@ void	only_child(t_fds *fd, t_cmd *cmd)
 		if (fd->out != 1)
 			close(fd->out);
 		cleanup(fd);
-		printf("    ultimo tras process single command\n");
+		// printf("    ultimo tras process single command\n");
 		exit(127);
 	}
 	printf("   ... no fue el ultimo\n");

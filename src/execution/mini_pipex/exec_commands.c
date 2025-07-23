@@ -24,6 +24,7 @@ int execute_built_in(t_minishell *minishell, char **split_cmd)
 {
 	int		status;
 
+	// printf("comando builtineado");
 	status = 0;
 	if (ft_strcmp(split_cmd[0], "echo") == 0)
 		status = builtin_echo(minishell, split_cmd);
@@ -35,10 +36,10 @@ int execute_built_in(t_minishell *minishell, char **split_cmd)
 		status = builtin_unset(minishell, split_cmd);
 	else if (ft_strcmp(split_cmd[0], "env") == 0)
 		status = builtin_env(minishell, split_cmd);
-	//else if (ft_strcmp(split_cmd[0], "cd") == 0)
-	//     // builtin_cd();
-	//else if (ft_strcmp(split_cmd[0], "exit") == 0)
-	//     // builtin_exit();
+	else if (ft_strcmp(split_cmd[0], "cd") == 0)
+	    builtin_cd(split_cmd);
+	else if (ft_strcmp(split_cmd[0], "exit") == 0)
+	    exit_minishell(minishell);
 	
 	return(status);
 }
