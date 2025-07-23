@@ -52,6 +52,7 @@ int	process_cmd_errors(char **full_cmd, char **env)
 
 	result = 0;
 	path_cmd = get_cmd_path(join_cmd(full_cmd), env);
+	// printf("llega a process cmd errors\n");
 	if (path_cmd == NULL)
 	{
 		result = 1;
@@ -77,11 +78,10 @@ int	process_single_command(char **full_cmd, t_fds *fd)
 
 	joined_cmd = join_cmd(full_cmd);
 	result = 0;
-	if (is_builtin(full_cmd[0]) == 0)
+	if (is_builtin(full_cmd[0]))
 		return (0);
 	//debug
-		// bi_print(full_cmd);
-		printf("yeeaaa");
+	// printf("llega a process single command\n");
 	//
 	if (ft_strchr(joined_cmd, '/'))
 	{

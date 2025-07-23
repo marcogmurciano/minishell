@@ -128,6 +128,9 @@ void	only_child(t_fds *fd, t_cmd *cmd)
 	fd->out = 1;
 	fd->in = cosasdelin(cmd, fd);
 	fd->out = cosasdelout(cmd, fd);
+	//debug
+	// printf("llega a only child\n");
+	//
 	if (process_single_command(cmd->argv, fd) != 0)
 	{
 		if (fd->in != 0)
