@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:28:46 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/23 14:01:26 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/23 16:42:02 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,27 +70,47 @@ void ft_swap(char **first, char **second)
 	*second = temp;
 }
 
+char **get_export_envp(t_minishell *minishell)
+{
+	t_env	*current;
+	char	**export_envp;
+	int		env_count;
+
+	env_count = 0;
+	current = minishell->environment;
+	while(current)
+	{
+		current = current->next;
+		env_count++;
+	}
+	export_envp = ft_calloc(env_count + 1, sizeof(char *));
+	if(!export_envp)
+		malloc_error(minishell);
+	current = minishell->environment;
+	env_count = 0;
+	while (current)
+	{
+		if(!current->value)
+			export_envp[env_count++] = ft_strdup(current->key);
+		else
+			export_envp[env_count++] = ft_strjoin_three(current->key, "=", current->value);
+		current = current->next;
+	}
+	return (export_envp);
+}
+
 void print_ordered_envp(t_minishell *minishell)
 {
-	int		env_count;
-	int		i;
-	int		j;
 	char	**sorted_envp;
-	env_count = 0;
-	while(minishell->envp[env_count])
-		env_count++;
-	sorted_envp = ft_calloc(env_count + 1, sizeof(char *));
+	int		j;
+	int		i;
+	
+	sorted_envp = get_export_envp(minishell);
 	i = 0;
-	while (i < env_count)
-	{
-		sorted_envp[i] = ft_strdup(minishell->envp[i]);
-		i++;
-	}
-	i = 0;
-	while (i < env_count - 1)
+	while (sorted_envp[i])
 	{
 		j = i + 1;
-		while(j < env_count)
+		while(sorted_envp[j])
 		{
 			if (ft_strcmp(sorted_envp[i], sorted_envp[j]) > 0)
 				ft_swap(&sorted_envp[i], &sorted_envp[j]);
@@ -99,7 +119,7 @@ void print_ordered_envp(t_minishell *minishell)
 		i++;
 	}
 	i = 0;
-	while (i < env_count - 1)
+	while (sorted_envp[i])
 	{
 		printf("declare -x %s\n", sorted_envp[i]);
 		i++;

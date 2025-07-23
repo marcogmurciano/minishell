@@ -72,14 +72,12 @@ char	**get_environment_array(t_env *env)
 	i = 0;
 	while (env)
 	{
-		if (env->value == NULL)
+		if (env->value)
 		{
-			env = env->next;
-			continue ;
+			envp[i] = ft_strjoin_three(env->key, "=", env->value);
+			if (!envp[i])
+				return (free_envp(envp, i), NULL);
 		}
-		envp[i] = ft_strjoin_three(env->key, "=", env->value);
-		if (!envp[i])
-			return (free_envp(envp, i), NULL);
 		i++;
 		env = env->next;
 	}

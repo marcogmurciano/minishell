@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:06:14 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/23 11:46:52 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/23 15:29:51 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static void	minishell_loop(t_minishell *minishell)
 
 		minishell->last_exit_status = execution(minishell);
 		free_cmds(&(minishell->cmd_pipelines)); /// ONLY FOR DEBUGGING WITHOUT EXECUTION
+		//print_environ(minishell->environment);
 	}
 }
 
