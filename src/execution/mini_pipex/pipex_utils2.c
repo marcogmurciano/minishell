@@ -12,12 +12,37 @@
 
 #include "../../../include/minishell.h"
 
-int	cleanup(t_fds *fd)
+char	*get_cmd_path(char *cmd, char **env)
 {
-	if (fd->buffer != -1)
-		close(fd->buffer);
-	free_bidimensional_array(fd->env);
-	return (0);
+	int		i;
+	char	**paths;
+	char	*result;
+	int		j;
+	char	**cmd_parts;
+
+	i = 0;
+	if (ft_strlen(cmd) == 0)
+		return (NULL);
+	cmd_parts = ft_split(cmd, ' ');
+	if (!cmd_parts)
+		return (NULL);
+	while (env[i])
+	{
+		if (ft_strncmp(env[i], "PATH=", 5) == 0)
+		{
+			paths = ft_split(env[i] + 5, ':');
+			result = has_command(paths, cmd_parts[0]);
+			j = 0;
+			while (paths[j])
+				free(paths[j++]);
+			free(paths);
+			free_bidimensional_array(cmd_parts);
+			return (result);
+		}
+		i++;
+	}
+	free_bidimensional_array(cmd_parts);
+	return (NULL);
 }
 
 int	process_cmd_errors(char **full_cmd, char **env)
@@ -37,6 +62,14 @@ int	process_cmd_errors(char **full_cmd, char **env)
 	return (result);
 }
 
+void bi_print(char *string_array[]) {
+    // Itera sobre el array mientras el puntero actual no sea NULL
+    while (*string_array) {
+        // Imprime el string al que apunta el puntero actual y luego avanza el puntero
+        printf("%s\n", *string_array++);
+    }
+}
+
 int	process_single_command(char **full_cmd, t_fds *fd)
 {
 	int		result;
@@ -47,7 +80,8 @@ int	process_single_command(char **full_cmd, t_fds *fd)
 	if (is_builtin(full_cmd[0]) == 0)
 		return (0);
 	//debug
-	// printf("processisnglecommand: %s", joined_cmd);
+		// bi_print(full_cmd);
+		printf("yeeaaa");
 	//
 	if (ft_strchr(joined_cmd, '/'))
 	{

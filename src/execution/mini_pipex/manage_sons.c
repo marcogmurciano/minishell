@@ -18,6 +18,7 @@ char *join_cmd(char **cmd)
 	char *t;
 	char *r;
 
+	r = NULL;
 	i = 0;
 	while (cmd[i])
 	{
@@ -46,12 +47,12 @@ static int	cosasdelout(t_cmd *cmd, t_fds *fd)
 	{
 		if (cmd->outfiles[i] != NULL && cmd->append)
 		{
-			printf("appendeamos el archivo %s desde cossasdelout\n", cmd->outfiles[i]);
+			// printf("appendeamos el archivo %s desde cossasdelout\n", cmd->outfiles[i]);
 			fd->out = open(cmd->outfiles[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
 		}
 		if (cmd->outfiles[i] != NULL && !cmd->append)
 		{
-			printf("creamos el archivo %s desde cossasdelout\n", cmd->outfiles[i]);
+			// printf("creamos el archivo %s desde cossasdelout\n", cmd->outfiles[i]);
 			fd->out = open(cmd->outfiles[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		}
 		if (fd->out == -1)
@@ -73,12 +74,12 @@ static int	cosasdelin(t_cmd *cmd, t_fds *fd)
 	{
 		if (cmd->infiles[i] != NULL && cmd->append)
 		{
-			printf("leemos el archivo con append (wtf) %s desde cossasdelin\n", cmd->infiles[i]);
+			// printf("leemos el archivo con append (wtf) %s desde cossasdelin\n", cmd->infiles[i]);
 			fd->in = open(cmd->infiles[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
 		}
 		if (cmd->infiles[i] != NULL && !cmd->append)
 		{
-			printf("leemos el archivo %s desde cossasdelin\n", cmd->infiles[i]);
+			// printf("leemos el archivo %s desde cossasdelin\n", cmd->infiles[i]);
 			fd->in = open(cmd->infiles[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		}
 		if (fd->in == -1)
@@ -134,8 +135,10 @@ void	only_child(t_fds *fd, t_cmd *cmd)
 		if (fd->out != 1)
 			close(fd->out);
 		cleanup(fd);
+		printf("    ultimo tras process single command\n");
 		exit(127);
 	}
+	printf("   ... no fue el ultimo\n");
 	if (ft_strchr(joined_cmd, '/') != NULL)
 		exec_pathed_cmd(joined_cmd, fd->in, fd->out, fd);
 	else

@@ -112,36 +112,11 @@ char	*has_command(char **paths, char *cmd_name)
 // 	}
 // 	return (NULL);
 // }
-
-char	*get_cmd_path(char *cmd, char **env)
+int	cleanup(t_fds *fd)
 {
-	int		i;
-	char	**paths;
-	char	*result;
-	int		j;
-	char	**cmd_parts;
-
-	i = 0;
-	if (ft_strlen(cmd) == 0)
-		return (NULL);
-	cmd_parts = ft_split(cmd, ' ');
-	if (!cmd_parts)
-		return (NULL);
-	while (env[i])
-	{
-		if (ft_strncmp(env[i], "PATH=", 5) == 0)
-		{
-			paths = ft_split(env[i] + 5, ':');
-			result = has_command(paths, cmd_parts[0]);
-			j = 0;
-			while (paths[j])
-				free(paths[j++]);
-			free(paths);
-			free_bidimensional_array(cmd_parts);
-			return (result);
-		}
-		i++;
-	}
-	free_bidimensional_array(cmd_parts);
-	return (NULL);
+	if (fd->buffer != -1)
+		close(fd->buffer);
+	free_bidimensional_array(fd->env);
+	return (0);
 }
+
