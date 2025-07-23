@@ -38,11 +38,13 @@ char *join_cmd(char **cmd)
 	return (r);
 }
 
-static int	cosasdelout(t_cmd *cmd, t_fds *fd)
+int	manage_outfiles(t_cmd *cmd, t_fds *fd)
 {
 	int i;
 
 	i = 0;
+	//debug
+	printf("cosasdelout estamos in");
 	while (cmd->outfiles[i])
 	{
 		if (cmd->outfiles[i] != NULL && cmd->append)
@@ -52,7 +54,7 @@ static int	cosasdelout(t_cmd *cmd, t_fds *fd)
 		}
 		if (cmd->outfiles[i] != NULL && !cmd->append)
 		{
-			// printf("creamos el archivo %s desde cossasdelout\n", cmd->outfiles[i]);
+			printf("creamos el archivo %s desde cossasdelout\n", cmd->outfiles[i]);
 			fd->out = open(cmd->outfiles[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		}
 		if (fd->out == -1)
@@ -65,7 +67,7 @@ static int	cosasdelout(t_cmd *cmd, t_fds *fd)
 	return (fd->out);
 }
 
-static int	cosasdelin(t_cmd *cmd, t_fds *fd)
+int	manage_infiles(t_cmd *cmd, t_fds *fd)
 {
 	int i;
 
@@ -98,8 +100,8 @@ void	first_child(t_fds *fd, int *pipes, t_cmd *cmd)
 
 	fd->in = 0;
 	fd->out = pipes[1];
-	fd->in = cosasdelin(cmd, fd);
-	fd->out = cosasdelout(cmd, fd);
+	fd->in = manage_infiles(cmd, fd);
+	fd->out = manage_outfiles(cmd, fd);
 	if (process_single_command(cmd->argv, fd) != 0)
 	{
 		if (fd->in != 0)
@@ -126,8 +128,8 @@ void	only_child(t_fds *fd, t_cmd *cmd)
 	//
 	fd->in = 0;
 	fd->out = 1;
-	fd->in = cosasdelin(cmd, fd);
-	fd->out = cosasdelout(cmd, fd);
+	fd->in = manage_infiles(cmd, fd);
+	fd->out = manage_outfiles(cmd, fd);
 	//debug
 	// printf("llega a only child\n");
 	//
@@ -141,7 +143,7 @@ void	only_child(t_fds *fd, t_cmd *cmd)
 		// printf("    ultimo tras process single command\n");
 		exit(127);
 	}
-	printf("   ... no fue el ultimo\n");
+	// printf("   ... no fue el ultimo\n");
 	if (ft_strchr(joined_cmd, '/') != NULL)
 		exec_pathed_cmd(joined_cmd, fd->in, fd->out, fd);
 	else
@@ -156,8 +158,8 @@ void	middle_child(t_fds *fd, int *pipes, t_cmd *cmd)
 	joined_cmd = join_cmd(cmd->argv);
 	fd->in = fd->buffer;
 	fd->out = pipes[1];
-	fd->in = cosasdelin(cmd, fd);
-	fd->out = cosasdelout(cmd, fd);
+	fd->in = manage_infiles(cmd, fd);
+	fd->out = manage_outfiles(cmd, fd);
 	if (process_single_command(cmd->argv, fd) != 0)
 		exit(127);
 	if (ft_strchr(joined_cmd, '/') != NULL)
@@ -176,7 +178,7 @@ void	last_child(t_fds *fd, int *pipes, t_cmd *cmd)
 		close(pipes[1]);
 	fd->in = fd->buffer;
 	fd->out = 1;
-	cosasdelout(cmd, fd);
+	manage_outfiles(cmd, fd);
 	if (process_single_command(cmd->argv, fd) != 0)
 	{
 		cleanup(fd);

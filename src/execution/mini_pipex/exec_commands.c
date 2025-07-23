@@ -104,6 +104,29 @@ void	exec_cmd(char *cmd, int input_fd, int output_fd, t_fds *fd)
 	perror("pipex");
 }
 
+int	exec_only_builtin(char *cmd, int input_fd, int output_fd, t_fds *fd)
+{
+	char	**args;
+
+	args = ft_split(cmd, ' ');
+	if (!args || !args[0])
+	{
+		if (args)
+			free_bidimensional_array(args);
+		printf("pipex: empty command");
+		exit(1);
+	}
+	if (dup2(input_fd, STDIN_FILENO) == -1)
+		perror("pipex");
+	if (dup2(output_fd, STDOUT_FILENO) == -1)
+		perror("pipex");
+	if (input_fd != -1 && input_fd != 0)
+		close(input_fd);
+	if (output_fd != -1 && output_fd != 1)
+		close(output_fd);
+	return (manual_execution(cmd, fd));
+}
+
 void	exec_pathed_cmd(char *cmd, int input_fd, int output_fd, t_fds *fd)
 {
 	char	*cmd_and_args;

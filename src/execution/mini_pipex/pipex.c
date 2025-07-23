@@ -55,7 +55,24 @@ int	ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell)
 	{
 		if (is_builtin(cmd_list->argv[0]))
 		{
-			status = (execute_built_in(minishell, cmd_list->argv));
+			fd.in = 0;
+			fd.out = 1;
+			fd.in = manage_infiles(cmd_list, &fd);
+			fd.out = manage_outfiles(cmd_list, &fd);
+			//debug
+			// printf("llega a only child\n");
+			//
+			if (process_single_command(cmd_list->argv, &fd) != 0)
+			{
+				if (fd.in != 0)
+					close(fd.in);
+				if (fd.out != 1)
+					close(fd.out);
+				cleanup(&fd);
+				// printf("    ultimo tras process single command\n");
+				exit(127);
+			}
+			status = (exec_only_builtin(join_cmd(cmd_list->argv), fd.in, fd.out, &fd));
 			cleanup(&fd);
 			return (status);
 		}
