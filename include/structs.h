@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 16:41:19 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/21 17:54:50 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/23 12:08:27 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ typedef struct		s_minishell
 	char			*input;
 	int				last_exit_status;		// "$?"
 	int				duplicated_std_fds[2];
-	int				pid;
+	pid_t			pid;
 	t_token			*tokens_list;
 	t_env			*environment;
 	t_cmd			*cmd_pipelines;
