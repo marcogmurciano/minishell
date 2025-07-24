@@ -43,20 +43,12 @@ int	manage_outfiles(t_cmd *cmd, t_fds *fd)
 	int i;
 
 	i = 0;
-	//debug
-	//printf("cosasdelout estamos in");
 	while (cmd->outfiles[i])
 	{
 		if (cmd->outfiles[i] != NULL && cmd->append)
-		{
-			// printf("appendeamos el archivo %s desde cossasdelout\n", cmd->outfiles[i]);
 			fd->out = open(cmd->outfiles[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
-		}
 		if (cmd->outfiles[i] != NULL && !cmd->append)
-		{
-			//printf("creamos el archivo %s desde cossasdelout\n", cmd->outfiles[i]);
 			fd->out = open(cmd->outfiles[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		}
 		if (fd->out == -1)
 		{
 			print_child_error(cmd->outfiles[i], fd);
@@ -75,15 +67,9 @@ int	manage_infiles(t_cmd *cmd, t_fds *fd)
 	while (cmd->infiles[i])
 	{
 		if (cmd->infiles[i] != NULL && cmd->append)
-		{
-			// printf("leemos el archivo con append (wtf) %s desde cossasdelin\n", cmd->infiles[i]);
 			fd->in = open(cmd->infiles[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
-		}
 		if (cmd->infiles[i] != NULL && !cmd->append)
-		{
-			// printf("leemos el archivo %s desde cossasdelin\n", cmd->infiles[i]);
 			fd->in = open(cmd->infiles[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		}
 		if (fd->in == -1)
 		{
 			print_child_error(cmd->infiles[i], fd);
@@ -112,27 +98,21 @@ void	first_child(t_fds *fd, int *pipes, t_cmd *cmd)
 	}
 	joined_cmd = join_cmd(cmd->argv);
 	if (ft_strchr(joined_cmd, '/') != NULL)
-		exec_pathed_cmd(joined_cmd, fd->in, fd->out, fd);
+		exec_pathed_cmd(cmd->argv, fd->in, fd->out, fd);
 	else
-		exec_cmd(joined_cmd, fd->in, fd->out, fd);
+		exec_cmd(cmd->argv, fd->in, fd->out, fd);
 	cleanup(fd);
 }
 
 void	only_child(t_fds *fd, t_cmd *cmd)
 {
 	char *joined_cmd;
-	
+
 	joined_cmd = join_cmd(cmd->argv);
-	//debug
-	// printf("joined cmd en only child: %s\n", joined_cmd);
-	//
 	fd->in = 0;
 	fd->out = 1;
 	fd->in = manage_infiles(cmd, fd);
 	fd->out = manage_outfiles(cmd, fd);
-	//debug
-	// printf("llega a only child\n");
-	//
 	if (process_single_command(cmd->argv, fd) != 0)
 	{
 		if (fd->in != 0)
@@ -140,14 +120,12 @@ void	only_child(t_fds *fd, t_cmd *cmd)
 		if (fd->out != 1)
 			close(fd->out);
 		cleanup(fd);
-		// printf("    ultimo tras process single command\n");
 		exit(127);
 	}
-	// printf("   ... no fue el ultimo\n");
 	if (ft_strchr(joined_cmd, '/') != NULL)
-		exec_pathed_cmd(joined_cmd, fd->in, fd->out, fd);
+		exec_pathed_cmd(cmd->argv, fd->in, fd->out, fd);
 	else
-		exec_cmd(joined_cmd, fd->in, fd->out, fd);
+		exec_cmd(cmd->argv, fd->in, fd->out, fd);
 	cleanup(fd);
 }
 
@@ -163,9 +141,9 @@ void	middle_child(t_fds *fd, int *pipes, t_cmd *cmd)
 	if (process_single_command(cmd->argv, fd) != 0)
 		exit(127);
 	if (ft_strchr(joined_cmd, '/') != NULL)
-		exec_pathed_cmd(joined_cmd, fd->in, fd->out, fd);
+		exec_pathed_cmd(cmd->argv, fd->in, fd->out, fd);
 	else
-		exec_cmd(joined_cmd, fd->in, fd->out, fd);
+		exec_cmd(cmd->argv, fd->in, fd->out, fd);
 	cleanup(fd);
 }
 
@@ -185,9 +163,9 @@ void	last_child(t_fds *fd, int *pipes, t_cmd *cmd)
 		exit(127);
 	}
 	if (ft_strchr(joined_cmd, '/') != NULL)
-		exec_pathed_cmd(joined_cmd, fd->in, fd->out, fd);
+		exec_pathed_cmd(cmd->argv, fd->in, fd->out, fd);
 	else
-		exec_cmd(joined_cmd, fd->in, fd->out, fd);
+		exec_cmd(cmd->argv, fd->in, fd->out, fd);
 	cleanup(fd);
 }
 
@@ -213,6 +191,7 @@ int	create_children(t_fds *fd, t_cmd *cmds, char **env, int i)
 	if (i == fd->how_many_cmd)
 		return (cleanup(fd));
 	pid = fork();
+	fd->minishell->pid = pid;
 	if (pid == 0)
 	{
 		if (i != fd->how_many_cmd - 1 && pipes[0] != -1)
