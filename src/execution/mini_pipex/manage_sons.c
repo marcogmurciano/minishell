@@ -44,7 +44,7 @@ int	manage_outfiles(t_cmd *cmd, t_fds *fd)
 
 	i = 0;
 	//debug
-	printf("cosasdelout estamos in");
+	//printf("cosasdelout estamos in");
 	while (cmd->outfiles[i])
 	{
 		if (cmd->outfiles[i] != NULL && cmd->append)
@@ -54,7 +54,7 @@ int	manage_outfiles(t_cmd *cmd, t_fds *fd)
 		}
 		if (cmd->outfiles[i] != NULL && !cmd->append)
 		{
-			printf("creamos el archivo %s desde cossasdelout\n", cmd->outfiles[i]);
+			//printf("creamos el archivo %s desde cossasdelout\n", cmd->outfiles[i]);
 			fd->out = open(cmd->outfiles[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		}
 		if (fd->out == -1)
