@@ -69,10 +69,11 @@ int	ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell)
 				if (fd.out != 1)
 					close(fd.out);
 				cleanup(&fd);
-				// printf("    ultimo tras process single command\n");
+				// printf("ultimo tras process single command\n");
 				exit(127);
 			}
 			status = (exec_only_builtin(join_cmd(cmd_list->argv), fd.in, fd.out, &fd));
+			restore_std_fds(fd.minishell);
 			cleanup(&fd);
 			return (status);
 		}
@@ -83,4 +84,11 @@ int	ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell)
 		return (WEXITSTATUS(fd.status));
 	}
 	return (create_children(&fd, cmd_list, fd.env, 0));
+}
+
+
+void restore_std_fds(t_minishell *minishell)
+{
+	dup2(minishell->duplicated_std_fds[0], STDIN_FILENO);
+	dup2(minishell->duplicated_std_fds[1], STDOUT_FILENO);
 }

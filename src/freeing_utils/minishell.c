@@ -44,4 +44,12 @@ void	free_minishell(t_minishell *minishell)
 		free_cmds(&(minishell->cmd_pipelines));
 		minishell->cmd_pipelines = NULL;
 	}
+	if (minishell->duplicated_std_fds[0] != -1
+		|| minishell->duplicated_std_fds[1] != -1)
+	{
+		close (minishell->duplicated_std_fds[0]);
+		close (minishell->duplicated_std_fds[1]);
+		minishell->duplicated_std_fds[0] = -1;
+		minishell->duplicated_std_fds[1] = -1;
+	}
 }
