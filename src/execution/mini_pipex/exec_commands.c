@@ -86,6 +86,7 @@ void	exec_cmd(char *cmd, int input_fd, int output_fd, t_fds *fd)
 	char	**args;
 	char	*cmd_path;
 
+	default_signals();
 	args = ft_split(cmd, ' ');
 	if (!args || !args[0])
 	{
@@ -136,6 +137,7 @@ void	exec_pathed_cmd(char *cmd, int input_fd, int output_fd, t_fds *fd)
 	char	*cmd_and_args;
 	char	**argv;
 
+	default_signals();
 	cmd_and_args = split_cmd_after_slash(cmd);
 	argv = ft_split(cmd_and_args, ' ');
 	free(cmd_and_args);

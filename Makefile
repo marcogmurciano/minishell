@@ -27,7 +27,7 @@ SRCS = 	src/main.c \
 		src/environment/get_environment_array.c \
 		src/environment/regenerate_environment.c \
 		src/environment/check_environment.c \
-		src/signals/sigint_handler.c \
+		src/signals/signals.c \
 		src/tokenization/add_token.c \
 		src/tokenization/create_token.c \
 		src/tokenization/handler.c \

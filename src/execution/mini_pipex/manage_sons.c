@@ -102,6 +102,7 @@ void	first_child(t_fds *fd, int *pipes, t_cmd *cmd)
 	fd->out = pipes[1];
 	fd->in = manage_infiles(cmd, fd);
 	fd->out = manage_outfiles(cmd, fd);
+	default_signals();
 	if (process_single_command(cmd->argv, fd) != 0)
 	{
 		if (fd->in != 0)
@@ -122,6 +123,7 @@ void	only_child(t_fds *fd, t_cmd *cmd)
 {
 	char *joined_cmd;
 	
+	default_signals();
 	joined_cmd = join_cmd(cmd->argv);
 	//debug
 	// printf("joined cmd en only child: %s\n", joined_cmd);
@@ -155,6 +157,7 @@ void	middle_child(t_fds *fd, int *pipes, t_cmd *cmd)
 {
 	char *joined_cmd;
 
+	default_signals();
 	joined_cmd = join_cmd(cmd->argv);
 	fd->in = fd->buffer;
 	fd->out = pipes[1];
@@ -173,6 +176,7 @@ void	last_child(t_fds *fd, int *pipes, t_cmd *cmd)
 {
 	char *joined_cmd;
 
+	default_signals();
 	joined_cmd = join_cmd(cmd->argv);
 	if (pipes[1] != -1)
 		close(pipes[1]);
