@@ -63,6 +63,7 @@ SRCS = 	src/main.c \
 		src/builtins/builtin_echo.c \
 		src/builtins/builtin_unset.c \
 		src/builtins/builtin_cd.c \
+		src/builtins/builtin_exit.c \
 		src/tokenization/join_tokens.c \
 	
 OBJS = $(SRCS:.c=.o)

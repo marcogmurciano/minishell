@@ -39,7 +39,7 @@ int execute_built_in(t_minishell *minishell, char **split_cmd)
 	else if (ft_strcmp(split_cmd[0], "cd") == 0)
 	    builtin_cd(split_cmd);
 	else if (ft_strcmp(split_cmd[0], "exit") == 0)
-	    exit_minishell(minishell);
+	    builtin_exit(minishell, split_cmd);
 	
 	return(status);
 }
@@ -57,7 +57,7 @@ int	is_builtin(char *split_cmd)
 	return (0);
 }
 
-static int	manual_execution(char *cmd, t_fds *fd)
+static int	manual_execution(char *cmd, t_fds *fd, int should_exit)
 {
 	char	**split_cmd;
 	int		status;
@@ -70,8 +70,12 @@ static int	manual_execution(char *cmd, t_fds *fd)
 		status = execute_built_in(fd->minishell, split_cmd);
 		ft_free_array((void **)split_cmd);
 		split_cmd = NULL;
-		cleanup(fd);
-		exit(status);
+		if (should_exit)
+		{
+			cleanup(fd);
+			exit(status);
+		}
+		return (status);
 	}
 	ft_free_array((void **)split_cmd);
 	return (0);
@@ -98,7 +102,7 @@ void	exec_cmd(char *cmd, int input_fd, int output_fd, t_fds *fd)
 		close(input_fd);
 	if (output_fd != -1 && output_fd != 1)
 		close(output_fd);
-	manual_execution(cmd, fd);
+	manual_execution(cmd, fd, 1);
 	cmd_path = get_cmd_path(args[0], fd->env);
 	execve(cmd_path, args, fd->env);
 	perror("pipex");
@@ -124,7 +128,7 @@ int	exec_only_builtin(char *cmd, int input_fd, int output_fd, t_fds *fd)
 		close(input_fd);
 	if (output_fd != -1 && output_fd != 1)
 		close(output_fd);
-	return (manual_execution(cmd, fd));
+	return (manual_execution(cmd, fd, 0));
 }
 
 void	exec_pathed_cmd(char *cmd, int input_fd, int output_fd, t_fds *fd)
@@ -145,7 +149,7 @@ void	exec_pathed_cmd(char *cmd, int input_fd, int output_fd, t_fds *fd)
 		close(input_fd);
 	if (output_fd != -1 && output_fd != 1)
 		close(output_fd);
-	manual_execution(cmd, fd);
+	manual_execution(cmd, fd, 1);
 	execve(cmd, argv, fd->env);
 	perror("pipex");
 }

@@ -20,6 +20,7 @@ char	*build_prompt(t_minishell *minishell)
 	char *prompt;
 	char *new_prompt;
 
+	
 	user = getenv("USER");
 	if(!user)
 		user = "USER";

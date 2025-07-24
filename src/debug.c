@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 10:34:32 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/22 20:28:20 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/23 13:04:14 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,17 +91,6 @@ void	print_cmd(t_cmd *cmd)
 		printf("================\n");
 		cmd = cmd->next;
 		cmd_num++;
-	}
-}
-
-void	print_envp(char **envp)
-{
-	int	i;
-	i = 0;
-	while (envp[i])
-	{
-		printf("%s\n", envp[i]);
-		i++;
 	}
 }
 
