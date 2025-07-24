@@ -213,6 +213,7 @@ int	create_children(t_fds *fd, t_cmd *cmds, char **env, int i)
 	if (i == fd->how_many_cmd)
 		return (cleanup(fd));
 	pid = fork();
+	fd->minishell->pid = pid;
 	if (pid == 0)
 	{
 		if (i != fd->how_many_cmd - 1 && pipes[0] != -1)
