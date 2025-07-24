@@ -37,7 +37,7 @@ int execute_built_in(t_minishell *minishell, char **split_cmd)
 	else if (ft_strcmp(split_cmd[0], "env") == 0)
 		status = builtin_env(minishell, split_cmd);
 	else if (ft_strcmp(split_cmd[0], "cd") == 0)
-	    builtin_cd(split_cmd);
+	    builtin_cd(minishell, split_cmd);
 	else if (ft_strcmp(split_cmd[0], "exit") == 0)
 	    builtin_exit(minishell, split_cmd);
 	
