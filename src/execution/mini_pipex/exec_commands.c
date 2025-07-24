@@ -12,19 +12,10 @@
 
 #include "../../../include/minishell.h"
 
-////////////////////////////////////////////
-//     hay que liberar así tras los execve?
-	// free(cmd_path);
-	// free_bidimensional_array(args);
-////////////////////////////////////
-
-//recordar exit y cleanup al final de cada builtin
-
 int execute_built_in(t_minishell *minishell, char **split_cmd)
 {
 	int		status;
 
-	// printf("comando builtineado");
 	status = 0;
 	if (ft_strcmp(split_cmd[0], "echo") == 0)
 		status = builtin_echo(minishell, split_cmd);
@@ -57,19 +48,17 @@ int	is_builtin(char *split_cmd)
 	return (0);
 }
 
-static int	manual_execution(char *cmd, t_fds *fd, int should_exit)
+static int	manual_execution(char **full_cmd, t_fds *fd, int should_exit)
 {
-	char	**split_cmd;
 	int		status;
 
-	split_cmd = ft_split(cmd, ' ');
-	if (!split_cmd)
+	if (!full_cmd)
 		return (1);
-	if (is_builtin(split_cmd[0]))
+	if (is_builtin(full_cmd[0]))
 	{
-		status = execute_built_in(fd->minishell, split_cmd);
-		ft_free_array((void **)split_cmd);
-		split_cmd = NULL;
+		status = execute_built_in(fd->minishell, full_cmd);
+		ft_free_array((void **)full_cmd);
+		full_cmd = NULL;
 		if (should_exit)
 		{
 			cleanup(fd);
@@ -77,20 +66,15 @@ static int	manual_execution(char *cmd, t_fds *fd, int should_exit)
 		}
 		return (status);
 	}
-	ft_free_array((void **)split_cmd);
 	return (0);
 }
 
-void	exec_cmd(char *cmd, int input_fd, int output_fd, t_fds *fd)
+void	exec_cmd(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
 {
-	char	**args;
 	char	*cmd_path;
 
-	args = ft_split(cmd, ' ');
-	if (!args || !args[0])
+	if (!full_cmd || !full_cmd[0])
 	{
-		if (args)
-			free_bidimensional_array(args);
 		printf("pipex: empty command");
 		exit(1);
 	}
@@ -102,21 +86,16 @@ void	exec_cmd(char *cmd, int input_fd, int output_fd, t_fds *fd)
 		close(input_fd);
 	if (output_fd != -1 && output_fd != 1)
 		close(output_fd);
-	manual_execution(cmd, fd, 1);
-	cmd_path = get_cmd_path(args[0], fd->env);
-	execve(cmd_path, args, fd->env);
+	manual_execution(full_cmd, fd, 1);
+	cmd_path = get_cmd_path(full_cmd[0], fd->env);
+	execve(cmd_path, full_cmd, fd->env);
 	perror("pipex");
 }
 
-int	exec_only_builtin(char *cmd, int input_fd, int output_fd, t_fds *fd)
+int	exec_only_builtin(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
 {
-	char	**args;
-
-	args = ft_split(cmd, ' ');
-	if (!args || !args[0])
+	if (!full_cmd || !full_cmd[0])
 	{
-		if (args)
-			free_bidimensional_array(args);
 		printf("pipex: empty command");
 		exit(1);
 	}
@@ -128,30 +107,61 @@ int	exec_only_builtin(char *cmd, int input_fd, int output_fd, t_fds *fd)
 		close(input_fd);
 	if (output_fd != -1 && output_fd != 1)
 		close(output_fd);
-	return (manual_execution(cmd, fd, 0));
+	return (manual_execution(full_cmd, fd, 0));
 }
 
-void	exec_pathed_cmd(char *cmd, int input_fd, int output_fd, t_fds *fd)
-{
-	char	*cmd_and_args;
-	char	**argv;
+//////////////////////////////////////
 
-	cmd_and_args = split_cmd_after_slash(cmd);
-	argv = ft_split(cmd_and_args, ' ');
-	free(cmd_and_args);
-	if (!argv)
-		perror("pipex");
-	if (dup2(input_fd, 0) == -1)
-		perror("pipex");
-	if (dup2(output_fd, 1) == -1)
-		perror("pipex");
-	if (input_fd != -1 && input_fd != 0)
-		close(input_fd);
-	if (output_fd != -1 && output_fd != 1)
-		close(output_fd);
-	manual_execution(cmd, fd, 1);
-	execve(cmd, argv, fd->env);
-	perror("pipex");
+void print_execve_args(const char *path, char **args)
+{
+    int i;
+
+    printf("\n----- EXECVE DEBUG INFO -----\n");
+    printf("Path: [%s]\n", path);
+    printf("Arguments:\n");
+    
+    i = 0;
+    while (args[i])
+    {
+        printf("  args[%d]: [%s]\n", i, args[i]);
+        i++;
+    }
+    printf("---------------------------\n\n");
+}
+
+/////////////////////////////////////////////////
+
+void exec_pathed_cmd(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
+{
+    char    **new_argv;
+    int     i;
+
+    i = 0;
+    while (full_cmd[i])
+        i++;
+    new_argv = (char **)malloc(sizeof(char *) * (i + 1));
+    new_argv[0] = split_cmd_after_slash(full_cmd[0]);
+    i = 0;
+    while (full_cmd[++i])
+        new_argv[i] = full_cmd[i];
+    new_argv[i] = NULL;
+    if (!new_argv[0])
+        perror("pipex");
+    if (dup2(input_fd, 0) == -1)
+        perror("pipex");
+    if (dup2(output_fd, 1) == -1)
+        perror("pipex");
+    if (input_fd != -1 && input_fd != 0)
+        close(input_fd);
+    if (output_fd != -1 && output_fd != 1)
+        close(output_fd);
+    manual_execution(full_cmd, fd, 1);
+	//debug
+	print_execve_args(full_cmd[0], new_argv);
+	//
+    execve(full_cmd[0], new_argv, fd->env);
+    free(new_argv);
+    perror("pipex");
 }
 
 void	print_child_error(char *s, t_fds *fd)
