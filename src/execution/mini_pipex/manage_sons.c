@@ -47,6 +47,11 @@ int	manage_outfiles(t_cmd *cmd, t_fds *fd)
 	//printf("cosasdelout estamos in");
 	while (cmd->outfiles[i])
 	{
+		if (fd->out != -1)
+		{
+			close (fd->out);
+			fd->out = -1;
+		}
 		if (cmd->outfiles[i] != NULL && cmd->append)
 		{
 			// printf("appendeamos el archivo %s desde cossasdelout\n", cmd->outfiles[i]);
@@ -74,6 +79,11 @@ int	manage_infiles(t_cmd *cmd, t_fds *fd)
 	i = 0;
 	while (cmd->infiles[i])
 	{
+		if (fd->in != -1)
+		{
+			close (fd->in);
+			fd->in = -1;
+		}
 		if (cmd->infiles[i] != NULL && cmd->append)
 		{
 			// printf("leemos el archivo con append (wtf) %s desde cossasdelin\n", cmd->infiles[i]);
@@ -94,6 +104,45 @@ int	manage_infiles(t_cmd *cmd, t_fds *fd)
 	return (fd->in);
 }
 
+int	manage_heredocs(t_cmd *cmd, t_fds *fd)
+{
+	int i;
+	char *line;
+
+	i = 0;
+	while (cmd->heredocs[i])
+	{
+		if (fd->heredoc != -1)
+		{
+			close (fd->heredoc);
+			fd->heredoc = -1;
+		}
+		if (access("/tmp/.heredoc", F_OK) == 0)
+			unlink("/tmp/.heredoc");
+		fd->heredoc = open("/tmp/.heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		while (1)
+		{
+			line = readline("> ");
+			if (!line)
+			{
+				printf("minishell: warning: here-document delimited by end-of-file (wanted `%s')", cmd->heredocs[i]);
+				free(line);
+			}
+			else if(ft_strcmp(line, cmd->heredocs[i]) != 0)
+				ft_putstr_fd(line, fd->heredoc);
+			else if(ft_strcmp(line, cmd->heredocs[i]) == 0)
+			{
+				free(line);
+				close(fd->heredoc);
+				fd->heredoc = -1;
+				break;
+			}
+		}
+		i++;
+	}
+	return (fd->heredoc);
+}
+
 void	first_child(t_fds *fd, int *pipes, t_cmd *cmd)
 {
 	char *joined_cmd;
@@ -102,7 +151,6 @@ void	first_child(t_fds *fd, int *pipes, t_cmd *cmd)
 	fd->out = pipes[1];
 	fd->in = manage_infiles(cmd, fd);
 	fd->out = manage_outfiles(cmd, fd);
-	default_signals();
 	if (process_single_command(cmd->argv, fd) != 0)
 	{
 		if (fd->in != 0)
@@ -123,7 +171,6 @@ void	only_child(t_fds *fd, t_cmd *cmd)
 {
 	char *joined_cmd;
 	
-	default_signals();
 	joined_cmd = join_cmd(cmd->argv);
 	//debug
 	// printf("joined cmd en only child: %s\n", joined_cmd);
@@ -157,7 +204,6 @@ void	middle_child(t_fds *fd, int *pipes, t_cmd *cmd)
 {
 	char *joined_cmd;
 
-	default_signals();
 	joined_cmd = join_cmd(cmd->argv);
 	fd->in = fd->buffer;
 	fd->out = pipes[1];
@@ -176,7 +222,6 @@ void	last_child(t_fds *fd, int *pipes, t_cmd *cmd)
 {
 	char *joined_cmd;
 
-	default_signals();
 	joined_cmd = join_cmd(cmd->argv);
 	if (pipes[1] != -1)
 		close(pipes[1]);

@@ -22,11 +22,12 @@
 #include <errno.h>
 #include "structs.h"
 
-///////////////////////////////////////////////
 typedef struct s_fds
 {
 	int			out;
 	int			in;
+	int			heredoc;
+	int			last_in;
 	int			how_many_cmd;
 	int			buffer;
 	char		*is_pathed;
@@ -64,6 +65,7 @@ int 	is_builtin(char *cmd);
 int		execute_built_in(t_minishell *minishell, char **split_cmd);
 int		manage_infiles(t_cmd *cmd, t_fds *fd);
 int		manage_outfiles(t_cmd *cmd, t_fds *fd);
+int		manage_heredocs(t_cmd *cmd, t_fds *fd);
 int		exec_only_builtin(char *cmd, int input_fd, int output_fd, t_fds *fd);
 void 	restore_std_fds(t_minishell *minishell);
 

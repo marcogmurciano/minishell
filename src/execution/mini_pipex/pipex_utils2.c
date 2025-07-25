@@ -81,9 +81,7 @@ int	process_single_command(char **full_cmd, t_fds *fd)
 	result = 0;
 	if (is_builtin(full_cmd[0]))
 		return (0);
-	//debug
-	// printf("llega a process single command\n");
-	//
+	// printf("llega a process single command\n"); // debug
 	if (ft_strchr(joined_cmd, '/'))
 	{
 		if (access(joined_cmd, F_OK) != 0)

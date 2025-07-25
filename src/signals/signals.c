@@ -6,12 +6,11 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 12:29:40 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/24 21:47:43 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/25 13:36:09 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
 
 /**
  * @brief Signal handler for SIGINT (Ctrl+C).
@@ -27,6 +26,11 @@ void	sigint_handler(int signal_number)
    }
 }
 
+/**
+ * @brief Signal handler for SIGQUIT (Ctrl+\).
+ *
+ * @param signal_number The signal number received.
+ */
 void	sigquit_handler(int signal_number)
 {
    if (signal_number == SIGQUIT)
@@ -45,4 +49,10 @@ void	default_signals(void)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+}
+
+void ignore_signals(void)
+{
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 }
