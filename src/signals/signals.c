@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 12:29:40 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/25 13:36:09 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/28 10:11:10 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,27 @@ void	sigquit_handler(int signal_number)
 	}
 }
 
+/**
+ * @brief Setup signal handlers
+ */
 void	setup_signal_handlers(void)
 {
    signal(SIGINT, sigint_handler);
    signal(SIGQUIT, sigquit_handler);
 }
 
+/**
+ * @brief Setup default signal handling for child processes
+ */
 void	default_signals(void)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 }
 
+/**
+ * @brief Ignore signals when child processes running for parent processes
+ */
 void ignore_signals(void)
 {
 	signal(SIGINT, SIG_IGN);
