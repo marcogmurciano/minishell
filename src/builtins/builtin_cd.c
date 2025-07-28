@@ -6,33 +6,39 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 12:28:24 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/22 12:39:42 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/24 15:58:59 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int    builtin_cd(char **argv)
+int    builtin_cd(t_minishell *minishell, char **argv)
 {
+	char *directory;
     int argc;
 	int chdir_status;
+	int i;
 
+	(void) minishell;
 	argc = 0;
 	chdir_status = 0;
+	i = 0;
 	while (argv[argc])
 		argc++;
+	directory = ft_strjoin(getenv("PWD"), getenv("HOME"));
 	if(argc == 1)
-		return (0);
-	if(argc > 2)
+		chdir_status = chdir(getenv("HOME"));
+	else
 	{
-		ft_putendl_fd("minishell: cd: too many arguments", STDERR_FILENO);
-		return (1);
+		while (argv[i])
+		{
+			chdir_status = chdir(argv[i]);
+			i++;
+		}
 	}
-	chdir_status = chdir(argv[1]);
 	if(chdir_status == -1)
-	{
-		perror("minishell: cd: ");
-		return (1);
-	}
-    return (0);
+		perror("minishell: cd1");
+	free(directory);
+    return ((unsigned int)chdir_status);
 }
+

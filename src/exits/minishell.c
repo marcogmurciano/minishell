@@ -18,9 +18,12 @@
  */
 void	exit_minishell(t_minishell *minishell)
 {
+	int exit_status;
+
+	exit_status = minishell->last_exit_status;
 	free_minishell(minishell);
 	minishell = NULL;
 	write(STDOUT_FILENO, "exit\n", 5);
 	rl_clear_history();
-	exit(EXIT_SUCCESS);
+	exit(exit_status);
 }
