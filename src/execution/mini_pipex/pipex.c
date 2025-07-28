@@ -79,6 +79,7 @@ int	ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell)
 		}
 		pid = fork();
 		minishell->pid = pid;
+		ignore_signals();
 		if (pid == 0)
 			only_child(&fd, cmd_list);
 		waitpid(pid, &(fd.status), 0);
@@ -86,7 +87,6 @@ int	ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell)
 	}
 	return (create_children(&fd, cmd_list, fd.env, 0));
 }
-
 
 void restore_std_fds(t_minishell *minishell)
 {
