@@ -92,9 +92,11 @@ int	ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell)
 		}
 		pid = fork();
 		minishell->pid = pid;
-		ignore_signals();
 		if (pid == 0)
+		{
+			default_signals();
 			only_child(&fd, cmd_list);
+		}
 		waitpid(pid, &(fd.status), 0);
 		return (WEXITSTATUS(fd.status));
 	}

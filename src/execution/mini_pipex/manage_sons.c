@@ -254,6 +254,7 @@ int	create_children(t_fds *fd, t_cmd *cmds, char **env, int i)
 	fd->minishell->pid = pid;
 	if (pid == 0)
 	{
+		default_signals();
 		if (i != fd->how_many_cmd - 1 && pipes[0] != -1)
 			close(pipes[0]);
 		if (i == 0)
