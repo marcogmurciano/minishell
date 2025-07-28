@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 12:28:24 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/24 15:58:59 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/24 18:39:09 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ int    builtin_cd(t_minishell *minishell, char **argv)
 			i++;
 		}
 	}
+
 	if(chdir_status == -1)
 		perror("minishell: cd1");
 	free(directory);
     return ((unsigned int)chdir_status);
 }
-

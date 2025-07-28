@@ -59,15 +59,28 @@ int	ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell)
 			fd.out = 1;
 			fd.in = manage_infiles(cmd_list, &fd);
 			fd.out = manage_outfiles(cmd_list, &fd);
+			fd.heredoc = manage_heredocs(cmd_list, &fd);
+			fd.last_in = cmd_list->last_in;
 			//debug
 			// printf("llega a only child\n");
 			//
 			if (process_single_command(cmd_list->argv, &fd) != 0)
 			{
-				if (fd.in != 0)
+				if (fd.in != 0 && fd.in != -1)
+				{
 					close(fd.in);
-				if (fd.out != 1)
+					fd.in = -1;
+				}
+				if (fd.out != 1 && fd.out != -1)
+				{
 					close(fd.out);
+					fd.out = -1;
+				}
+				if (fd.heredoc != -1)
+				{
+					close(fd.heredoc);
+					fd.heredoc = -1;
+				}
 				cleanup(&fd);
 				// printf("ultimo tras process single command\n");
 				exit(127);
