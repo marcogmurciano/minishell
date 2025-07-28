@@ -64,6 +64,35 @@ char	*split_cmd_after_slash(const char *s)
 // 	return (NULL);
 // }
 
+char	**ft_strdup_arr(char **arr)
+{
+	size_t	count;
+	char	**dup_arr;
+	size_t	i;
+
+	i = 0;
+	count = 0;
+	if (!arr)
+		return (NULL);
+	while (arr[count])
+		count++;
+	dup_arr = (char **)malloc((count + 1) * sizeof(char *));
+	if (!dup_arr)
+		return (NULL);
+	while (i < count)
+	{
+		dup_arr[i] = ft_strdup(arr[i]);
+		if (!dup_arr[i])
+		{
+			free_bidimensional_array(dup_arr);
+			return (NULL);
+		}
+		i++;
+	}
+	dup_arr[count] = NULL;
+	return (dup_arr);
+}
+
 char	*has_command(char **paths, char *cmd_name)
 {
 	int		i;

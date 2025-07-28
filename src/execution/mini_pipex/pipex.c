@@ -85,12 +85,13 @@ int	ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell)
 				// printf("ultimo tras process single command\n");
 				exit(127);
 			}
-			status = (exec_only_builtin(join_cmd(cmd_list->argv), fd.in, fd.out, &fd));
+			status = exec_only_builtin((cmd_list->argv), fd.in, fd.out, &fd);;
 			restore_std_fds(fd.minishell);
 			cleanup(&fd);
 			return (status);
 		}
 		pid = fork();
+		minishell->pid = pid;
 		if (pid == 0)
 			only_child(&fd, cmd_list);
 		waitpid(pid, &(fd.status), 0);
