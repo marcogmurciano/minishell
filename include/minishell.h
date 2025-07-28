@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
-#define MINISHELL_H
+# define MINISHELL_H
 
 #include "../../libft/include/libft.h"
 #include "readline/history.h"
@@ -31,7 +31,9 @@ extern volatile sig_atomic_t g_signal_status;
 //
 //
 
-void	sigint_handler(int signal_number);
+void	setup_signal_handlers(void);
+void	default_signals(void);
+void	ignore_signals(void);
 
 ///////////////////////////////////////////////////////////////////////////////
 //

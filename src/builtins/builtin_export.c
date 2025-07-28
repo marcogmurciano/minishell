@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:28:46 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/24 14:30:40 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/28 11:46:00 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,13 +141,16 @@ int	builtin_export(t_minishell *minishell, char **argv)
 	t_env	*new_node;
 	int		i;
 	int		exit_status;
+	int		exit_status;
 
 	i = 1;
+	exit_status = 0;
 	exit_status = 0;
 	while (argv[i])
 	{
 		if(check_key_syntax(argv[i]) == 1)
 		{
+			exit_status = syntax_error("export", minishell, 4);
 			exit_status = syntax_error("export", minishell, 4);
 			i++;
 			continue;
@@ -163,5 +166,6 @@ int	builtin_export(t_minishell *minishell, char **argv)
 	}
 	if (i == 1)
 		print_ordered_envp(minishell);
+	return (exit_status);
 	return (exit_status);
 }

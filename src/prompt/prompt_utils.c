@@ -17,5 +17,13 @@ void	clear_line_and_newline(void)
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
-	rl_redisplay();
+	rl_redisplay(); // If commented out it doesn't display twice but CTRl+C broken
+}
+
+void	clear_line_and_newline_in_child(void) // NEEDS TO BE USED
+{
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	//rl_redisplay(); // If commented out it doesn't display twice but CTRl+C broken
 }
