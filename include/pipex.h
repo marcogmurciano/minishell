@@ -41,10 +41,12 @@ typedef struct s_fds
 }			t_fds;
 
 int		process_cmds_errors(char *av[], int i, char **envp);
-void	exec_pathed_cmd(char *cmd, int input_fd, int output_fd, t_fds *fd);
-void	exec_cmd(char *cmd, int input_fd, int output_fd, t_fds *fd);
+void	exec_pathed_cmd(char **full_cmd, int input_fd, int output_fd, t_fds *fd);
+void	exec_cmd(char **full_cmd, int input_fd, int output_fd, t_fds *fd);
+int		exec_only_builtin(char **cmd, int input_fd, int output_fd, t_fds *fd);
 int		cleanup(t_fds *fd);
 int		create_children(t_fds *fd, t_cmd *cmds, char **env, int i);
+char	*get_cmd_path(char *cmd, char **env);
 void	free_bidimensional_array(char **arr);
 char	*split_cmd_after_slash(const char *s);
 char	**ft_strdup_arr(char **arr);
@@ -52,7 +54,6 @@ void	first_child(t_fds *fd, int *pipes, t_cmd *cmd);
 void	middle_child(t_fds *fd, int *pipes, t_cmd *cmd);
 void	last_child(t_fds *fd, int *pipes, t_cmd *cmd);
 int		process_single_command(char **full_cmd, t_fds *fd);
-char	*get_cmd_path(char *cmd, char **env);
 void	setup_pipes(int *pipes, int i, int how_many_cmd);
 void	manage_parent_fds(t_fds *fd, int *pipes, int i);
 void	print_child_error(char *s, t_fds *fd);
@@ -64,7 +65,5 @@ int		execute_built_in(t_minishell *minishell, char **split_cmd);
 int		manage_infiles(t_cmd *cmd, t_fds *fd);
 int		manage_outfiles(t_cmd *cmd, t_fds *fd);
 int		manage_heredocs(t_cmd *cmd, t_fds *fd);
-int		exec_only_builtin(char **full_cmd, int input_fd, int output_fd, t_fds *fd);
 void 	restore_std_fds(t_minishell *minishell);
-
 #endif
