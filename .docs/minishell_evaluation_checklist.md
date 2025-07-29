@@ -29,7 +29,7 @@
 
 - [!!!] **Execute a simple command with arguments** (e.g., `/bin/ls` with arguments, no quotes).
 - [!!] **Repeat with different commands/arguments.**
-  - [!!] If something crashes, select the “crash” flag.
+  - [o] If something crashes, select the “crash” flag.
   - [!!] If something doesn’t work, select the “incomplete work” flag.
 
 ---
