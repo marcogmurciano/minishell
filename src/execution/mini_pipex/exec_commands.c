@@ -57,8 +57,8 @@ static int	manual_execution(char **full_cmd, t_fds *fd, int should_exit)
 	if (is_builtin(full_cmd[0]))
 	{
 		status = execute_built_in(fd->minishell, full_cmd);
-		ft_free_array((void **)full_cmd);
-		full_cmd = NULL;
+		// ft_free_array((void **)full_cmd);
+		// full_cmd = NULL;
 		if (should_exit)
 		{
 			cleanup(fd);
@@ -112,40 +112,21 @@ int	exec_only_builtin(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
 
 //////////////////////////////////////
 
-void print_execve_args(const char *path, char **args)
+void	exec_pathed_cmd(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
 {
-    int i;
+	char	**new_argv;
+	int		i;
 
-    printf("\n----- EXECVE DEBUG INFO -----\n");
-    printf("Path: [%s]\n", path);
-    printf("Arguments:\n");
-    
-    i = 0;
-    while (args[i])
-    {
-        printf("  args[%d]: [%s]\n", i, args[i]);
-        i++;
-    }
-    printf("---------------------------\n\n");
-}
-
-/////////////////////////////////////////////////
-
-void exec_pathed_cmd(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
-{
-    char    **new_argv;
-    int     i;
-
-    i = 0;
+	i = 0;
     while (full_cmd[i])
-        i++;
-    new_argv = (char **)malloc(sizeof(char *) * (i + 1));
-    new_argv[0] = split_cmd_after_slash(full_cmd[0]);
-    i = 0;
-    while (full_cmd[++i])
-        new_argv[i] = full_cmd[i];
-    new_argv[i] = NULL;
-    if (!new_argv[0])
+		i++;
+	new_argv = (char **)malloc(sizeof(char *) * (i + 1));
+	new_argv[0] = split_cmd_after_slash(full_cmd[0]);
+	i = 0;
+	while (full_cmd[++i])
+        new_argv[i] = ft_strdup(full_cmd[i]);
+	new_argv[i] = NULL;
+	if (!new_argv[0])
         perror("pipex");
     if (dup2(input_fd, 0) == -1)
         perror("pipex");
@@ -154,13 +135,11 @@ void exec_pathed_cmd(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
     if (input_fd != -1 && input_fd != 0)
         close(input_fd);
     if (output_fd != -1 && output_fd != 1)
-        close(output_fd);
-    manual_execution(full_cmd, fd, 1);
-	//debug
-	print_execve_args(full_cmd[0], new_argv);
-	//
+		close(output_fd);
+	manual_execution(full_cmd, fd, 1);
+	// print_execve_args(full_cmd[0], new_argv);
     execve(full_cmd[0], new_argv, fd->env);
-    free(new_argv);
+    ft_free_array((void **)new_argv);
     perror("pipex");
 }
 

@@ -51,9 +51,13 @@ int	manage_outfiles(t_cmd *cmd, t_fds *fd)
 			fd->out = -1;
 		}
 		if (cmd->outfiles[i] != NULL && cmd->append)
+		{
 			fd->out = open(cmd->outfiles[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
+		}
 		if (cmd->outfiles[i] != NULL && !cmd->append)
+		{
 			fd->out = open(cmd->outfiles[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		}
 		if (fd->out == -1)
 		{
 			print_child_error(cmd->outfiles[i], fd);
@@ -77,9 +81,13 @@ int	manage_infiles(t_cmd *cmd, t_fds *fd)
 			fd->in = -1;
 		}
 		if (cmd->infiles[i] != NULL && cmd->append)
+		{
 			fd->in = open(cmd->infiles[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
+		}
 		if (cmd->infiles[i] != NULL && !cmd->append)
+		{
 			fd->in = open(cmd->infiles[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		}
 		if (fd->in == -1)
 		{
 			print_child_error(cmd->infiles[i], fd);
@@ -131,7 +139,7 @@ int	manage_heredocs(t_cmd *cmd, t_fds *fd)
 
 void	first_child(t_fds *fd, int *pipes, t_cmd *cmd)
 {
-	char *joined_cmd;
+	// char *joined_cmd;
 
 	fd->in = 0;
 	fd->out = pipes[1];
@@ -147,8 +155,9 @@ void	first_child(t_fds *fd, int *pipes, t_cmd *cmd)
 		cleanup(fd);
 		exit(127);
 	}
-	joined_cmd = join_cmd(cmd->argv);
-	if (ft_strchr(joined_cmd, '/') != NULL)
+	// joined_cmd = join_cmd(cmd->argv);
+	// if (ft_strchr(joined_cmd, '/') != NULL)
+	if (ft_strchr(cmd->argv[0], '/') != NULL)
 		exec_pathed_cmd(cmd->argv, fd->in, fd->out, fd);
 	else
 		exec_cmd(cmd->argv, fd->in, fd->out, fd);
@@ -157,9 +166,9 @@ void	first_child(t_fds *fd, int *pipes, t_cmd *cmd)
 
 void	only_child(t_fds *fd, t_cmd *cmd)
 {
-	char *joined_cmd;
-
-	joined_cmd = join_cmd(cmd->argv);
+	// char *joined_cmd;
+	
+	// joined_cmd = join_cmd(cmd->argv);
 	fd->in = 0;
 	fd->out = 1;
 	fd->in = manage_infiles(cmd, fd);
@@ -178,7 +187,10 @@ void	only_child(t_fds *fd, t_cmd *cmd)
 		cleanup(fd);
 		exit(127);
 	}
-	if (ft_strchr(joined_cmd, '/') != NULL)
+	// printf("   ... no fue el ultimo\n");
+	// joined_cmd = join_cmd(cmd->argv);
+	// if (ft_strchr(joined_cmd, '/') != NULL)
+	if (ft_strchr(cmd->argv[0], '/') != NULL)
 		exec_pathed_cmd(cmd->argv, fd->in, fd->out, fd);
 	else
 		exec_cmd(cmd->argv, fd->in, fd->out, fd);
@@ -187,9 +199,8 @@ void	only_child(t_fds *fd, t_cmd *cmd)
 
 void	middle_child(t_fds *fd, int *pipes, t_cmd *cmd)
 {
-	char *joined_cmd;
-
-	joined_cmd = join_cmd(cmd->argv);
+	// char *joined_cmd;
+	// joined_cmd = join_cmd(cmd->argv);
 	fd->in = fd->buffer;
 	fd->out = pipes[1];
 	fd->in = manage_infiles(cmd, fd);
@@ -198,7 +209,9 @@ void	middle_child(t_fds *fd, int *pipes, t_cmd *cmd)
 	fd->last_in = cmd->last_in;
 	if (process_single_command(cmd->argv, fd) != 0)
 		exit(127);
-	if (ft_strchr(joined_cmd, '/') != NULL)
+	// joined_cmd = join_cmd(cmd->argv);
+	// if (ft_strchr(joined_cmd, '/') != NULL)
+	if (ft_strchr(cmd->argv[0], '/') != NULL)
 		exec_pathed_cmd(cmd->argv, fd->in, fd->out, fd);
 	else
 		exec_cmd(cmd->argv, fd->in, fd->out, fd);
@@ -207,9 +220,9 @@ void	middle_child(t_fds *fd, int *pipes, t_cmd *cmd)
 
 void	last_child(t_fds *fd, int *pipes, t_cmd *cmd)
 {
-	char *joined_cmd;
+	// char *joined_cmd;
 
-	joined_cmd = join_cmd(cmd->argv);
+	// joined_cmd = join_cmd(cmd->argv);
 	if (pipes[1] != -1)
 		close(pipes[1]);
 	fd->in = fd->buffer;
@@ -222,7 +235,9 @@ void	last_child(t_fds *fd, int *pipes, t_cmd *cmd)
 		cleanup(fd);
 		exit(127);
 	}
-	if (ft_strchr(joined_cmd, '/') != NULL)
+	// joined_cmd = join_cmd(cmd->argv);
+	// if (ft_strchr(joined_cmd, '/') != NULL)
+	if (ft_strchr(cmd->argv[0], '/') != NULL)
 		exec_pathed_cmd(cmd->argv, fd->in, fd->out, fd);
 	else
 		exec_cmd(cmd->argv, fd->in, fd->out, fd);

@@ -13,53 +13,55 @@
 
 ## 2. Simple Command & Global Variables
 
-- [ ] **Execute a simple command** (e.g., `/bin/ls` or another command without options).
+- [x] **Execute a simple command** (e.g., `/bin/ls` or another command without options).
 - [x] **How many global variables are used? Why?**
   - [x] Ask the student for a concrete example of why a global variable is mandatory or logical.
   - [x] Check that the global variable only provides info about the number of a received signal (not more).
-- [ ] **Test:**
-  - [ ] An empty command
-  - [ ] Only spaces or tabs
-  - [ ] If something crashes, select the “crash” flag.
-  - [ ] If something doesn’t work, select the “incomplete work” flag.
+- [x] **Test:**
+  - [x] An empty command
+  - [x] Only spaces or tabs
+  - [o] If something crashes, select the “crash” flag.
+  - [o] If something doesn’t work, select the “incomplete work” flag.
 
 ---
 
 ## 3. Arguments
 
-- [ ] **Execute a simple command with arguments** (e.g., `/bin/ls` with arguments, no quotes).
-- [ ] **Repeat with different commands/arguments.**
-  - [ ] If something crashes, select the “crash” flag.
-  - [ ] If something doesn’t work, select the “incomplete work” flag.
+- [!!!] **Execute a simple command with arguments** (e.g., `/bin/ls` with arguments, no quotes).
+- [!!] **Repeat with different commands/arguments.**
+  - [!!] If something crashes, select the “crash” flag.
+  - [!!] If something doesn’t work, select the “incomplete work” flag.
 
 ---
 
 ## 4. echo
 
-- [ ] **Execute `echo`** with/without arguments, including the `-n` option.
-- [ ] **Repeat multiple times with different arguments.**
-  - [ ] If something crashes, select the “crash” flag.
-  - [ ] If something doesn’t work, select the “incomplete work” flag.
+- [x] **Execute `echo`** with/without arguments, including the `-n` option.
+- [x] **Repeat multiple times with different arguments.**
+  - [o] If something crashes, select the “crash” flag.
+  - [o] If something doesn’t work, select the “incomplete work” flag.
 
 ---
 
 ## 5. exit
 
-- [ ] **Execute `exit`** with/without arguments, multiple times.
-- [ ] **Relaunch minishell after each test.**
-  - [ ] If something crashes, select the “crash” flag.
-  - [ ] If something doesn’t work, select the “incomplete work” flag.
+- [x] **Execute `exit`** with/without arguments, multiple times.
+- [x] **Relaunch minishell after each test.**
+  - [x] If something crashes, select the “crash” flag.
+  - [x] If something doesn’t work, select the “incomplete work” flag.
 
 ---
 
 ## 6. Return Value of a Process
 
-- [ ] **Execute a command (e.g., `/bin/ls`)** and then `echo $?`.
-- [ ] **Compare with Bash results.**
-- [ ] **Repeat with wrong commands (e.g., `/bin/ls filethatdoesnotexist`).**
-- [ ] **Try expressions like `expr $? + $?`.**
-  - [ ] If something crashes, select the “crash” flag.
-  - [ ] If something doesn’t work, select the “incomplete work” flag.
+- [x] **Execute a command (e.g., `/bin/ls`)** and then `echo $?`.
+- [x] **Compare with Bash results.**
+- [!!!] **Repeat with wrong commands (e.g., `/bin/ls filethatdoesnotexist`).**
+- [x] **Try expressions like `expr $? + $?`.**
+  - [o] If something crashes, select the “crash” flag.
+  - [o] If something doesn’t work, select the “incomplete work” flag.
+
+  *TODO: path/to/command + flags FAILS *
 
 ---
 
@@ -84,25 +86,27 @@
 
 ## 8. Double Quotes
 
-- [ ] **Execute a command with arguments in double quotes (try including whitespaces).**
-- [ ] Example: `echo "cat lol.c | cat > lol.c"`
-- [ ] Try anything except `$`.
-  - [ ] If something crashes, select the “crash” flag.
-  - [ ] If something doesn’t work, select the “incomplete work” flag.
+- [x?] **Execute a command with arguments in double quotes (try including whitespaces).**
+- [x] Example: `echo "cat lol.c | cat > lol.c"`
+- [x] Try anything except `$`.
+  - [o] If something crashes, select the “crash” flag.
+  - [o] If something doesn’t work, select the “incomplete work” flag.
 
 ---
 
 ## 9. Single Quotes
 
-- [ ] **Execute commands with single quoted arguments.**
-- [ ] Try empty arguments, environment variables, whitespaces, pipes, redirection inside single quotes.
-- [ ] `echo '$USER'` should print `$USER` (nothing interpreted).
+- [x] **Execute commands with single quoted arguments.**
+- [x] Try empty arguments, environment variables, whitespaces, pipes, redirection inside single quotes.
+- [x] `echo '$USER'` should print `$USER` (nothing interpreted).
 
 ---
 
 ## 10. env
 
-- [ ] **Check if `env` displays current environment variables.**
+- [x] **Check if `env` displays current environment variables.**
+  
+  *TODO: $_ needs to be updated with every command*
 
 ---
 
@@ -115,22 +119,24 @@
 
 ## 12. unset
 
-- [ ] **Export, create, replace environment variables.**
-- [ ] **Use `unset` to remove them.**
-- [ ] **Check with `env`.**
+- [x] **Export, create, replace environment variables.**
+- [x] **Use `unset` to remove them.**
+- [x] **Check with `env`.**
 
 ---
 
 ## 13. cd
 
-- [ ] **Use `cd` to change directories, check with `/bin/ls`.**
-- [ ] **Repeat multiple times, including invalid directories, `.` and `..` arguments.**
+- [x] **Use `cd` to change directories, check with `/bin/ls`.**
+- [ ] **Repeat multiple times, including invalid directories, `.` and `..` arguments.** 
+
+  *TODO: "No such file or directory" error is missing the name of directory*
 
 ---
 
 ## 14. pwd
 
-- [ ] **Use `pwd` in various directories, multiple times.**
+- [x] **Use `pwd` in various directories, multiple times.**
 
 ---
 
@@ -143,9 +149,11 @@
 
 ## 16. Environment Path
 
-- [ ] **Execute commands without a path (e.g., `ls`, `wc`, `awk`).**
-- [ ] **Unset `$PATH` and ensure commands fail.**
+- [!!!] **Execute commands without a path (e.g., `ls`, `wc`, `awk`).**
+- [x] **Unset `$PATH` and ensure commands fail.**
 - [ ] **Set `$PATH` with multiple directories and check order of search.**
+
+  *TODO: unset PATH + /bin/ls doesn't work*
 
 ---
 
@@ -177,11 +185,11 @@
 
 ## 20. Environment Variables
 
-- [ ] **Use `echo` with environment variables (`$variable`) as arguments.**
-- [ ] **Check that `$` is interpreted as an environment variable.**
-- [ ] **Double quotes should interpolate `$`.**
-- [ ] **Check that `USER` exists (otherwise, set it).**
-- [ ] **`echo "$USER"` should print the variable value.**
+- [x] **Use `echo` with environment variables (`$variable`) as arguments.**
+- [x] **Check that `$` is interpreted as an environment variable.**
+- [x] **Double quotes should interpolate `$`.**
+- [x] **Check that `USER` exists (otherwise, set it).**
+- [x] **`echo "$USER"` should print the variable value.**
 
 ---
 

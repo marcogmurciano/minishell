@@ -6,39 +6,60 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 12:28:24 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/24 18:39:09 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/29 11:52:51 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+int change_directory(char *path, t_minishell *minishell)
+{
+	int status;
+	char *cwd[3];
+	char *new_cwd[3];
+
+	status = 0;
+	ft_bzero(cwd, sizeof(char *)*3);
+	ft_bzero(new_cwd, sizeof(char *)*3);
+	cwd[0] = "export";
+	cwd[1] = ft_strjoin_three("OLDPWD", "=", getcwd(NULL, 0));
+	status = chdir(path);
+	if(status == 0)
+	{
+		new_cwd[0] = "export";
+		new_cwd[1] = ft_strjoin_three("PWD", "=", getcwd(NULL, 0));
+		builtin_export(minishell, new_cwd);
+		builtin_export(minishell, cwd);
+		free(new_cwd[1]);
+	}
+	free(cwd[1]);
+	return (status);
+}
+
 int    builtin_cd(t_minishell *minishell, char **argv)
 {
-	char *directory;
     int argc;
 	int chdir_status;
-	int i;
 
 	(void) minishell;
 	argc = 0;
 	chdir_status = 0;
-	i = 0;
 	while (argv[argc])
 		argc++;
-	directory = ft_strjoin(getenv("PWD"), getenv("HOME"));
 	if(argc == 1)
-		chdir_status = chdir(getenv("HOME"));
+	{
+		chdir_status = change_directory(getenv("HOME"), minishell);
+	}
+	else if(argc == 2)
+	{
+		chdir_status = change_directory(argv[1], minishell);
+	}
 	else
 	{
-		while (argv[i])
-		{
-			chdir_status = chdir(argv[i]);
-			i++;
-		}
+		ft_putendl_fd("minishell: cd: too many arguments", STDERR_FILENO);
+		chdir_status = 1;
 	}
-
 	if(chdir_status == -1)
-		perror("minishell: cd1");
-	free(directory);
+		perror("minishell: cd");
     return ((unsigned int)chdir_status);
 }
