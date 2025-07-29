@@ -201,7 +201,6 @@ void	only_child(t_fds *fd, t_cmd *cmd)
 void	middle_child(t_fds *fd, int *pipes, t_cmd *cmd)
 {
 	// char *joined_cmd;
-
 	// joined_cmd = join_cmd(cmd->argv);
 	fd->in = fd->buffer;
 	fd->out = pipes[1];

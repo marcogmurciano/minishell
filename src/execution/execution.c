@@ -47,15 +47,21 @@ int	ft_cmdsize(t_cmd *lst)
 
 int execution(t_minishell *minishell)
 {
-    t_cmd *head = minishell->cmd_pipelines;
+    t_cmd *head;
     int cmd_count;
     int result;
+
+    head = minishell->cmd_pipelines;
+    if (!head)
+        return (1);
 
     //debug
     // print_cmd(head);
     cmd_count = ft_cmdsize(head);
     if (!head)
         return (1);
+    ignore_signals();
     result = ft_pipex(cmd_count, head, minishell);
+    setup_signal_handlers();
     return (result);
 }
