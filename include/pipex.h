@@ -52,7 +52,7 @@ void	first_child(t_fds *fd, int *pipes, t_cmd *cmd);
 void	middle_child(t_fds *fd, int *pipes, t_cmd *cmd);
 void	last_child(t_fds *fd, int *pipes, t_cmd *cmd);
 int		process_single_command(char **full_cmd, t_fds *fd);
-int		process_cmd_errors(char **full_cmd, char **env);
+char	*get_cmd_path(char *cmd, char **env);
 void	setup_pipes(int *pipes, int i, int how_many_cmd);
 void	manage_parent_fds(t_fds *fd, int *pipes, int i);
 void	print_child_error(char *s, t_fds *fd);
@@ -64,7 +64,7 @@ int		execute_built_in(t_minishell *minishell, char **split_cmd);
 int		manage_infiles(t_cmd *cmd, t_fds *fd);
 int		manage_outfiles(t_cmd *cmd, t_fds *fd);
 int		manage_heredocs(t_cmd *cmd, t_fds *fd);
-int		exec_only_builtin(char *cmd, int input_fd, int output_fd, t_fds *fd);
+int		exec_only_builtin(char **full_cmd, int input_fd, int output_fd, t_fds *fd);
 void 	restore_std_fds(t_minishell *minishell);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:01:16 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/24 18:40:50 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/29 14:14:19 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	builtin_exit(t_minishell *minishell, char **argv)
 		argc++;
 	if (argc == 1)
 	{
-		minishell->last_exit_status = 0;
 		exit_minishell(minishell);
 	}
 	else if (argc > 2)
@@ -36,7 +35,7 @@ int	builtin_exit(t_minishell *minishell, char **argv)
 		minishell->last_exit_status = 2;
 	}
 	else
-		minishell->last_exit_status = ft_atoi(argv[1]);
+		minishell->last_exit_status = ft_atoi(argv[1]) % 256;
 	exit_minishell(minishell);
 	return (0);
 }
