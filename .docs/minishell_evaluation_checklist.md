@@ -3,11 +3,11 @@
 ## 1. Compile
 
 - [x] **Run `make -n`**: Does it use `-Wall -Wextra -Werror`?
-  - [ ] If **not**, select the “invalid compilation” flag.
-- [ ] **Does minishell compile without any errors?**
-  - [ ] If **not**, select the flag.
-- [ ] **Does the Makefile re-link unnecessarily?**
-  - [ ] If **yes**, select the flag.
+  - [x] If **not**, select the “invalid compilation” flag.
+- [x] **Does minishell compile without any errors?**
+  - [x] If **not**, select the flag.
+- [x] **Does the Makefile re-link unnecessarily?**
+  - [x] If **yes**, select the flag.
 
 ---
 
@@ -27,10 +27,10 @@
 
 ## 3. Arguments
 
-- [!!!] **Execute a simple command with arguments** (e.g., `/bin/ls` with arguments, no quotes).
-- [!!] **Repeat with different commands/arguments.**
+- [x] **Execute a simple command with arguments** (e.g., `/bin/ls` with arguments, no quotes).
+- [x] **Repeat with different commands/arguments.**
   - [o] If something crashes, select the “crash” flag.
-  - [!!] If something doesn’t work, select the “incomplete work” flag.
+  - [o] If something doesn’t work, select the “incomplete work” flag.
 
 ---
 
@@ -56,12 +56,10 @@
 
 - [x] **Execute a command (e.g., `/bin/ls`)** and then `echo $?`.
 - [x] **Compare with Bash results.**
-- [!!!] **Repeat with wrong commands (e.g., `/bin/ls filethatdoesnotexist`).**
+- [x] **Repeat with wrong commands (e.g., `/bin/ls filethatdoesnotexist`).**
 - [x] **Try expressions like `expr $? + $?`.**
   - [o] If something crashes, select the “crash” flag.
   - [o] If something doesn’t work, select the “incomplete work” flag.
-
-  *TODO: path/to/command + flags FAILS *
 
 ---
 
@@ -76,12 +74,13 @@
   - [x] Press Enter to ensure nothing from the previous line is executed.
   - [x] `ctrl-D` does nothing.
   - [x] `ctrl-\` does nothing.
-- [ ] **During blocking command (e.g., `cat` or `grep "something"` with no input):**
-  - [ ] Test `ctrl-C`, `ctrl-\`, and `ctrl-D`.
-  - [ ] Repeat with different commands.
-  - [ ] If something crashes, select the “crash” flag.
-  - [ ] If something doesn’t work, select the “incomplete work” flag.
+- [x] **During blocking command (e.g., `cat` or `grep "something"` with no input):**
+  - [x] Test `ctrl-C`, `ctrl-\`, and `ctrl-D`.
+  - [x] Repeat with different commands.
+  - [o] If something crashes, select the “crash” flag.
+  - [o] If something doesn’t work, select the “incomplete work” flag.
 
+  *Need to recognize when process ends with 130 and add a \n*
 ---
 
 ## 8. Double Quotes
@@ -106,8 +105,6 @@
 
 - [x] **Check if `env` displays current environment variables.**
   
-  *TODO: $_ needs to be updated with every command*
-
 ---
 
 ## 11. export

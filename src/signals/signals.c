@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 12:29:40 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/29 11:58:41 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/30 10:53:29 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,25 +27,12 @@ void	sigint_handler(int signal_number)
 }
 
 /**
- * @brief Signal handler for SIGQUIT (Ctrl+\).
- *
- * @param signal_number The signal number received.
- */
-void	sigquit_handler(int signal_number)
-{
-   if (signal_number == SIGQUIT)
-	{
-      g_signal_status = SIGQUIT;
-	}
-}
-
-/**
  * @brief Setup signal handlers
  */
 void	setup_signal_handlers(void)
 {
    signal(SIGINT, sigint_handler);
-   signal(SIGQUIT, sigquit_handler);
+   signal(SIGQUIT, SIG_IGN);
 }
 
 /**
