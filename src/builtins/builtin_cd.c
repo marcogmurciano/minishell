@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 12:28:24 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/29 11:52:51 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/30 14:32:18 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,19 +47,20 @@ int    builtin_cd(t_minishell *minishell, char **argv)
 	while (argv[argc])
 		argc++;
 	if(argc == 1)
-	{
 		chdir_status = change_directory(getenv("HOME"), minishell);
-	}
 	else if(argc == 2)
-	{
 		chdir_status = change_directory(argv[1], minishell);
-	}
 	else
 	{
 		ft_putendl_fd("minishell: cd: too many arguments", STDERR_FILENO);
 		chdir_status = 1;
 	}
 	if(chdir_status == -1)
-		perror("minishell: cd");
+	{
+		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
+		ft_putstr_fd(argv[1], STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+		perror("");
+	}
     return ((unsigned int)chdir_status);
 }

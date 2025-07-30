@@ -75,12 +75,12 @@ static int	process_cmd_errors(char **full_cmd, char **env)
 	int		result;
 
 	result = 0;
-	path_cmd = get_cmd_path(join_cmd(full_cmd), env);
+	path_cmd = get_cmd_path(full_cmd[0], env);
 	if (path_cmd == NULL)
 	{
 		result = 1;
-		if (join_cmd(full_cmd) != NULL)
-			printf("pipex: command not found: %s\n", full_cmd[0]);
+		if (full_cmd[0] != NULL)
+			printf("minishell: %s: command not found\n", full_cmd[0]);
 	}
 	else
 		free(path_cmd);
@@ -97,7 +97,7 @@ int	process_single_command(char **full_cmd, t_fds *fd)
 	if (ft_strchr(full_cmd[0], '/'))
 	{
 		if (access(full_cmd[0], F_OK) != 0)
-			result = printf("pipex: command not found: %s\n", full_cmd[0]);
+			result = printf("minishell: %s: command not found\n", full_cmd[0]);
 	}
 	else
 		result = process_cmd_errors(full_cmd, fd->env);

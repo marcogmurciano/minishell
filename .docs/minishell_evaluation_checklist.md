@@ -109,8 +109,8 @@
 
 ## 11. export
 
-- [ ] **Export environment variables, create new ones, and replace old ones.**
-- [ ] **Check results with `env`.**
+- [x] **Export environment variables, create new ones, and replace old ones.**
+- [x] **Check results with `env`.**
 
 ---
 
@@ -125,9 +125,7 @@
 ## 13. cd
 
 - [x] **Use `cd` to change directories, check with `/bin/ls`.**
-- [ ] **Repeat multiple times, including invalid directories, `.` and `..` arguments.** 
-
-  *TODO: "No such file or directory" error is missing the name of directory*
+- [x] **Repeat multiple times, including invalid directories, `.` and `..` arguments.** 
 
 ---
 
@@ -141,6 +139,8 @@
 
 - [ ] **Execute commands using relative paths.**
 - [ ] **Try in different directories with complex relative paths.**
+
+  **
 
 ---
 
