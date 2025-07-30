@@ -90,20 +90,17 @@ static int	process_cmd_errors(char **full_cmd, char **env)
 int	process_single_command(char **full_cmd, t_fds *fd)
 {
 	int		result;
-	char	*joined_cmd;
 
-	joined_cmd = join_cmd(full_cmd);
 	result = 0;
 	if (is_builtin(full_cmd[0]))
 		return (0);
-	if (ft_strchr(joined_cmd, '/'))
+	if (ft_strchr(full_cmd[0], '/'))
 	{
-		if (access(joined_cmd, F_OK) != 0)
+		if (access(full_cmd[0], F_OK) != 0)
 			result = printf("pipex: command not found: %s\n", full_cmd[0]);
 	}
 	else
 		result = process_cmd_errors(full_cmd, fd->env);
-	free(joined_cmd);
 	return (result);
 }
 
