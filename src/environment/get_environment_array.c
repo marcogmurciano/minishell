@@ -2,19 +2,15 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   get_environment_array.c                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
-	+:+     */
-/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+      
-	+#+        */
-/*                                                +#+#+#+#+#+  
-	+#+           */
-/*   Created: 2025/06/30 11:25:22 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/15 11:39:24 by dbarba-v         ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/30 12:07:09 by dbarba-v          #+#    #+#             */
+/*   Updated: 2025/07/30 13:17:10 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
 
 /**
  * @brief Counts the number of environment variables in the linked list.
