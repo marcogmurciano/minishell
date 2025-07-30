@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 12:29:40 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/30 10:53:29 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/30 13:20:47 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@
  */
 void	sigint_handler(int signal_number)
 {
-   if (signal_number == SIGINT) 
-   {
-      clear_line_and_newline();
-	   g_signal_status = SIGINT;
-   }
+	if (signal_number == SIGINT)
+	{
+		clear_line_and_newline();
+		g_signal_status = SIGINT;
+	}
 }
 
 /**
@@ -31,8 +31,8 @@ void	sigint_handler(int signal_number)
  */
 void	setup_signal_handlers(void)
 {
-   signal(SIGINT, sigint_handler);
-   signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 /**
@@ -47,7 +47,7 @@ void	default_signals(void)
 /**
  * @brief Ignore signals when child processes running for parent processes
  */
-void ignore_signals(void)
+void	ignore_signals(void)
 {
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);

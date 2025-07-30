@@ -103,4 +103,3 @@ int	process_single_command(char **full_cmd, t_fds *fd)
 		result = process_cmd_errors(full_cmd, fd->env);
 	return (result);
 }
-

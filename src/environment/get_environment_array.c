@@ -20,7 +20,7 @@
  */
 static int	env_count(t_env *env)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	while (env)
@@ -59,8 +59,8 @@ static void	free_envp(char **envp, int i)
  */
 char	**get_environment_array(t_env *env)
 {
-	char **envp;
-	int i;
+	char	**envp;
+	int		i;
 
 	envp = malloc(sizeof(char *) * (env_count(env) + 1));
 	if (!envp)

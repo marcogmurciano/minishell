@@ -18,7 +18,7 @@
  */
 void	exit_minishell(t_minishell *minishell)
 {
-	int exit_status;
+	int	exit_status;
 
 	exit_status = minishell->last_exit_status;
 	free_minishell(minishell);

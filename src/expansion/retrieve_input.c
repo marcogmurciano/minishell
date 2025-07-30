@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 12:55:30 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/22 16:23:03 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/30 13:24:11 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static char	*expanded_token_value(t_token *token)
 {
 	if (token->value == NULL || *(token->value) == 0)
 	{
-		return ft_strdup("_EMPTY_");
+		return (ft_strdup("_EMPTY_"));
 	}
 	if (token->quote_type == SINGLE_QUOTE)
 		return (ft_strjoin_three("'", ft_strdup(token->value), "'"));

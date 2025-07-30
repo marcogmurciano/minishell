@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:05:01 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/18 12:11:08 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/30 13:21:04 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	add_word_token(t_token **token_head, t_token_type t_type, char *word,
 		token_last->next = new_token;
 		new_token->prev = token_last;
 	}
-	if(quote[-1] && ft_isspace(quote[-1]))
+	if (quote[-1] && ft_isspace(quote[-1]))
 		new_token->spaced = 1;
 	return (0);
 }

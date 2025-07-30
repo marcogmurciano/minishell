@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 10:57:28 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/22 20:26:26 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/30 13:22:28 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@
  * Recreates array + 1 in size and inserts the given infile in the first pos,
  * copies the rest.
  */
-char  **insert_into_array(char *infile, char **array, t_minishell *minishell)
+char	**insert_into_array(char *infile, char **array, t_minishell *minishell)
 {
-	char **new_array;
-	int new_array_size;
-	int i;
+	char	**new_array;
+	int		new_array_size;
+	int		i;
 
 	new_array_size = 0;
-	while(array && array[new_array_size])
+	while (array && array[new_array_size])
 		new_array_size++;
 	new_array = ft_calloc(new_array_size + 2, sizeof(char *));
 	if (!new_array)
@@ -36,23 +36,23 @@ char  **insert_into_array(char *infile, char **array, t_minishell *minishell)
 	}
 	new_array[i] = infile;
 	ft_free_array((void **)array);
-	return(new_array);
+	return (new_array);
 }
 
 /**
  * From the given segments it builds an array of all infiles
  */
-char **get_infile_array(t_minishell *minishell, t_token *segment)
+char	**get_infile_array(t_minishell *minishell, t_token *segment)
 {
-	t_token *current;
-	char 	*infile;
+	t_token	*current;
+	char	*infile;
 	char	**array;
 
 	array = ft_calloc(1, sizeof(char *));
-	if(!array)
+	if (!array)
 		malloc_error(minishell);
 	current = segment;
-	while(current && current->next)
+	while (current && current->next)
 	{
 		if (current->token_type == TOKEN_REDIR_IN)
 		{
@@ -71,21 +71,23 @@ char **get_infile_array(t_minishell *minishell, t_token *segment)
 }
 
 /**
- * From the given segments it builds an array of all outfiles (append and redirections)
+
+	* From the given segments it builds an array of all outfiles 
+	  (append and redirections)
  */
-char **get_outfile_array(t_minishell *minishell, t_token *segment)
+char	**get_outfile_array(t_minishell *minishell, t_token *segment)
 {
-	t_token *current;
-	char 	*outfile;
+	t_token	*current;
+	char	*outfile;
 	char	**array;
 
 	array = ft_calloc(1, sizeof(char *));
-	if(!array)
+	if (!array)
 		malloc_error(minishell);
 	current = segment;
-	while(current && current->next)
+	while (current && current->next)
 	{
-		if (current->token_type == TOKEN_REDIR_OUT 
+		if (current->token_type == TOKEN_REDIR_OUT
 			|| current->token_type == TOKEN_APPEND)
 		{
 			current = current->next;
@@ -105,17 +107,17 @@ char **get_outfile_array(t_minishell *minishell, t_token *segment)
 /**
  * From the given segments it builds an array of all heredoc delimiters
  */
-char **get_heredoc_array(t_minishell *minishell, t_token *segment)
+char	**get_heredoc_array(t_minishell *minishell, t_token *segment)
 {
-	t_token *current;
-	char 	*delimiter;
+	t_token	*current;
+	char	*delimiter;
 	char	**array;
 
 	array = ft_calloc(1, sizeof(char *));
-	if(!array)
+	if (!array)
 		malloc_error(minishell);
 	current = segment;
-	while(current && current->next)
+	while (current && current->next)
 	{
 		if (current->token_type == TOKEN_HEREDOC)
 		{
@@ -145,8 +147,8 @@ int	get_append_status(t_token *segment)
 	}
 	while (current && current->prev != NULL)
 	{
-		if(current->token_type == TOKEN_APPEND_FILE ||
-			current->token_type == TOKEN_REDIR_OUT_FILE)
+		if (current->token_type == TOKEN_APPEND_FILE
+			|| current->token_type == TOKEN_REDIR_OUT_FILE)
 		{
 			if (current->token_type == TOKEN_APPEND_FILE)
 				return (1);
@@ -158,10 +160,10 @@ int	get_append_status(t_token *segment)
 	return (0);
 }
 
-int get_last_in_type(t_token *segment)
+int	get_last_in_type(t_token *segment)
 {
-	t_token* current;
-	int i;
+	t_token	*current;
+	int		i;
 
 	i = 0;
 	current = segment;
@@ -173,5 +175,5 @@ int get_last_in_type(t_token *segment)
 			i = 0;
 		current = current->next;
 	}
-	return (i);	
+	return (i);
 }

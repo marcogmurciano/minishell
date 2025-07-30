@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 14:44:47 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/22 12:01:45 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/30 13:21:55 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ static int	check_heredoc(t_minishell *minishell, t_token *token)
 
 static int	check_pipe(t_minishell *minishell, t_token *token)
 {
-	if (token->next && (token->next->token_type != TOKEN_CMD &&
-		token->next->token_type != TOKEN_REDIR_IN &&
-		token->next->token_type != TOKEN_REDIR_OUT &&
-		token->next->token_type != TOKEN_HEREDOC &&
-		token->next->token_type != TOKEN_APPEND))
+	if (token->next && (token->next->token_type != TOKEN_CMD
+			&& token->next->token_type != TOKEN_REDIR_IN
+			&& token->next->token_type != TOKEN_REDIR_OUT
+			&& token->next->token_type != TOKEN_HEREDOC
+			&& token->next->token_type != TOKEN_APPEND))
 		return (syntax_error(NULL, minishell, 3));
 	return (0);
 }
@@ -50,12 +50,11 @@ static int	check_for_unsupported_characters(t_minishell *minishell,
 {
 	if (token->quote_type == DOUBLE_QUOTE || token->quote_type == NON_QUOTE)
 	{
-		if ((token->value[1] == '\0') &&
-			(token->value[0] == '\\' || token->value[0] == ';'
-			|| token->value[0] == '&' || token->value[0] == '?' 
-			|| token->value[0] == '{' || token->value[0] == '}' 
-			|| token->value[0] == ')' || token->value[0] == '(' 
-			|| token->value[0] == '!'))
+		if ((token->value[1] == '\0') && (token->value[0] == '\\'
+				|| token->value[0] == ';' || token->value[0] == '&'
+				|| token->value[0] == '?' || token->value[0] == '{'
+				|| token->value[0] == '}' || token->value[0] == ')'
+				|| token->value[0] == '(' || token->value[0] == '!'))
 		{
 			syntax_error(NULL, minishell, 0);
 			return (1);

@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 10:34:32 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/23 13:04:14 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/30 13:28:01 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,9 @@ void	print_cmd(t_cmd *cmd)
 
 void	print_environ(t_env *env)
 {
-	t_env *curr = env;
+	t_env	*curr;
+
+	curr = env;
 	while (curr)
 	{
 		printf("%s=%s\n", curr->key, curr->value);

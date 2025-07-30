@@ -82,7 +82,6 @@ int	ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell)
 					fd.heredoc = -1;
 				}
 				cleanup(&fd);
-				// printf("ultimo tras process single command\n");
 				exit(127);
 			}
 			status = exec_only_builtin((cmd_list->argv), fd.in, fd.out, &fd);
