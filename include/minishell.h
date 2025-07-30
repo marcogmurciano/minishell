@@ -74,6 +74,7 @@ void	tokenization(t_minishell *minishell);
 
 int		handle_operator(t_token **token_head, t_minishell *minishell, int i);
 int		handle_quoted_word(t_token **token_head, t_minishell *minishell, int i);
+int		handle_ansi_c_quoted_word(t_token **token_head, t_minishell *minishell, int i);
 int		handle_nonquoted_word(t_token **token_head, t_minishell *minishell, int i);
 
 char	*get_quoted_word(t_minishell *minishell, char delimiter, int i);

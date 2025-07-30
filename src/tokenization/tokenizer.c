@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:01:24 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/18 12:11:48 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/30 21:07:27 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ static t_token	*tokenizer(t_minishell *minishell)
 			i++;
 		else if (ft_isoperator(minishell->input, i))
 			i += handle_operator(&token_head, minishell, i);
+		else if (minishell->input[i] == '$'
+				&& minishell->input[i + 1] && ft_isquote(minishell->input, i + 1))
+			i += handle_ansi_c_quoted_word(&token_head, minishell, i);
 		else if (ft_isquote(minishell->input, i))
 			i += handle_quoted_word(&token_head, minishell, i);
 		else
