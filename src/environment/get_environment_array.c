@@ -77,8 +77,8 @@ char	**get_environment_array(t_env *env)
 			envp[i] = ft_strjoin_three(env->key, "=", env->value);
 			if (!envp[i])
 				return (free_envp(envp, i), NULL);
+			i++;
 		}
-		i++;
 		env = env->next;
 	}
 	envp[i] = NULL;
