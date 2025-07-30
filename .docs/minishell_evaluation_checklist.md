@@ -146,11 +146,9 @@
 
 ## 16. Environment Path
 
-- [!!!] **Execute commands without a path (e.g., `ls`, `wc`, `awk`).**
-- [x] **Unset `$PATH` and ensure commands fail.**
+- [x] **Execute commands without a path (e.g., `ls`, `wc`, `awk`).**
+- [ ] **Unset `$PATH` and ensure commands fail.**
 - [ ] **Set `$PATH` with multiple directories and check order of search.**
-
-  *TODO: unset PATH + /bin/ls doesn't work*
 
 ---
 
