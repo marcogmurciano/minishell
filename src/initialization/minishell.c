@@ -22,12 +22,14 @@
  * @param minishell Pointer to the t_minishell structure to initialize.
  * @param envp      The environment variable array from main().
  */
-void	initialize_minishell(t_minishell *minishell, char **envp)
+void	init_mini(t_minishell *minishell, int argc, char **argv, char **envp)
 {
 	ft_bzero(minishell, sizeof(t_minishell));
 	minishell->environment = regenerate_environment(envp);
 	minishell->environment = check_environment(minishell);
 	minishell->envp = get_environment_array(minishell->environment);
+	minishell->argv = argv;
+	minishell->argc = argc;
 	minishell->pid = -1;
 	minishell->last_exit_status = -1;
 	minishell->duplicated_std_fds[0] = dup(STDIN_FILENO);

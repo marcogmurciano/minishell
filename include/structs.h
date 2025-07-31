@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 16:41:19 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/23 12:08:27 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/31 10:43:05 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ typedef struct		s_token
 typedef struct		s_minishell
 {
 	char			**envp;
+	char			**argv;
+	int				argc;
 	char			*input;
 	int				last_exit_status;		// "$?"
 	int				duplicated_std_fds[2];

@@ -50,7 +50,7 @@ void	clear_line_and_newline(void);
 //
 //
 
-void	initialize_minishell(t_minishell *minishell, char **envp);
+void	init_mini(t_minishell *minishell, int argc, char **argv, char **envp);
 
 ///////////////////////////////////////////////////////////////////////////////
 //

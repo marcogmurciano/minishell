@@ -49,14 +49,22 @@ char	*extract_var_name(char *str, int variable_start,
 		int *variable_name_length)
 {
 	char	*variable_name;
+	char 	first_char;
 	int		i;
 
 	i = 0;
-	while (str[variable_start + i] && !ft_isspace(str[variable_start + i])
-		&& str[variable_start + i] != '|' && str[variable_start + i] != '<'
-		&& str[variable_start + i] != '>' && str[variable_start + i] != '\''
-		&& str[variable_start + i] != '\"' && str[variable_start + i] != '$')
-		i++;
+	first_char = str[variable_start];
+	if(ft_isdigit(first_char))
+		i = 1;
+	else
+	{
+		while (str[variable_start + i] && !ft_isspace(str[variable_start + i])
+			&& str[variable_start + i] != '|' && str[variable_start + i] != '<'
+			&& str[variable_start + i] != '>' && str[variable_start + i] != '\''
+			&& str[variable_start + i] != '\"' && str[variable_start + i] != '$'
+			&& (ft_isalnum(str[variable_start + i]) || str[variable_start + i] == '_'))
+			i++;
+	}
 	variable_name = ft_substr(str, variable_start, i);
 	*variable_name_length = ft_strlen(variable_name);
 	return (variable_name);
