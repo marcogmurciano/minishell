@@ -106,6 +106,8 @@ int		find_dollar(char *str);
 char	*retrieve_new_input(t_minishell *minishell);
 char	*extract_var_name(char *str, int variable_start, int *variable_name_length);
 char	*get_variable_value(t_minishell *minishell, char *variable_name);
+int		get_heredoc_expansion_status(t_token *segment);
+char	*expand_heredoc_line(t_minishell *minishell, char *line);
 
 ///////////////////////////////////////////////////////////////////////////////
 //

@@ -104,8 +104,11 @@ int	manage_heredocs(t_cmd *cmd, t_fds *fd)
 	char *line;
 	char *filepath;
 	char *filenum;
+	char *final_line;
+	char *last_filepath;
 
 	i = 0;
+	final_line = NULL;
 	while (cmd->heredocs[i])
 	{
 		filenum = ft_itoa(i);
@@ -126,26 +129,48 @@ int	manage_heredocs(t_cmd *cmd, t_fds *fd)
 			line = readline("> ");
 			if (line)
 			{
-				if(ft_strcmp(line, cmd->heredocs[i]))
-					ft_putendl_fd(line, fd->heredoc);
-				else
+				if(ft_strcmp(line, cmd->heredocs[i]) == 0)
 				{
 					free(line);
 					close(fd->heredoc);
 					fd->heredoc = -1;
 					break;
 				}
+				if(cmd->expand_heredoc_content)
+				{
+					final_line = expand_heredoc_line(fd->minishell, line);
+				}
+				else
+				{
+					final_line = ft_strdup(line);
+				}
+				ft_putendl_fd(line, fd->heredoc);
 				free(line);
+				free(final_line);
 			}
 			else
 			{
 				printf("minishell: warning: here-document delimited by end-of-file (wanted `%s')\n", cmd->heredocs[i]);
+				close(fd->heredoc);
+				fd->heredoc = -1;
 				break;
 			}
 		}
-		free(filepath);
+		if (last_filepath)
+			free(last_filepath);
+		last_filepath = filepath;
 		i++;
 	}
+	if (cmd->last_in == 0 && last_filepath)
+	{
+		if (fd->in != 0 && fd->in != -1)
+			close(fd->in);
+		fd->in = open(last_filepath, O_RDONLY);
+		if (fd->in == -1)
+			perror("Error opening heredoc file for reading");
+	}
+	if (last_filepath)
+		free(last_filepath);
 	return (fd->heredoc);
 }
 
@@ -156,8 +181,8 @@ void	first_child(t_fds *fd, int *pipes, t_cmd *cmd)
 	fd->in = 0;
 	fd->out = pipes[1];
 	fd->in = manage_infiles(cmd, fd);
-	fd->heredoc = manage_heredocs(cmd, fd);
 	fd->out = manage_outfiles(cmd, fd);
+	fd->heredoc = manage_heredocs(cmd, fd);
 	fd->last_in = cmd->last_in;
 	if (process_single_command(cmd->argv, fd) != 0)
 	{

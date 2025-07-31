@@ -98,3 +98,63 @@ char	*get_variable_value(t_minishell *minishell, char *variable_name)
 	}
 	return (NULL);
 }
+
+static char	*expansor_line(t_minishell *minishell, char *str)
+{
+	int		dollar_pos;
+	int		var_start;
+	int		var_name_length;
+	char	*var_name;
+	char	*var_value;
+	char	*prefix;
+	char	*suffix;
+	char	*result;
+
+	dollar_pos = find_dollar(str);
+	if (dollar_pos < 0)
+		return (ft_strdup(str));
+	
+	var_start = dollar_pos + 1;
+	var_name_length = 0;
+	var_name = extract_var_name(str, var_start, &var_name_length);
+	var_value = get_variable_value(minishell, var_name);
+	if (!var_value)
+		var_value = ft_strdup("");
+	
+	prefix = ft_substr(str, 0, dollar_pos);
+	suffix = ft_substr(str, var_start + var_name_length,
+			ft_strlen(str) - (var_start + var_name_length));
+	result = ft_strjoin_three(prefix, var_value, suffix);
+	
+	free(var_name);
+	free(var_value);
+	free(prefix);
+	free(suffix);
+	return (result);
+}
+
+char	*expand_heredoc_line(t_minishell *minishell, char *line)
+{
+	char	*expanded;
+	char	*old;
+
+	if (!line || !ft_strchr(line, '$'))
+		return (ft_strdup(line));
+	
+	expanded = ft_strdup(line);
+	while (ft_strchr(expanded, '$'))
+	{
+		if (ft_strcmp(expanded, "$?") == 0)
+		{
+			free(expanded);
+			expanded = ft_itoa(minishell->last_exit_status);
+		}
+		else
+		{
+			old = expanded;
+			expanded = expansor_line(minishell, old);
+			free(old);
+		}
+	}
+	return (expanded);
+}

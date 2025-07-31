@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 10:57:28 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/30 13:22:28 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/07/31 21:26:31 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,4 +176,26 @@ int	get_last_in_type(t_token *segment)
 		current = current->next;
 	}
 	return (i);
+}
+
+int	get_heredoc_expansion_status(t_token *segment)
+{
+	t_token	*current;
+	int		last_heredoc;
+
+	current = segment;
+	last_heredoc = 0;
+	while (current && current->next)
+	{
+		if (current->token_type == TOKEN_HEREDOC)
+		{
+			current = current->next;
+			if (current->quote_type == NON_QUOTE)
+				last_heredoc = 1;
+			else
+				last_heredoc = 0;
+		}
+		current = current->next;
+	}
+	return (last_heredoc);
 }
