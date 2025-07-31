@@ -45,7 +45,7 @@ int	manage_outfiles(t_cmd *cmd, t_fds *fd)
 	i = 0;
 	while (cmd->outfiles[i])
 	{
-		if (fd->out != -1)
+		if (fd->out != -1 && fd->out != 1)
 		{
 			close (fd->out);
 			fd->out = -1;
@@ -75,7 +75,7 @@ int	manage_infiles(t_cmd *cmd, t_fds *fd)
 	i = 0;
 	while (cmd->infiles[i])
 	{
-		if (fd->in != -1)
+		if (fd->in != -1 && fd->out != 0)
 		{
 			close (fd->in);
 			fd->in = -1;
