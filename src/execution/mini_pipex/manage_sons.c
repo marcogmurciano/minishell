@@ -102,36 +102,48 @@ int	manage_heredocs(t_cmd *cmd, t_fds *fd)
 {
 	int i;
 	char *line;
+	char *filepath;
+	char *filenum;
 
 	i = 0;
 	while (cmd->heredocs[i])
 	{
+		filenum = ft_itoa(i);
+		filepath = ft_strjoin("/tmp/.heredoc_minishell", filenum);
+		free(filenum);
 		if (fd->heredoc != -1)
 		{
 			close (fd->heredoc);
 			fd->heredoc = -1;
 		}
-		if (access("/tmp/.heredoc", F_OK) == 0)
-			unlink("/tmp/.heredoc");
-		fd->heredoc = open("/tmp/.heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (access(filepath, F_OK) == 0)
+			unlink(filepath);
+		fd->heredoc = open(filepath, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		if(fd->heredoc == -1)
+			perror("");
 		while (1)
 		{
 			line = readline("> ");
-			if (!line)
+			if (line)
+			{
+				if(ft_strcmp(line, cmd->heredocs[i]))
+					ft_putendl_fd(line, fd->heredoc);
+				else
+				{
+					free(line);
+					close(fd->heredoc);
+					fd->heredoc = -1;
+					break;
+				}
+				free(line);
+			}
+			else
 			{
 				printf("minishell: warning: here-document delimited by end-of-file (wanted `%s')", cmd->heredocs[i]);
-			}
-			else if(ft_strcmp(line, cmd->heredocs[i]) != 0)
-				ft_putstr_fd(line, fd->heredoc);
-			else if(ft_strcmp(line, cmd->heredocs[i]) == 0)
-			{
-				free(line);
-				close(fd->heredoc);
-				fd->heredoc = -1;
 				break;
 			}
-			free(line);
 		}
+		free(filepath);
 		i++;
 	}
 	return (fd->heredoc);
