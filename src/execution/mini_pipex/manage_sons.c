@@ -139,7 +139,7 @@ int	manage_heredocs(t_cmd *cmd, t_fds *fd)
 			}
 			else
 			{
-				printf("minishell: warning: here-document delimited by end-of-file (wanted `%s')", cmd->heredocs[i]);
+				printf("minishell: warning: here-document delimited by end-of-file (wanted `%s')\n", cmd->heredocs[i]);
 				break;
 			}
 		}
@@ -156,8 +156,8 @@ void	first_child(t_fds *fd, int *pipes, t_cmd *cmd)
 	fd->in = 0;
 	fd->out = pipes[1];
 	fd->in = manage_infiles(cmd, fd);
-	fd->out = manage_outfiles(cmd, fd);
 	fd->heredoc = manage_heredocs(cmd, fd);
+	fd->out = manage_outfiles(cmd, fd);
 	fd->last_in = cmd->last_in;
 	if (process_single_command(cmd->argv, fd) != 0)
 	{
@@ -188,7 +188,7 @@ void	only_child(t_fds *fd, t_cmd *cmd)
 	fd->heredoc = manage_heredocs(cmd, fd);
 	fd->last_in = cmd->last_in;
 	//debug
-	// printf("llega a only child\n");
+	//printf("llega a only child\n");
 	//
 	if (process_single_command(cmd->argv, fd) != 0)
 	{

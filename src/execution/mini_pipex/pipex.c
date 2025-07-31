@@ -85,12 +85,12 @@ int	ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell)
 				exit(127);
 			}
 			status = exec_only_builtin((cmd_list->argv), fd.in, fd.out, &fd);
-			restore_std_fds(fd.minishell);
 			cleanup(&fd);
 			return (status);
 		}
 		pid = fork();
 		minishell->pid = pid;
+		ignore_signals();
 		if (pid == 0)
 		{
 			default_signals();
