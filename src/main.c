@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:06:14 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/01 10:29:17 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/01 14:06:20 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,12 @@ static void	minishell_loop(t_minishell *minishell)
 		setup_signal_handlers();
 		get_signal_exit(minishell);
 		minishell->input = get_prompt_input(minishell);
-		if (!minishell->input)
-		{
+		if (minishell->input == NULL)
 			exit_minishell(minishell);
-		}
 		if (tokenization(minishell) == 1)
 			continue ;
 		if (syntax_analysis(minishell) == 1)
 			continue ;
-
 		minishell->last_exit_status = execution(minishell);
 		printf("LAST EXIT CODE: %d\n", minishell->last_exit_status);
 		free_cmds(&(minishell->cmd_pipelines));
