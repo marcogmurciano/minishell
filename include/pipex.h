@@ -13,14 +13,14 @@
 #ifndef PIPEX_H
 # define PIPEX_H
 
-#include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/wait.h>
-#include <unistd.h>
-#include <errno.h>
-#include "structs.h"
+# include <fcntl.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <sys/wait.h>
+# include <unistd.h>
+# include <errno.h>
+# include "structs.h"
 
 typedef struct s_fds
 {

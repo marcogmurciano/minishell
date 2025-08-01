@@ -6,12 +6,12 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 16:41:19 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/01 09:46:28 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/01 15:36:05 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
-#define STRUCTS_H
+# define STRUCTS_H
 
 /**
  * Types of tokens

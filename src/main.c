@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:06:14 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/01 14:06:20 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/01 15:37:24 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ static void	minishell_loop(t_minishell *minishell)
 		if (syntax_analysis(minishell) == 1)
 			continue ;
 		minishell->last_exit_status = execution(minishell);
-		printf("LAST EXIT CODE: %d\n", minishell->last_exit_status);
+		if(minishell->last_exit_status == 130)
+			write(1,"\n", 1);
 		free_cmds(&(minishell->cmd_pipelines));
 	}
 }

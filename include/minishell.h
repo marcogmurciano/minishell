@@ -13,15 +13,15 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include "../../libft/include/libft.h"
-#include "readline/history.h"
-#include "readline/readline.h"
-#include <signal.h>
-#include <linux/limits.h>
-#include <stdio.h>
-#include <unistd.h>
-#include "pipex.h"
-#include "structs.h"
+# include "../../libft/include/libft.h"
+# include "readline/history.h"
+# include "readline/readline.h"
+# include <signal.h>
+# include <linux/limits.h>
+# include <stdio.h>
+# include <unistd.h>
+# include "pipex.h"
+# include "structs.h"
 
 /**
  * Signals global variable
