@@ -306,6 +306,7 @@ int	create_children(t_fds *fd, t_cmd *cmds, char **env, int i)
 	setup_pipes(pipes, i, fd->how_many_cmd);
 	if (i == fd->how_many_cmd)
 		return (cleanup(fd));
+	ignore_signals();
 	pid = fork();
 	fd->minishell->pid = pid;
 	if (pid == 0)
