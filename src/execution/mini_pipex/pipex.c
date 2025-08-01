@@ -51,6 +51,7 @@ int	ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell)
 	fd.buffer = -1;
 	fd.status = -1;
 	fd.how_many_cmd = ac;
+	fd.pid_array = ft_calloc(ac, (sizeof(int *) + 1));
 	if (fd.how_many_cmd == 1)
 	{
 		if (is_builtin(cmd_list->argv[0]))
@@ -62,9 +63,6 @@ int	ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell)
 			if(cmd_list->heredocs && cmd_list->heredocs[0])
 				fd.heredoc = manage_heredocs(cmd_list, &fd);
 			fd.last_in = cmd_list->last_in;
-			//debug
-			// printf("llega a only child\n");
-			//
 			if (process_single_command(cmd_list->argv, &fd) != 0)
 			{
 				if (fd.in != 0 && fd.in != -1)

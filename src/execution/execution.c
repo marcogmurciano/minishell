@@ -59,7 +59,6 @@ int execution(t_minishell *minishell)
     cmd_count = ft_cmdsize(head);
     if (!head)
         return (1);
-    //ignore_signals();
     result = ft_pipex(cmd_count, head, minishell);
     setup_signal_handlers();
     return (result);

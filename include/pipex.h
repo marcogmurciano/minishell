@@ -37,6 +37,7 @@ typedef struct s_fds
 	int			status;
 	int			has_infile;
 	int			has_outfile;
+	int			*pid_array;
 	t_minishell	*minishell;
 }			t_fds;
 
