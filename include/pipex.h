@@ -45,7 +45,7 @@ void	exec_pathed_cmd(char **full_cmd, int input_fd, int output_fd, t_fds *fd);
 void	exec_cmd(char **full_cmd, int input_fd, int output_fd, t_fds *fd);
 int		exec_only_builtin(char **cmd, int input_fd, int output_fd, t_fds *fd);
 int		cleanup(t_fds *fd);
-int		create_children(t_fds *fd, t_cmd *cmds, char **env, int i);
+int		create_children(t_fds *fd, t_cmd *cmds);
 char	*get_cmd_path(char *cmd, char **env);
 void	free_bidimensional_array(char **arr);
 char	*split_cmd_after_slash(const char *s);

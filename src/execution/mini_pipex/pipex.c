@@ -96,9 +96,13 @@ int	ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell)
 			only_child(&fd, cmd_list);
 		}
 		waitpid(pid, &(fd.status), 0);
-		return (WEXITSTATUS(fd.status));
+		if (WIFEXITED(fd.status))
+			return WEXITSTATUS(fd.status);
+		if (WIFSIGNALED(fd.status))
+			return (128 + WTERMSIG(fd.status));
+		return (fd.status);
 	}
-	return (create_children(&fd, cmd_list, fd.env, 0));
+	return (create_children(&fd, cmd_list));
 }
 
 void restore_std_fds(t_minishell *minishell)

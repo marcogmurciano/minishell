@@ -284,8 +284,6 @@ void	last_child(t_fds *fd, int *pipes, t_cmd *cmd)
 		cleanup(fd);
 		exit(127);
 	}
-	// joined_cmd = join_cmd(cmd->argv);
-	// if (ft_strchr(joined_cmd, '/') != NULL)
 	if (ft_strchr(cmd->argv[0], '/') != NULL)
 		exec_pathed_cmd(cmd->argv, fd->in, fd->out, fd);
 	else
@@ -300,7 +298,7 @@ static void	saturn_devours_children(int *pids)
 	i = 1;
 	while (pids[i])
 	{
-		kill(pids[i], SIGKILL);
+		kill(pids[i], SIGINT);
 		i++;
 	}
 }
@@ -312,25 +310,23 @@ static int	wait_children(t_fds *fd)
 
 	i = 0;
 	status = 0;
-	// metralleta:
 	waitpid(fd->pid_array[i], &status, 0);
 	i++;
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 		saturn_devours_children(fd->pid_array);
-	//
 	while (i < fd->how_many_cmd)
 	{
 		waitpid(fd->pid_array[i], &status, 0);
 		i++;
 	}
 	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	else if (WIFSIGNALED(status))
+		return WEXITSTATUS(status);
+	if (WIFSIGNALED(status))
 		return (128 + WTERMSIG(status));
 	return (status);
 }
 
-int	create_children(t_fds *fd, t_cmd *cmds, char **env)
+int	create_children(t_fds *fd, t_cmd *cmds)
 {
 	int i = 0;
 	int pipes[2];
@@ -360,5 +356,5 @@ int	create_children(t_fds *fd, t_cmd *cmds, char **env)
 		cur = cur->next;
 		i++;
 	}
-	return (0);
+	return (wait_children(fd));
 }
