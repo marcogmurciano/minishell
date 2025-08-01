@@ -86,15 +86,8 @@ int	manage_infiles(t_cmd *cmd, t_fds *fd)
 			close(fd->in);
 			fd->in = -1;
 		}
-		if (cmd->infiles[i] != NULL && cmd->append)
-		{
-			fd->in = open(cmd->infiles[i], O_WRONLY | O_CREAT | O_APPEND,
-					0644);
-		}
-		if (cmd->infiles[i] != NULL && !cmd->append)
-		{
-			fd->in = open(cmd->infiles[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		}
+		if (cmd->infiles[i] != NULL)
+			fd->in = open(cmd->infiles[i], O_RDONLY);
 		if (fd->in == -1)
 		{
 			print_child_error(cmd->infiles[i], fd);
