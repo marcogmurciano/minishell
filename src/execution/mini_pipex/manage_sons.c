@@ -18,9 +18,9 @@
 
 char	*join_cmd(char **cmd)
 {
-	int i;
-	char *t;
-	char *r;
+	int		i;
+	char	*t;
+	char	*r;
 
 	r = NULL;
 	i = 0;
@@ -44,7 +44,7 @@ char	*join_cmd(char **cmd)
 
 int	manage_outfiles(t_cmd *cmd, t_fds *fd)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (cmd->outfiles[i])
@@ -55,15 +55,9 @@ int	manage_outfiles(t_cmd *cmd, t_fds *fd)
 			fd->out = -1;
 		}
 		if (cmd->outfiles[i] != NULL && cmd->append)
-		{
-			fd->out = open(cmd->outfiles[i], O_WRONLY | O_CREAT | O_APPEND,
-					0644);
-		}
+			fd->out = open(cmd->outfiles[i], 73, 420);
 		if (cmd->outfiles[i] != NULL && !cmd->append)
-		{
-			fd->out = open(cmd->outfiles[i], O_WRONLY | O_CREAT | O_TRUNC,
-					0644);
-		}
+			fd->out = open(cmd->outfiles[i], 577, 420);
 		if (fd->out == -1)
 		{
 			print_child_error(cmd->outfiles[i], fd);
@@ -76,7 +70,7 @@ int	manage_outfiles(t_cmd *cmd, t_fds *fd)
 
 int	manage_infiles(t_cmd *cmd, t_fds *fd)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (cmd->infiles[i])
@@ -100,12 +94,12 @@ int	manage_infiles(t_cmd *cmd, t_fds *fd)
 
 int	manage_heredocs(t_cmd *cmd, t_fds *fd)
 {
-	int i;
-	char *line;
-	char *filepath;
-	char *filenum;
-	char *final_line;
-	char *last_filepath;
+	int		i;
+	char	*line;
+	char	*filepath;
+	char	*filenum;
+	char	*final_line;
+	char	*last_filepath;
 
 	i = 0;
 	final_line = NULL;
@@ -177,8 +171,6 @@ int	manage_heredocs(t_cmd *cmd, t_fds *fd)
 
 void	first_child(t_fds *fd, int *pipes, t_cmd *cmd)
 {
-	// char *joined_cmd;
-
 	fd->in = 0;
 	fd->out = pipes[1];
 	fd->in = manage_infiles(cmd, fd);
@@ -194,8 +186,6 @@ void	first_child(t_fds *fd, int *pipes, t_cmd *cmd)
 		cleanup(fd);
 		exit(127);
 	}
-	// joined_cmd = join_cmd(cmd->argv);
-	// if (ft_strchr(joined_cmd, '/') != NULL)
 	if (ft_strchr(cmd->argv[0], '/') != NULL)
 		exec_pathed_cmd(cmd->argv, fd->in, fd->out, fd);
 	else
@@ -205,9 +195,6 @@ void	first_child(t_fds *fd, int *pipes, t_cmd *cmd)
 
 void	only_child(t_fds *fd, t_cmd *cmd)
 {
-	// char *joined_cmd;
-
-	// joined_cmd = join_cmd(cmd->argv);
 	fd->in = 0;
 	fd->out = 1;
 	fd->in = manage_infiles(cmd, fd);
@@ -215,9 +202,6 @@ void	only_child(t_fds *fd, t_cmd *cmd)
 	if (cmd->heredocs && cmd->heredocs[0])
 		fd->heredoc = manage_heredocs(cmd, fd);
 	fd->last_in = cmd->last_in;
-	// debug
-	// printf("llega a only child\n");
-	//
 	if (process_single_command(cmd->argv, fd) != 0)
 	{
 		if (fd->in != 0)
@@ -227,9 +211,6 @@ void	only_child(t_fds *fd, t_cmd *cmd)
 		cleanup(fd);
 		exit(127);
 	}
-	// printf("   ... no fue el ultimo\n");
-	// joined_cmd = join_cmd(cmd->argv);
-	// if (ft_strchr(joined_cmd, '/') != NULL)
 	if (ft_strchr(cmd->argv[0], '/') != NULL)
 		exec_pathed_cmd(cmd->argv, fd->in, fd->out, fd);
 	else
@@ -239,8 +220,6 @@ void	only_child(t_fds *fd, t_cmd *cmd)
 
 void	middle_child(t_fds *fd, int *pipes, t_cmd *cmd)
 {
-	// char *joined_cmd;
-	// joined_cmd = join_cmd(cmd->argv);
 	fd->in = fd->buffer;
 	fd->out = pipes[1];
 	fd->in = manage_infiles(cmd, fd);
@@ -250,8 +229,6 @@ void	middle_child(t_fds *fd, int *pipes, t_cmd *cmd)
 	fd->last_in = cmd->last_in;
 	if (process_single_command(cmd->argv, fd) != 0)
 		exit(127);
-	// joined_cmd = join_cmd(cmd->argv);
-	// if (ft_strchr(joined_cmd, '/') != NULL)
 	if (ft_strchr(cmd->argv[0], '/') != NULL)
 		exec_pathed_cmd(cmd->argv, fd->in, fd->out, fd);
 	else
@@ -261,9 +238,6 @@ void	middle_child(t_fds *fd, int *pipes, t_cmd *cmd)
 
 void	last_child(t_fds *fd, int *pipes, t_cmd *cmd)
 {
-	// char *joined_cmd;
-
-	// joined_cmd = join_cmd(cmd->argv);
 	if (pipes[1] != -1)
 		close(pipes[1]);
 	fd->in = fd->buffer;
@@ -286,7 +260,7 @@ void	last_child(t_fds *fd, int *pipes, t_cmd *cmd)
 
 static void	saturn_devours_children(int *pids)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	while (pids[i])
@@ -298,8 +272,8 @@ static void	saturn_devours_children(int *pids)
 
 static int	wait_children(t_fds *fd)
 {
-	int i;
-	int status;
+	int	i;
+	int	status;
 
 	i = 0;
 	status = 0;
@@ -313,7 +287,7 @@ static int	wait_children(t_fds *fd)
 		i++;
 	}
 	if (WIFEXITED(status))
-		return WEXITSTATUS(status);
+		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status))
 		return (128 + WTERMSIG(status));
 	return (status);
@@ -321,10 +295,12 @@ static int	wait_children(t_fds *fd)
 
 int	create_children(t_fds *fd, t_cmd *cmds)
 {
-	int i = 0;
-	int pipes[2];
-	t_cmd *cur = cmds;
+	int		i;
+	int		pipes[2];
+	t_cmd	*cur;
 
+	cur = cmds;
+	i = 0;
 	while (i < fd->how_many_cmd)
 	{
 		setup_pipes(pipes, i, fd->how_many_cmd);
