@@ -41,7 +41,6 @@ typedef struct s_fds
 	t_minishell	*minishell;
 }			t_fds;
 
-int		process_cmds_errors(char *av[], int i, char **envp);
 void	exec_pathed_cmd(char **full_cmd, int input_fd, int output_fd, t_fds *fd);
 void	exec_cmd(char **full_cmd, int input_fd, int output_fd, t_fds *fd);
 int		exec_only_builtin(char **cmd, int input_fd, int output_fd, t_fds *fd);
@@ -67,4 +66,5 @@ int		manage_infiles(t_cmd *cmd, t_fds *fd);
 int		manage_outfiles(t_cmd *cmd, t_fds *fd);
 int		manage_heredocs(t_cmd *cmd, t_fds *fd);
 void 	restore_std_fds(t_minishell *minishell);
+
 #endif
