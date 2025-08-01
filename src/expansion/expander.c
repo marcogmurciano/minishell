@@ -27,7 +27,6 @@ static char	*expansor(t_minishell *minishell, char **str)
 {
 	t_expansion	expander;
 
-	expander.word_value = *str;
 	expander.dollar_position = find_dollar(*str);
 	if (expander.dollar_position < 0)
 		return (ft_strdup(*str));
@@ -112,4 +111,30 @@ char	*expand_tokens_list(t_minishell *minishell)
 	}
 	new_expanded_input = retrieve_new_input(minishell);
 	return (new_expanded_input);
+}
+
+char	*expand_heredoc_line(t_minishell *minishell, char *line)
+{
+	char	*expanded;
+	char	*old;
+
+	if (!line || !ft_strchr(line, '$'))
+		return (ft_strdup(line));
+	
+	expanded = ft_strdup(line);
+	while (ft_strchr(expanded, '$'))
+	{
+		if (ft_strcmp(expanded, "$?") == 0)
+		{
+			free(expanded);
+			expanded = ft_itoa(minishell->last_exit_status);
+		}
+		else
+		{
+			old = expanded;
+			expanded = expansor(minishell, &old);
+			free(old);
+		}
+	}
+	return (expanded);
 }

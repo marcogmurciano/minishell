@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 16:41:19 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/31 10:43:05 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/01 09:46:28 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ typedef struct		s_minishell
  */
 typedef struct		s_expansion
 {
-	char			*word_value;
 	int				dollar_position;
 	int				variable_start;
 	int				variable_name_length;
