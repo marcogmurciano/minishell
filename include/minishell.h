@@ -73,7 +73,7 @@ t_env	*create_env_node(char *arg);
 //
 //
 
-void	tokenization(t_minishell *minishell);
+int	tokenization(t_minishell *minishell);
 
 int		handle_operator(t_token **token_head, t_minishell *minishell, int i);
 int		handle_quoted_word(t_token **token_head, t_minishell *minishell, int i);

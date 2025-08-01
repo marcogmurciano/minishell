@@ -59,7 +59,8 @@ int	ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell)
 			fd.out = 1;
 			fd.in = manage_infiles(cmd_list, &fd);
 			fd.out = manage_outfiles(cmd_list, &fd);
-			fd.heredoc = manage_heredocs(cmd_list, &fd);
+			if(cmd_list->heredocs && cmd_list->heredocs[0])
+				fd.heredoc = manage_heredocs(cmd_list, &fd);
 			fd.last_in = cmd_list->last_in;
 			//debug
 			// printf("llega a only child\n");

@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:08:49 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/30 21:24:36 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/01 10:31:49 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ int	handle_quoted_word(t_token **token_head, t_minishell *minishell, int i)
 		return (15);
 	}
 	word = get_quoted_word(minishell, *quote, i);
+	if(word == NULL)
+		return (-1);
 	add_word_token(token_head, TOKEN_WORD, word, quote);
 	len = ft_strlen(word);
 	free(word);
@@ -88,6 +90,8 @@ int	handle_ansi_c_quoted_word(t_token **token_head, t_minishell *minishell, int 
 
 	dollar_pos = &(minishell->input[i]);
 	word = get_quoted_word(minishell, dollar_pos[1], i + 1);
+	if(word == NULL)
+		return (-1);
 	add_word_token(token_head, TOKEN_WORD, word, dollar_pos + 1);
 	if (*token_head)
 	{

@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:01:24 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/30 21:07:27 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/01 10:44:09 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,32 @@ static t_token	*tokenizer(t_minishell *minishell)
 {
 	t_token	*token_head;
 	int		i;
+	int		e;
 
 	token_head = NULL;
 	i = 0;
 	while (minishell->input && minishell->input[i])
 	{
+		e = 0;
 		if (ft_isspace(minishell->input[i]))
-			i++;
+			e++;
 		else if (ft_isoperator(minishell->input, i))
-			i += handle_operator(&token_head, minishell, i);
+			e += handle_operator(&token_head, minishell, i);
 		else if (minishell->input[i] == '$'
 				&& minishell->input[i + 1] && ft_isquote(minishell->input, i + 1))
-			i += handle_ansi_c_quoted_word(&token_head, minishell, i);
+			e += handle_ansi_c_quoted_word(&token_head, minishell, i);
 		else if (ft_isquote(minishell->input, i))
-			i += handle_quoted_word(&token_head, minishell, i);
+			e += handle_quoted_word(&token_head, minishell, i);
 		else
-			i += handle_nonquoted_word(&token_head, minishell, i);
+			e += handle_nonquoted_word(&token_head, minishell, i);
+		if(e == -1)
+		{
+			free_tokens_list(&(minishell->tokens_list));
+			free(minishell->input);
+			minishell->input = NULL;
+			return (NULL);
+		}
+		i += e;
 	}
 	add_eof_token(&token_head);
 	free(minishell->input);
@@ -56,9 +66,11 @@ static t_token	*tokenizer(t_minishell *minishell)
  *
  * @param minishell Pointer to the minishell structure containing needed info.
  */
-void	tokenization(t_minishell *minishell)
+int	tokenization(t_minishell *minishell)
 {
 	minishell->tokens_list = tokenizer(minishell);
+	if (minishell->tokens_list == NULL)
+		return (1);
 	if (needs_expansion(minishell->tokens_list))
 	{
 		free(minishell->input);
@@ -70,4 +82,5 @@ void	tokenization(t_minishell *minishell)
 	}
 	join_tokens(&(minishell->tokens_list));
 	refine_token_roles(minishell->tokens_list);
+	return (0);
 }

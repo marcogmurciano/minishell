@@ -182,7 +182,8 @@ void	first_child(t_fds *fd, int *pipes, t_cmd *cmd)
 	fd->out = pipes[1];
 	fd->in = manage_infiles(cmd, fd);
 	fd->out = manage_outfiles(cmd, fd);
-	fd->heredoc = manage_heredocs(cmd, fd);
+	if(cmd->heredocs && cmd->heredocs[0])
+		fd->heredoc = manage_heredocs(cmd, fd);
 	fd->last_in = cmd->last_in;
 	if (process_single_command(cmd->argv, fd) != 0)
 	{
@@ -210,7 +211,8 @@ void	only_child(t_fds *fd, t_cmd *cmd)
 	fd->out = 1;
 	fd->in = manage_infiles(cmd, fd);
 	fd->out = manage_outfiles(cmd, fd);
-	fd->heredoc = manage_heredocs(cmd, fd);
+	if(cmd->heredocs && cmd->heredocs[0])
+		fd->heredoc = manage_heredocs(cmd, fd);
 	fd->last_in = cmd->last_in;
 	//debug
 	//printf("llega a only child\n");
@@ -242,7 +244,8 @@ void	middle_child(t_fds *fd, int *pipes, t_cmd *cmd)
 	fd->out = pipes[1];
 	fd->in = manage_infiles(cmd, fd);
 	fd->out = manage_outfiles(cmd, fd);
-	fd->heredoc = manage_heredocs(cmd, fd);
+	if(cmd->heredocs && cmd->heredocs[0])
+		fd->heredoc = manage_heredocs(cmd, fd);
 	fd->last_in = cmd->last_in;
 	if (process_single_command(cmd->argv, fd) != 0)
 		exit(127);
@@ -264,7 +267,8 @@ void	last_child(t_fds *fd, int *pipes, t_cmd *cmd)
 		close(pipes[1]);
 	fd->in = fd->buffer;
 	fd->out = 1;
-	fd->heredoc = manage_heredocs(cmd, fd);
+	if(cmd->heredocs && cmd->heredocs[0])
+		fd->heredoc = manage_heredocs(cmd, fd);
 	fd->last_in = cmd->last_in;
 	manage_outfiles(cmd, fd);
 	if (process_single_command(cmd->argv, fd) != 0)
