@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:08:49 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/04 15:23:56 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/04 16:06:58 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ int	handle_quoted_word(t_token **token_head, t_minishell *minishell, int i)
 	int		len;
 
 	quote = &(minishell->input[i]);
-	if (ft_strncmp(quote + 1, "_EMPTY_", 8) == 0)
+	if (ft_strncmp(quote + 1, "_EMPTY_", 7) == 0)
 	{
 		add_word_token(token_head, TOKEN_WORD, "", quote);
-		return (8);
+		return (9);
 	}
 	word = get_quoted_word(minishell, *quote, i);
 	if (word == NULL)
@@ -130,10 +130,10 @@ int	handle_nonquoted_word(t_token **token_head, t_minishell *minishell, int i)
 	int		len;
 
 	first_char = &(minishell->input[i]);
-	if (ft_strncmp(first_char, "_EMPTY_", 8) == 0)
+	if (ft_strncmp(first_char, "_EMPTY_", 7) == 0)
 	{
 		add_word_token(token_head, TOKEN_WORD, "", first_char);
-		return (8);
+		return (7);
 	}
 	word = get_unquoted_word(minishell, first_char);
 	add_word_token(token_head, TOKEN_WORD, word, first_char);

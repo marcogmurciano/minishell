@@ -29,24 +29,19 @@ static char	*expansor(t_minishell *minishell, char **str)
 
 	expander.dollar_position = find_dollar(*str);
 	if (expander.dollar_position < 0)
+	{
 		return (ft_strdup(*str));
+	}
 	expander.variable_start = expander.dollar_position + 1;
 	expander.variable_name_length = 0;
-	expander.variable_name = extract_var_name(*str, expander.variable_start,
-			&(expander.variable_name_length));
-	expander.variable_value = get_variable_value(minishell,
-			expander.variable_name);
+	expander.variable_name = extract_var_name(*str, expander.variable_start, &(expander.variable_name_length));
+	expander.variable_value = get_variable_value(minishell, expander.variable_name);
 	if (!(expander.variable_value))
 		expander.variable_value = ft_strdup("");
 	expander.preffix = ft_substr(*str, 0, expander.dollar_position);
-	expander.suffix = ft_substr(*str, expander.variable_start
-			+ expander.variable_name_length, strlen(*str)
-			- (expander.variable_start + expander.variable_name_length));
-	expander.new_word_value = ft_strjoin_three(expander.preffix,
-			expander.variable_value, expander.suffix);
-	return (free(expander.variable_value), free(expander.preffix),
-		free(expander.suffix), free(expander.variable_name),
-		expander.new_word_value);
+	expander.suffix = ft_substr(*str, expander.variable_start + expander.variable_name_length, strlen(*str) - (expander.variable_start + expander.variable_name_length));
+	expander.new_word_value = ft_strjoin_three(expander.preffix, expander.variable_value, expander.suffix);
+	return (free(expander.variable_value), free(expander.preffix), free(expander.suffix), free(expander.variable_name), expander.new_word_value);
 }
 
 /**
