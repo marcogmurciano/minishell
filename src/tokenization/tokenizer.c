@@ -6,11 +6,36 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:01:24 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/01 10:44:09 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/04 10:35:54 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+static int	handle_next_token(t_token **token_head, t_minishell *minishell,
+								int i, int *e)
+{
+	if (ft_isspace(minishell->input[i]))
+		(*e) = 1;
+	else if (ft_isoperator(minishell->input, i))
+		(*e) = handle_operator(token_head, minishell, i);
+	else if (minishell->input[i] == '$' && minishell->input[i + 1]
+		&& ft_isquote(minishell->input, i + 1))
+		(*e) = handle_ansi_c_quoted_word(token_head, minishell, i);
+	else if (ft_isquote(minishell->input, i))
+		(*e) = handle_quoted_word(token_head, minishell, i);
+	else
+		(*e) = handle_nonquoted_word(token_head, minishell, i);
+	return (*e);
+}
+
+static t_token	*handle_tokenizer_error(t_minishell *minishell)
+{
+	free_tokens_list(&(minishell->tokens_list));
+	free(minishell->input);
+	minishell->input = NULL;
+	return (NULL);
+}
 
 /**
  * Tokenizes the given input string into a linked list of tokens.
@@ -31,22 +56,9 @@ static t_token	*tokenizer(t_minishell *minishell)
 	while (minishell->input && minishell->input[i])
 	{
 		e = 0;
-		if (ft_isspace(minishell->input[i]))
-			e++;
-		else if (ft_isoperator(minishell->input, i))
-			e += handle_operator(&token_head, minishell, i);
-		else if (minishell->input[i] == '$'
-				&& minishell->input[i + 1] && ft_isquote(minishell->input, i + 1))
-			e += handle_ansi_c_quoted_word(&token_head, minishell, i);
-		else if (ft_isquote(minishell->input, i))
-			e += handle_quoted_word(&token_head, minishell, i);
-		else
-			e += handle_nonquoted_word(&token_head, minishell, i);
-		if(e == -1)
+		if (handle_next_token(&token_head, minishell, i, &e) == -1)
 		{
-			free_tokens_list(&(minishell->tokens_list));
-			free(minishell->input);
-			minishell->input = NULL;
+			handle_tokenizer_error(minishell);
 			return (NULL);
 		}
 		i += e;

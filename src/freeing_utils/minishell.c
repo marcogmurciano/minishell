@@ -12,11 +12,32 @@
 
 #include "../../include/minishell.h"
 
-/**
- * Frees all dynamically allocated fields within a t_minishell struct.
- * After freeing, all pointers are set to NULL to avoid dangling pointers.
- * @param minishell
- */
+static void	close_dup_stds(t_minishell *minishell)
+{
+	if (minishell->duplicated_std_fds[0] != -1
+		|| minishell->duplicated_std_fds[1] != -1)
+	{
+		close(minishell->duplicated_std_fds[0]);
+		close(minishell->duplicated_std_fds[1]);
+		minishell->duplicated_std_fds[0] = -1;
+		minishell->duplicated_std_fds[1] = -1;
+	}
+}
+
+static void	free_env(t_minishell *minishell)
+{
+	if (minishell->envp)
+	{
+		ft_free_array((void **)minishell->envp);
+		minishell->envp = NULL;
+	}
+	if (minishell->environment)
+	{
+		free_environment(&(minishell->environment));
+		minishell->environment = NULL;
+	}
+}
+
 void	free_minishell(t_minishell *minishell)
 {
 	if (minishell->input)
@@ -29,27 +50,11 @@ void	free_minishell(t_minishell *minishell)
 		free_tokens_list(&(minishell->tokens_list));
 		minishell->tokens_list = NULL;
 	}
-	if (minishell->envp)
-	{
-		ft_free_array((void **)minishell->envp);
-		minishell->envp = NULL;
-	}
-	if (minishell->environment)
-	{
-		free_environment(&(minishell->environment));
-		minishell->environment = NULL;
-	}
 	if (minishell->cmd_pipelines)
 	{
 		free_cmds(&(minishell->cmd_pipelines));
 		minishell->cmd_pipelines = NULL;
 	}
-	if (minishell->duplicated_std_fds[0] != -1
-		|| minishell->duplicated_std_fds[1] != -1)
-	{
-		close (minishell->duplicated_std_fds[0]);
-		close (minishell->duplicated_std_fds[1]);
-		minishell->duplicated_std_fds[0] = -1;
-		minishell->duplicated_std_fds[1] = -1;
-	}
+	free_env(minishell);
+	close_dup_stds(minishell);
 }

@@ -27,7 +27,8 @@ int	syntax_error(char *origin, t_minishell *minishell, int code)
 		ft_putstr_fd("\033[0;31msyntax error\033[0m: invalid file redirection",
 			STDERR_FILENO);
 	else if (code == 2)
-		ft_putstr_fd("\033[0;31msyntax error\033[0m: invalid token after heredoc",
+		ft_putstr_fd(
+			"\033[0;31msyntax error\033[0m: invalid token after heredoc",
 			STDERR_FILENO);
 	else if (code == 3)
 		ft_putstr_fd("\033[0;31msyntax error\033[0m: invalid token after pipe",

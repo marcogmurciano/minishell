@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:08:49 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/01 10:31:49 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/04 10:36:09 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	handle_quoted_word(t_token **token_head, t_minishell *minishell, int i)
 		return (15);
 	}
 	word = get_quoted_word(minishell, *quote, i);
-	if(word == NULL)
+	if (word == NULL)
 		return (-1);
 	add_word_token(token_head, TOKEN_WORD, word, quote);
 	len = ft_strlen(word);
@@ -81,16 +81,17 @@ int	handle_quoted_word(t_token **token_head, t_minishell *minishell, int i)
 	return (len + 2);
 }
 
-int	handle_ansi_c_quoted_word(t_token **token_head, t_minishell *minishell, int i)
+int	handle_ansi_c_quoted_word(t_token **token_head, t_minishell *minishell,
+		int i)
 {
-	t_token *last;
+	t_token	*last;
 	char	*word;
 	char	*dollar_pos;
 	int		len;
 
 	dollar_pos = &(minishell->input[i]);
 	word = get_quoted_word(minishell, dollar_pos[1], i + 1);
-	if(word == NULL)
+	if (word == NULL)
 		return (-1);
 	add_word_token(token_head, TOKEN_WORD, word, dollar_pos + 1);
 	if (*token_head)
@@ -98,7 +99,7 @@ int	handle_ansi_c_quoted_word(t_token **token_head, t_minishell *minishell, int 
 		last = *token_head;
 		while (last->next)
 			last = last->next;
-		if(dollar_pos[1] == '\'')
+		if (dollar_pos[1] == '\'')
 			last->quote_type = SINGLE_QUOTE;
 		else
 			last->quote_type = NON_QUOTE;
@@ -113,7 +114,7 @@ int	handle_ansi_c_quoted_word(t_token **token_head, t_minishell *minishell, int 
 /**
  * @brief Handles non-quoted word tokens in the input string.
  *
- * This function extracts word starting at the given index, adds it as a 
+ * This function extracts word starting at the given index, adds it as a
  * word token to the token list, frees the temporary buffer, and returns
  * the length of the word.
  *

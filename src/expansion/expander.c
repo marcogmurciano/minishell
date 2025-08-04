@@ -120,7 +120,6 @@ char	*expand_heredoc_line(t_minishell *minishell, char *line)
 
 	if (!line || !ft_strchr(line, '$'))
 		return (ft_strdup(line));
-	
 	expanded = ft_strdup(line);
 	while (ft_strchr(expanded, '$'))
 	{
