@@ -123,7 +123,7 @@ void	exec_pathed_cmd(char **cmd, int in_fd, int out_fd, t_fds *fd)
 	while (cmd[++i])
 		new_argv[i] = ft_strdup(cmd[i]);
 	new_argv[i] = NULL;
-	if (!new_argv[0] | dup2(in_fd, 0) == -1 | dup2(out_fd, 1) == -1)
+	if (!new_argv[0] || dup2(in_fd, 0) == -1 || dup2(out_fd, 1) == -1)
 		perror("pipex");
 	if (in_fd != -1 && in_fd != 0)
 		close(in_fd);
