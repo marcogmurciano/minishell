@@ -103,6 +103,7 @@ int	manage_heredocs(t_cmd *cmd, t_fds *fd)
 
 	i = 0;
 	final_line = NULL;
+	last_filepath = NULL;
 	while (cmd->heredocs[i])
 	{
 		filenum = ft_itoa(i);
@@ -138,7 +139,7 @@ int	manage_heredocs(t_cmd *cmd, t_fds *fd)
 				{
 					final_line = ft_strdup(line);
 				}
-				ft_putendl_fd(line, fd->heredoc);
+				ft_putendl_fd(final_line, fd->heredoc);
 				free(line);
 				free(final_line);
 			}
@@ -151,7 +152,7 @@ int	manage_heredocs(t_cmd *cmd, t_fds *fd)
 				break ;
 			}
 		}
-		if (last_filepath)
+		if (last_filepath && last_filepath != filepath)
 			free(last_filepath);
 		last_filepath = filepath;
 		i++;
