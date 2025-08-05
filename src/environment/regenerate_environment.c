@@ -35,12 +35,11 @@ t_env	*create_env_node(char *arg)
 	}
 	if (ft_strchr(arg, '='))
 	{
-		new_env->value = ft_substr(arg, ft_strlen(new_env->key) + 1, 
-			ft_strlen(arg) - (ft_strlen(new_env->key) + 1));
+		new_env->value = ft_substr(arg, ft_strlen(new_env->key) + 1,
+				ft_strlen(arg) - (ft_strlen(new_env->key) + 1));
 		if (!new_env->value)
 		{
-			free(new_env->key);
-			free(new_env);
+			free_environment(&new_env);
 			return (NULL);
 		}
 	}

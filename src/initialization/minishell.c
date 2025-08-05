@@ -31,7 +31,7 @@ void	init_mini(t_minishell *minishell, int argc, char **argv, char **envp)
 	minishell->argv = argv;
 	minishell->argc = argc;
 	minishell->pid = -1;
-	minishell->last_exit_status = -1;
+	minishell->last_exit_status = 0;
 	minishell->duplicated_std_fds[0] = dup(STDIN_FILENO);
 	minishell->duplicated_std_fds[1] = dup(STDOUT_FILENO);
 }

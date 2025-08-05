@@ -45,6 +45,7 @@ SRCS = 	src/main.c \
 		src/refine/refine_token_roles.c \
 		src/syntax/syntax_analysis.c \
 		src/syntax/syntax_analysis_utils.c \
+		src/syntax/syntax_analysis_utils2.c \
 		src/syntax/syntax_check.c \
 		src/syntax/syntax_getcmd.c \
 		src/initialization/minishell.c \
