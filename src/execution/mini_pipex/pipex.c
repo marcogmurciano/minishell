@@ -101,6 +101,7 @@ int	ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell)
 	fd.status = -1;
 	fd.how_many_cmd = ac;
 	fd.pid_array = ft_calloc(ac, (sizeof(int *) + 1));
+	print_cmd(cmd_list);
 	if (fd.how_many_cmd == 1)
 	{
 		returnvalue = only_builtin_son(&fd, cmd_list, &status);

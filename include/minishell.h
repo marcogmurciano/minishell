@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "../../libft/include/libft.h"
+# include "../../ft_printf/ft_printf.h"
 # include "readline/history.h"
 # include "readline/readline.h"
 # include <signal.h>

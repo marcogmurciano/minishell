@@ -6,7 +6,7 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 11:02:24 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/08/04 11:02:44 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/08/05 14:35:16 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 void	print_child_error(char *s, t_fds *fd)
 {
 	if (errno == ENOENT)
-		printf("pipex: No such file or directory: %s\n", s);
+		printf("minishell: No such file or directory: %s\n", s);
 	else if (errno == EACCES)
-		printf("pipex: Permission denied: %s\n", s);
+		printf("minishell: Permission denied: %s\n", s);
 	else
-		printf("pipex: Error opening file: %s\n", s);
+		printf("minishell: Error opening file: %s\n", s);
 	cleanup(fd);
 }
 

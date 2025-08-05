@@ -6,7 +6,7 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 11:03:50 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/08/05 12:25:41 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/08/05 15:16:36 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	first_child(t_fds *fd, int *pipes, t_cmd *cmd)
 {
+	int	exit_code;
+
 	if (cmd->heredocs && cmd->heredocs[0])
 		fd->heredoc = manage_heredocs(cmd, fd);
 	fd->in = 0;
@@ -21,13 +23,14 @@ void	first_child(t_fds *fd, int *pipes, t_cmd *cmd)
 	fd->in = manage_infiles(cmd, fd);
 	fd->out = manage_outfiles(cmd, fd);
 	fd->last_in = cmd->last_in;
-	if (process_single_command(cmd->argv, fd) != 0)
+	exit_code = process_single_command(cmd->argv, fd);
+	if (exit_code != 0)
 	{
 		if (fd->in != 0)
 			close(fd->in);
 		close(pipes[1]);
 		cleanup(fd);
-		exit(127);
+		exit(exit_code);
 	}
 	if (ft_strchr(cmd->argv[0], '/') != NULL)
 		exec_pathed_cmd(cmd->argv, fd->in, fd->out, fd);
@@ -38,6 +41,8 @@ void	first_child(t_fds *fd, int *pipes, t_cmd *cmd)
 
 void	only_child(t_fds *fd, t_cmd *cmd)
 {
+	int	exit_code;
+
 	if (cmd->heredocs && cmd->heredocs[0])
 		fd->heredoc = manage_heredocs(cmd, fd);
 	fd->in = 0;
@@ -45,14 +50,15 @@ void	only_child(t_fds *fd, t_cmd *cmd)
 	fd->in = manage_infiles(cmd, fd);
 	fd->out = manage_outfiles(cmd, fd);
 	fd->last_in = cmd->last_in;
-	if (process_single_command(cmd->argv, fd) != 0)
+	exit_code = process_single_command(cmd->argv, fd);
+	if (exit_code != 0)
 	{
 		if (fd->in != 0)
 			close(fd->in);
 		if (fd->out != 1)
 			close(fd->out);
 		cleanup(fd);
-		exit(127);
+		exit(exit_code);
 	}
 	if (ft_strchr(cmd->argv[0], '/') != NULL)
 		exec_pathed_cmd(cmd->argv, fd->in, fd->out, fd);
@@ -63,6 +69,8 @@ void	only_child(t_fds *fd, t_cmd *cmd)
 
 void	middle_child(t_fds *fd, int *pipes, t_cmd *cmd)
 {
+	int	exit_code;
+
 	if (cmd->heredocs && cmd->heredocs[0])
 		fd->heredoc = manage_heredocs(cmd, fd);
 	fd->in = fd->buffer;
@@ -70,8 +78,9 @@ void	middle_child(t_fds *fd, int *pipes, t_cmd *cmd)
 	fd->in = manage_infiles(cmd, fd);
 	fd->out = manage_outfiles(cmd, fd);
 	fd->last_in = cmd->last_in;
-	if (process_single_command(cmd->argv, fd) != 0)
-		exit(127);
+	exit_code = process_single_command(cmd->argv, fd);
+	if (exit_code != 0)
+		exit(exit_code);
 	if (ft_strchr(cmd->argv[0], '/') != NULL)
 		exec_pathed_cmd(cmd->argv, fd->in, fd->out, fd);
 	else
@@ -81,6 +90,8 @@ void	middle_child(t_fds *fd, int *pipes, t_cmd *cmd)
 
 void	last_child(t_fds *fd, int *pipes, t_cmd *cmd)
 {
+	int	exit_code;
+
 	if (cmd->heredocs && cmd->heredocs[0])
 		fd->heredoc = manage_heredocs(cmd, fd);
 	if (pipes[1] != -1)
@@ -90,10 +101,11 @@ void	last_child(t_fds *fd, int *pipes, t_cmd *cmd)
 	fd->last_in = cmd->last_in;
 	fd->in = manage_infiles(cmd, fd);
 	fd->out = manage_outfiles(cmd, fd);
-	if (process_single_command(cmd->argv, fd) != 0)
+	exit_code = process_single_command(cmd->argv, fd);
+	if (exit_code != 0)
 	{
 		cleanup(fd);
-		exit(127);
+		exit(exit_code);
 	}
 	if (ft_strchr(cmd->argv[0], '/') != NULL)
 		exec_pathed_cmd(cmd->argv, fd->in, fd->out, fd);

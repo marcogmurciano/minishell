@@ -6,7 +6,7 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:06:14 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/05 12:33:53 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/08/05 14:03:51 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 volatile sig_atomic_t	g_signal_status = 0;
 
-void get_signal_exit(t_minishell *minishell)
+void	get_signal_exit(t_minishell *minishell)
 {
 	(void)minishell;
 	if (g_signal_status == SIGINT)

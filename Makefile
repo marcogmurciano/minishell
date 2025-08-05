@@ -15,10 +15,11 @@ CC = cc
 CFLAGS = -Wall -Werror -Wextra
 RM = rm -f
 
-INCLUDES = -I./include -I./libft/include
+INCLUDES = -I./include -I./libft/include -I./ft_printf
 
-LIBS = -lreadline -L./libft/lib -lft 
+LIBS = -lreadline -L./libft/lib -lft -L./ft_printf -lftprintf
 LIBFT = ./libft/lib/libft.a
+FT_PRINTF = ./ft_printf/libftprintf.a
 
 SRCS = 	src/main.c \
 		src/debug.c \
@@ -77,16 +78,19 @@ all: $(NAME)
 $(LIBFT):
 	make -C ./libft
 
-$(NAME): $(OBJS) $(LIBFT)
+$(FT_PRINTF):
+	make -C ./ft_printf
+
+$(NAME): $(OBJS) $(LIBFT) $(FT_PRINTF)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-clean: cleanlibft
+clean: cleanlibft cleanftprintf
 	$(RM) $(OBJS)
 
-fclean: clean fcleanlibft
+fclean: clean fcleanlibft fcleanftprintf
 	$(RM) $(NAME)
 
 cleanlibft:
@@ -95,6 +99,12 @@ cleanlibft:
 fcleanlibft: cleanlibft
 	make -C ./libft/ fclean
 
+cleanftprintf:
+	make -C ./ft_printf/ clean
+
+fcleanftprintf: cleanftprintf
+	make -C ./ft_printf/ fclean
+
 re: fclean all
 
-.PHONY: all clean fclean re libft cleanlibft fcleanlibft
+.PHONY: all clean fclean re libft cleanlibft fcleanlibft ft_printf cleanftprintf fcleanftprintf

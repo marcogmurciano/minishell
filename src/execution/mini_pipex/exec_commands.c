@@ -56,37 +56,39 @@ static int	manual_execution(char **full_cmd, t_fds *fd, int should_exit)
 void	exec_cmd(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
 {
 	char	*cmd_path;
+	int		exitstatus;
 
 	if (!full_cmd || !full_cmd[0])
 	{
-		printf("pipex: empty command");
+		printf("minishell: empty command");
 		exit(1);
 	}
 	if (dup2(input_fd, STDIN_FILENO) == -1)
-		perror("pipex");
+		perror("minishell");
 	if (dup2(output_fd, STDOUT_FILENO) == -1)
-		perror("pipex");
+		perror("minishell");
 	if (input_fd != -1 && input_fd != 0)
 		close(input_fd);
 	if (output_fd != -1 && output_fd != 1)
 		close(output_fd);
 	manual_execution(full_cmd, fd, 1);
-	cmd_path = get_cmd_path(full_cmd[0], fd->env);
+	cmd_path = get_cmd_path(full_cmd[0], fd->env, &exitstatus);
 	execve(cmd_path, full_cmd, fd->env);
-	perror("pipex");
+	perror("minishell");
+	exit(errno);
 }
 
 int	exec_only_builtin(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
 {
 	if (!full_cmd || !full_cmd[0])
 	{
-		printf("pipex: empty command");
+		printf("minishell: empty command");
 		exit(1);
 	}
 	if (dup2(input_fd, STDIN_FILENO) == -1)
-		perror("pipex");
+		perror("minishell");
 	if (dup2(output_fd, STDOUT_FILENO) == -1)
-		perror("pipex");
+		perror("minishell");
 	if (input_fd != -1 && input_fd != 0)
 		close(input_fd);
 	if (output_fd != -1 && output_fd != 1)
@@ -109,7 +111,7 @@ void	exec_pathed_cmd(char **cmd, int in_fd, int out_fd, t_fds *fd)
 		new_argv[i] = ft_strdup(cmd[i]);
 	new_argv[i] = NULL;
 	if ((!new_argv[0]) | (dup2(in_fd, 0) == -1) | (dup2(out_fd, 1) == -1))
-		perror("pipex");
+		perror("minishell");
 	if (in_fd != -1 && in_fd != 0)
 		close(in_fd);
 	if (out_fd != -1 && out_fd != 1)
@@ -117,5 +119,6 @@ void	exec_pathed_cmd(char **cmd, int in_fd, int out_fd, t_fds *fd)
 	manual_execution(cmd, fd, 1);
 	execve(cmd[0], new_argv, fd->env);
 	ft_free_array((void **)new_argv);
-	perror("pipex");
+	perror("minishell2");
+	exit(errno);
 }
