@@ -6,7 +6,7 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 11:03:50 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/08/04 11:05:54 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/08/05 12:25:41 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 void	first_child(t_fds *fd, int *pipes, t_cmd *cmd)
 {
+	if (cmd->heredocs && cmd->heredocs[0])
+		fd->heredoc = manage_heredocs(cmd, fd);
 	fd->in = 0;
 	fd->out = pipes[1];
 	fd->in = manage_infiles(cmd, fd);
 	fd->out = manage_outfiles(cmd, fd);
-	if (cmd->heredocs && cmd->heredocs[0])
-		fd->heredoc = manage_heredocs(cmd, fd);
 	fd->last_in = cmd->last_in;
 	if (process_single_command(cmd->argv, fd) != 0)
 	{
@@ -38,12 +38,12 @@ void	first_child(t_fds *fd, int *pipes, t_cmd *cmd)
 
 void	only_child(t_fds *fd, t_cmd *cmd)
 {
+	if (cmd->heredocs && cmd->heredocs[0])
+		fd->heredoc = manage_heredocs(cmd, fd);
 	fd->in = 0;
 	fd->out = 1;
 	fd->in = manage_infiles(cmd, fd);
 	fd->out = manage_outfiles(cmd, fd);
-	if (cmd->heredocs && cmd->heredocs[0])
-		fd->heredoc = manage_heredocs(cmd, fd);
 	fd->last_in = cmd->last_in;
 	if (process_single_command(cmd->argv, fd) != 0)
 	{
@@ -63,12 +63,12 @@ void	only_child(t_fds *fd, t_cmd *cmd)
 
 void	middle_child(t_fds *fd, int *pipes, t_cmd *cmd)
 {
+	if (cmd->heredocs && cmd->heredocs[0])
+		fd->heredoc = manage_heredocs(cmd, fd);
 	fd->in = fd->buffer;
 	fd->out = pipes[1];
 	fd->in = manage_infiles(cmd, fd);
 	fd->out = manage_outfiles(cmd, fd);
-	if (cmd->heredocs && cmd->heredocs[0])
-		fd->heredoc = manage_heredocs(cmd, fd);
 	fd->last_in = cmd->last_in;
 	if (process_single_command(cmd->argv, fd) != 0)
 		exit(127);
@@ -81,14 +81,15 @@ void	middle_child(t_fds *fd, int *pipes, t_cmd *cmd)
 
 void	last_child(t_fds *fd, int *pipes, t_cmd *cmd)
 {
+	if (cmd->heredocs && cmd->heredocs[0])
+		fd->heredoc = manage_heredocs(cmd, fd);
 	if (pipes[1] != -1)
 		close(pipes[1]);
 	fd->in = fd->buffer;
 	fd->out = 1;
-	if (cmd->heredocs && cmd->heredocs[0])
-		fd->heredoc = manage_heredocs(cmd, fd);
 	fd->last_in = cmd->last_in;
-	manage_outfiles(cmd, fd);
+	fd->in = manage_infiles(cmd, fd);
+	fd->out = manage_outfiles(cmd, fd);
 	if (process_single_command(cmd->argv, fd) != 0)
 	{
 		cleanup(fd);

@@ -67,18 +67,24 @@ int	manage_infiles(t_cmd *cmd, t_fds *fd)
 
 static int	wait_children(t_fds *fd)
 {
-	int	i;
-	int	status;
+	int		i;
+	int		status;
+	ssize_t	n_flag;
 
 	i = 0;
+	n_flag = 0;
 	status = 0;
 	waitpid(fd->pid_array[i], &status, 0);
+	if (status == 2 && (n_flag == 0))
+		n_flag = write(1, "\n", 1);
 	i++;
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 		saturn_devours_children(fd->pid_array);
 	while (i < fd->how_many_cmd)
 	{
 		waitpid(fd->pid_array[i], &status, 0);
+		if (status == 2 && (n_flag == 0))
+			n_flag = write(1, "\n", 1);
 		i++;
 	}
 	if (WIFEXITED(status))

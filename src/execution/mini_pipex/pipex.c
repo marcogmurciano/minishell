@@ -67,10 +67,10 @@ static int	only_builtin_son(t_fds *fd, t_cmd *cmd_list, int *status)
 	{
 		fd->in = 0;
 		fd->out = 1;
-		fd->in = manage_infiles(cmd_list, fd);
-		fd->out = manage_outfiles(cmd_list, fd);
 		if (cmd_list->heredocs && cmd_list->heredocs[0])
 			fd->heredoc = manage_heredocs(cmd_list, fd);
+		fd->in = manage_infiles(cmd_list, fd);
+		fd->out = manage_outfiles(cmd_list, fd);
 		fd->last_in = cmd_list->last_in;
 		if (process_single_command(cmd_list->argv, fd) != 0)
 			bad_command(fd);
@@ -104,6 +104,8 @@ int	ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell)
 	if (fd.how_many_cmd == 1)
 	{
 		returnvalue = only_builtin_son(&fd, cmd_list, &status);
+		if (fd.status == 2)
+			write(1, "\n", 1);
 		if (returnvalue != 9999)
 			return (returnvalue);
 		if (WIFEXITED(fd.status))

@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:06:14 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/01 15:37:24 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/05 12:33:53 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 volatile sig_atomic_t	g_signal_status = 0;
-
 
 void get_signal_exit(t_minishell *minishell)
 {
@@ -43,8 +42,6 @@ static void	minishell_loop(t_minishell *minishell)
 		if (syntax_analysis(minishell) == 1)
 			continue ;
 		minishell->last_exit_status = execution(minishell);
-		if(minishell->last_exit_status == 130)
-			write(1,"\n", 1);
 		free_cmds(&(minishell->cmd_pipelines));
 	}
 }
