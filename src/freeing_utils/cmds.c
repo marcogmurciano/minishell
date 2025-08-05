@@ -30,9 +30,12 @@ void	free_cmds(t_cmd **cmd_head)
 			ft_free_array((void **)(current->outfiles));
 		if (current->heredocs)
 			ft_free_array((void **)(current->heredocs));
+		if (current->last_heredoc_filepath)
+			free(current->last_heredoc_filepath);
 		current->outfiles = NULL;
 		current->infiles = NULL;
 		current->heredocs = NULL;
+		current->last_heredoc_filepath = NULL;
 		temp = current;
 		current = current->next;
 		free(temp);

@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 16:41:19 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/01 15:36:05 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/05 15:34:34 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct		s_cmd
 	char			**argv;		              // Array of arguments, [0] is command itshelf
 	char			**infiles;	              // Array of REDIR_IN_FILES
 	char			**heredocs;	              // Array of HEREDOC delimiters
+	char			*last_heredoc_filepath;	  // Path to last heredoc
 	int				expand_heredoc_content;   // 0 If content doesn't expand, 1 expand variables of heredoc content
 	int				last_in;                  // 0 = Last redir_in is infile, 1 = last redir_in is heredoc
 	char			**outfiles;	              // Array of REDIR_OUT_FILES

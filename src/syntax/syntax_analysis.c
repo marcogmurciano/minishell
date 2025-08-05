@@ -68,6 +68,7 @@ static t_cmd	*build_cmd_from_segment(t_minishell *minishell,
 	cmd->infiles = get_infile_array(minishell, segment);
 	cmd->heredocs = get_heredoc_array(minishell, segment);
 	cmd->expand_heredoc_content = get_heredoc_expansion_status(segment);
+	cmd->last_heredoc_filepath = get_heredocs(minishell, cmd);
 	cmd->last_in = get_last_in_type(segment);
 	cmd->outfiles = get_outfile_array(minishell, segment);
 	cmd->append = get_append_status(segment);

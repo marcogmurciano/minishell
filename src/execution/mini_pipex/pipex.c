@@ -68,7 +68,7 @@ static int	only_builtin_son(t_fds *fd, t_cmd *cmd_list, int *status)
 		fd->in = 0;
 		fd->out = 1;
 		if (cmd_list->heredocs && cmd_list->heredocs[0])
-			fd->heredoc = manage_heredocs(cmd_list, fd);
+			fd->heredoc =  manage_heredocs(cmd_list, fd);
 		fd->in = manage_infiles(cmd_list, fd);
 		fd->out = manage_outfiles(cmd_list, fd);
 		fd->last_in = cmd_list->last_in;

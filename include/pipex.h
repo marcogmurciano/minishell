@@ -68,5 +68,6 @@ int		manage_outfiles(t_cmd *cmd, t_fds *fd);
 int		manage_heredocs(t_cmd *cmd, t_fds *fd);
 void	restore_std_fds(t_minishell *minishell);
 void	saturn_devours_children(int *pids);
+char	*get_heredocs(t_minishell *minishell, t_cmd *cmd);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 10:31:02 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/18 12:10:18 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/05 18:15:07 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,27 @@
 
 static int	get_new_token_type(t_token *current, t_token *prev)
 {
+
+	(void)current;
 	if (prev == NULL)
 		return (TOKEN_CMD);
 	if (prev->token_type == TOKEN_HEREDOC)
 		return (TOKEN_HEREDOC_DELIM);
-	if (prev->token_type == TOKEN_PIPE
-		|| prev->token_type == TOKEN_REDIR_IN_FILE
-		|| prev->token_type == TOKEN_REDIR_OUT_FILE
-		|| prev->token_type == TOKEN_HEREDOC_DELIM)
+	if (prev->token_type == TOKEN_PIPE)
 		return (TOKEN_CMD);
-	if (prev->token_type == TOKEN_CMD || prev->token_type == TOKEN_ARG)
-		return (TOKEN_ARG);
 	if (prev->token_type == TOKEN_REDIR_IN)
 		return (TOKEN_REDIR_IN_FILE);
 	if (prev->token_type == TOKEN_REDIR_OUT)
 		return (TOKEN_REDIR_OUT_FILE);
 	if (prev->token_type == TOKEN_APPEND)
 		return (TOKEN_APPEND_FILE);
-	return (current->token_type);
+	while (prev->prev && prev->prev->token_type != TOKEN_PIPE)
+	{
+		if(prev->token_type == TOKEN_CMD || prev->token_type == TOKEN_ARG)
+			return (TOKEN_ARG);
+		prev = prev->prev;
+	}
+	return (TOKEN_CMD);
 }
 
 /**

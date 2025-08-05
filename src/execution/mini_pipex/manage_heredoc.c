@@ -3,19 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   manage_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 11:06:46 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/08/04 12:10:09 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/08/05 17:59:31 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
 
-void	elbuclaso(char *line, t_cmd *cmd, t_fds *fd, int i)
+static void	megaloop(t_minishell *minishell, t_cmd *cmd, int heredoc_fd, int i)
 {
 	char	*final_line;
+	char	*line;
 
+	final_line = NULL;
+	line = NULL;
 	while (1)
 	{
 		line = readline("> ");
@@ -24,68 +27,76 @@ void	elbuclaso(char *line, t_cmd *cmd, t_fds *fd, int i)
 			if (ft_strcmp(line, cmd->heredocs[i]) == 0)
 			{
 				free(line);
-				close(fd->heredoc);
-				fd->heredoc = -1;
+				close(heredoc_fd);
+				heredoc_fd = -1;
 				break ;
 			}
 			if (cmd->expand_heredoc_content)
-				final_line = expand_heredoc_line(fd->minishell, line);
+				final_line = expand_heredoc_line(minishell, line);
 			else
 				final_line = ft_strdup(line);
-			ft_putendl_fd(line, fd->heredoc);
+			ft_putendl_fd(line, heredoc_fd);
 			free(line);
 			free(final_line);
 		}
 		else
 		{
 			printf("minishell: warning: here-document delimited by end-of-file (wanted `%s')\n",
-			cmd->heredocs[i]);
-			close(fd->heredoc);
-			fd->heredoc = -1;
+				cmd->heredocs[i]);
+			close(heredoc_fd);
+			heredoc_fd = -1;
 			break ;
 		}
 	}
 }
 
-int	manage_heredocs(t_cmd *cmd, t_fds *fd)
+char	*get_heredocs(t_minishell *minishell, t_cmd *cmd)
 {
 	int		i;
-	char	*line;
+	int		n;
 	char	*filepath;
-	char	*final_line;
 	char	*last_filepath;
+	int		heredoc_fd;
 
 	i = 0;
-	final_line = NULL;
-	line = NULL;
+	n = 0;
+	heredoc_fd = -1;
+	last_filepath = NULL;
 	while (cmd->heredocs[i])
 	{
-		filepath = ft_strjoin("/tmp/.heredoc_minishell", ft_itoa(i));
-		if (fd->heredoc != -1)
+		while (1)
 		{
-			close(fd->heredoc);
-			fd->heredoc = -1;
+			n = 0;
+			filepath = ft_strjoin("/tmp/.heredoc_minishell", ft_itoa(i + n));
+			if (access(filepath, F_OK) == 0)
+			{
+				free(filepath);
+				n += 1;
+			}
+			else
+				break;
 		}
-		if (access(filepath, F_OK) == 0)
-			unlink(filepath);
-		fd->heredoc = open(filepath, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-		if (fd->heredoc == -1)
+		heredoc_fd = open(filepath, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		if (heredoc_fd == -1)
 			perror("");
-		elbuclaso(line, cmd, fd, i);
+		megaloop(minishell, cmd, heredoc_fd, i);
 		if (last_filepath)
 			free(last_filepath);
 		last_filepath = filepath;
 		i++;
 	}
-	if (cmd->last_in == 0 && last_filepath)
-	{
-		if (fd->in != 0 && fd->in != -1)
-			close(fd->in);
-		fd->in = open(last_filepath, O_RDONLY);
-		if (fd->in == -1)
-			perror("Error opening heredoc file for reading");
-	}
-	if (last_filepath)
-		free(last_filepath);
-	return (fd->heredoc);
+	return (last_filepath);
+}
+
+int manage_heredocs(t_cmd *cmd, t_fds *fd)
+{
+	int heredoc_fd;
+
+	(void)fd;
+	heredoc_fd = open(cmd->last_heredoc_filepath, O_RDONLY);
+	if(heredoc_fd == -1)
+		perror("minishell: heredoc");
+	else
+		return (heredoc_fd);
+	return (-1);
 }

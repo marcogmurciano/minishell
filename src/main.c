@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:06:14 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/05 14:03:51 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/08/05 18:18:43 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static void	minishell_loop(t_minishell *minishell)
 			exit_minishell(minishell);
 		if (tokenization(minishell) == 1)
 			continue ;
+		print_tokens(minishell->tokens_list);
 		if (syntax_analysis(minishell) == 1)
 			continue ;
 		minishell->last_exit_status = execution(minishell);

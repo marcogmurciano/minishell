@@ -28,9 +28,9 @@ int	manage_outfiles(t_cmd *cmd, t_fds *fd)
 			fd->out = -1;
 		}
 		if (cmd->outfiles[i] != NULL && cmd->append)
-			fd->out = open(cmd->outfiles[i], 73, 420);
-		if (cmd->outfiles[i] != NULL && !cmd->append)
-			fd->out = open(cmd->outfiles[i], 577, 420);
+			fd->out = open(cmd->outfiles[i], O_CREAT | O_WRONLY | O_APPEND, 420);
+		else if (cmd->outfiles[i] != NULL && !cmd->append)
+			fd->out = open(cmd->outfiles[i], O_CREAT | O_WRONLY | O_TRUNC, 420);
 		if (fd->out == -1)
 		{
 			print_child_error(cmd->outfiles[i], fd);
