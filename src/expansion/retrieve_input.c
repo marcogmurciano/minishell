@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 12:55:30 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/04 23:01:49 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/05 10:01:22 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static char	*append_exp_variable(char *expanded_line,
 	}
 	else
 		result = ft_strjoin_three(expanded_line, " ", expanded_variable);
-	
 	free(line_to_free);
 	free(expanded_variable);
 	return (result);

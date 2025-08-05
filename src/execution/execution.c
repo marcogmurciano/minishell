@@ -53,7 +53,7 @@ int execution(t_minishell *minishell)
 
     head = minishell->cmd_pipelines;
     if (!head)
-        return (1);
+        return (0);
     //debug
     // print_cmd(head);
     cmd_count = ft_cmdsize(head);

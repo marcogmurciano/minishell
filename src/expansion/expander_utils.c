@@ -56,6 +56,8 @@ char	*extract_var_name(char *str, int variable_start,
 	first_char = str[variable_start];
 	if (ft_isdigit(first_char))
 		i = 1;
+	else if (first_char == '?')
+		i = 1;
 	else
 	{
 		while (str[variable_start + i] && !ft_isspace(str[variable_start + i])

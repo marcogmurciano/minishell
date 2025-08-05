@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:01:16 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/29 15:16:10 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/05 10:31:34 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,27 @@ static void numeric_error_exit(t_minishell *minishell, char **argv)
 
 int	builtin_exit(t_minishell *minishell, char **argv)
 {
-	int argc;
 	int i;
-	argc = 0;
+
 	i = 0;
-	while (argv[argc])
-		argc++;
-	if (argc == 1)
-		exit_minishell(minishell);
-	else if (argc > 2)
+	while (argv[i])
+		i++;
+	if (i == 1)
 	{
+		minishell->last_exit_status = 0;
+		exit_minishell(minishell);
+	}
+	else if (i > 2)
+	{
+		ft_putendl_fd("exit", STDERR_FILENO);
 		ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
 		minishell->last_exit_status = 1;
+		return (1);
 	}
+	i = 0;
 	while(argv[1][i])
 	{
-		if(ft_isdigit(argv[1][i]) == 0)
+		if(ft_isdigit(argv[1][i]) == 0 && ft_issign(argv[1][i]) == 0)
 			numeric_error_exit(minishell, argv);
 		i++;
 	}

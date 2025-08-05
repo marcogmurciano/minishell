@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:28:46 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/04 11:09:11 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/05 10:49:24 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int check_key_syntax(char *key)
 	int i;
 
 	i = 0;
-	if (ft_isdigit(key[i]))
+	if (ft_isalpha(key[i]) == 0)
 	{
 		return(1);
 	}
