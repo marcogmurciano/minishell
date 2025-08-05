@@ -60,11 +60,12 @@ void	print_child_error(char *s, t_fds *fd);
 void	only_child(t_fds *fd, t_cmd *cmd);
 int		ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell);
 char	*join_cmd(char **full_cmd);
-int 	is_builtin(char *cmd);
+int		is_builtin(char *cmd);
 int		execute_built_in(t_minishell *minishell, char **split_cmd);
 int		manage_infiles(t_cmd *cmd, t_fds *fd);
 int		manage_outfiles(t_cmd *cmd, t_fds *fd);
 int		manage_heredocs(t_cmd *cmd, t_fds *fd);
-void 	restore_std_fds(t_minishell *minishell);
+void	restore_std_fds(t_minishell *minishell);
+void	saturn_devours_children(int *pids);
 
 #endif

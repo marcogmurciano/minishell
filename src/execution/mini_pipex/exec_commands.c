@@ -12,7 +12,6 @@
 
 #include "../../../include/minishell.h"
 
-
 int	execute_built_in(t_minishell *minishell, char **split_cmd)
 {
 	int	status;
@@ -32,21 +31,7 @@ int	execute_built_in(t_minishell *minishell, char **split_cmd)
 		status = builtin_cd(minishell, split_cmd);
 	else if (ft_strcmp(split_cmd[0], "exit") == 0)
 		builtin_exit(minishell, split_cmd);
-
 	return (status);
-}
-
-int	is_builtin(char *split_cmd)
-{
-	if (ft_strcmp(split_cmd, "echo") == 0
-		|| ft_strcmp(split_cmd, "export") == 0
-		|| ft_strcmp(split_cmd, "pwd") == 0
-		|| ft_strcmp(split_cmd, "unset") == 0
-		|| ft_strcmp(split_cmd, "env") == 0
-		|| ft_strcmp(split_cmd, "cd") == 0
-		|| ft_strcmp(split_cmd, "exit") == 0)
-		return (1);
-	return (0);
 }
 
 static int	manual_execution(char **full_cmd, t_fds *fd, int should_exit)
@@ -123,7 +108,7 @@ void	exec_pathed_cmd(char **cmd, int in_fd, int out_fd, t_fds *fd)
 	while (cmd[++i])
 		new_argv[i] = ft_strdup(cmd[i]);
 	new_argv[i] = NULL;
-	if (!new_argv[0] | dup2(in_fd, 0) == -1 | dup2(out_fd, 1) == -1)
+	if ((!new_argv[0]) | (dup2(in_fd, 0) == -1) | (dup2(out_fd, 1) == -1))
 		perror("pipex");
 	if (in_fd != -1 && in_fd != 0)
 		close(in_fd);
@@ -133,15 +118,4 @@ void	exec_pathed_cmd(char **cmd, int in_fd, int out_fd, t_fds *fd)
 	execve(cmd[0], new_argv, fd->env);
 	ft_free_array((void **)new_argv);
 	perror("pipex");
-}
-
-void	print_child_error(char *s, t_fds *fd)
-{
-	if (errno == ENOENT)
-		printf("pipex: No such file or directory: %s\n", s);
-	else if (errno == EACCES)
-		printf("pipex: Permission denied: %s\n", s);
-	else
-		printf("pipex: Error opening file: %s\n", s);
-	cleanup(fd);
 }

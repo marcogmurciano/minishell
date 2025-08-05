@@ -74,3 +74,15 @@ char	*split_cmd_after_slash(const char *s)
 	else
 		return (ft_strdup(s));
 }
+
+void	saturn_devours_children(int *pids)
+{
+	int	i;
+
+	i = 1;
+	while (pids[i])
+	{
+		kill(pids[i], SIGINT);
+		i++;
+	}
+}

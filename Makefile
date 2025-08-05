@@ -55,8 +55,11 @@ SRCS = 	src/main.c \
 		src/execution/mini_pipex/exec_commands.c \
 		src/execution/mini_pipex/manage_sons.c \
 		src/execution/mini_pipex/pipex_utils.c \
+		src/execution/mini_pipex/pipex_utils2.c \
 		src/execution/mini_pipex/is_cmd_valid.c \
 		src/execution/mini_pipex/pipex.c \
+		src/execution/mini_pipex/manage_heredoc.c \
+		src/execution/mini_pipex/manage_sons_utils.c \
 		src/builtins/builtin_pwd.c \
 		src/builtins/builtin_env.c \
 		src/builtins/builtin_export.c \

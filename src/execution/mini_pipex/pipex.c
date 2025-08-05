@@ -40,10 +40,59 @@ void	setup_pipes(int *pipes, int i, int how_many_cmd)
 		pipe(pipes);
 }
 
+static void	bad_command(t_fds *fd)
+{
+	if (fd->in != 0 && fd->in != -1)
+	{
+		close(fd->in);
+		fd->in = -1;
+	}
+	if (fd->out != 1 && fd->out != -1)
+	{
+		close(fd->out);
+		fd->out = -1;
+	}
+	if (fd->heredoc != -1)
+	{
+		close(fd->heredoc);
+		fd->heredoc = -1;
+	}
+	cleanup(fd);
+	exit(127);
+}
+
+static int	only_builtin_son(t_fds *fd, t_cmd *cmd_list, int *status)
+{
+	if (is_builtin(cmd_list->argv[0]))
+	{
+		fd->in = 0;
+		fd->out = 1;
+		fd->in = manage_infiles(cmd_list, fd);
+		fd->out = manage_outfiles(cmd_list, fd);
+		if (cmd_list->heredocs && cmd_list->heredocs[0])
+			fd->heredoc = manage_heredocs(cmd_list, fd);
+		fd->last_in = cmd_list->last_in;
+		if (process_single_command(cmd_list->argv, fd) != 0)
+			bad_command(fd);
+		*status = exec_only_builtin((cmd_list->argv), fd->in, fd->out, fd);
+		cleanup(fd);
+		return (*status);
+	}
+	fd->minishell->pid = fork();
+	ignore_signals();
+	if (fd->minishell->pid == 0)
+	{
+		default_signals();
+		only_child(fd, cmd_list);
+	}
+	waitpid(fd->minishell->pid, &(fd->status), 0);
+	return (9999);
+}
+
 int	ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell)
 {
 	t_fds	fd;
-	pid_t	pid;
+	int		returnvalue;
 	int		status;
 
 	fd.env = ft_strdup_arr(minishell->envp);
@@ -54,59 +103,14 @@ int	ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell)
 	fd.pid_array = ft_calloc(ac, (sizeof(int *) + 1));
 	if (fd.how_many_cmd == 1)
 	{
-		if (is_builtin(cmd_list->argv[0]))
-		{
-			fd.in = 0;
-			fd.out = 1;
-			fd.in = manage_infiles(cmd_list, &fd);
-			fd.out = manage_outfiles(cmd_list, &fd);
-			if(cmd_list->heredocs && cmd_list->heredocs[0])
-				fd.heredoc = manage_heredocs(cmd_list, &fd);
-			fd.last_in = cmd_list->last_in;
-			if (process_single_command(cmd_list->argv, &fd) != 0)
-			{
-				if (fd.in != 0 && fd.in != -1)
-				{
-					close(fd.in);
-					fd.in = -1;
-				}
-				if (fd.out != 1 && fd.out != -1)
-				{
-					close(fd.out);
-					fd.out = -1;
-				}
-				if (fd.heredoc != -1)
-				{
-					close(fd.heredoc);
-					fd.heredoc = -1;
-				}
-				cleanup(&fd);
-				exit(127);
-			}
-			status = exec_only_builtin((cmd_list->argv), fd.in, fd.out, &fd);
-			cleanup(&fd);
-			return (status);
-		}
-		pid = fork();
-		minishell->pid = pid;
-		ignore_signals();
-		if (pid == 0)
-		{
-			default_signals();
-			only_child(&fd, cmd_list);
-		}
-		waitpid(pid, &(fd.status), 0);
+		returnvalue = only_builtin_son(&fd, cmd_list, &status);
+		if (returnvalue != 9999)
+			return (returnvalue);
 		if (WIFEXITED(fd.status))
-			return WEXITSTATUS(fd.status);
+			return (WEXITSTATUS(fd.status));
 		if (WIFSIGNALED(fd.status))
 			return (128 + WTERMSIG(fd.status));
 		return (fd.status);
 	}
 	return (create_children(&fd, cmd_list));
-}
-
-void restore_std_fds(t_minishell *minishell)
-{
-	dup2(minishell->duplicated_std_fds[0], STDIN_FILENO);
-	dup2(minishell->duplicated_std_fds[1], STDOUT_FILENO);
 }
