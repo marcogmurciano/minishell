@@ -60,8 +60,7 @@ void	exec_cmd(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
 
 	if (!full_cmd || !full_cmd[0])
 	{
-		printf("minishell: empty command");
-		exit(1);
+		exit(0);
 	}
 	if (dup2(input_fd, STDIN_FILENO) == -1)
 		perror("minishell");
@@ -82,8 +81,7 @@ int	exec_only_builtin(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
 {
 	if (!full_cmd || !full_cmd[0])
 	{
-		printf("minishell: empty command");
-		exit(1);
+		exit(0);
 	}
 	if (dup2(input_fd, STDIN_FILENO) == -1)
 		perror("minishell");
