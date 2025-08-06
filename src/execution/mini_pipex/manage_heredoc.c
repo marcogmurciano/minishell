@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 11:06:46 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/08/06 15:02:40 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/06 17:17:25 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,16 @@ int manage_heredocs(t_cmd *cmd, t_fds *fd)
 	int heredoc_fd;
 
 	(void)fd;
-	heredoc_fd = open(cmd->last_heredoc_filepath, O_RDONLY);
-	if(heredoc_fd == -1)
-		perror("minishell: heredoc");
-	else
-		return (heredoc_fd);
+	if(cmd->heredocs && cmd->heredocs[0])
+	{
+		heredoc_fd = open(cmd->last_heredoc_filepath, O_RDONLY);
+		if(heredoc_fd == -1)
+		{
+			perror("minishell: heredoc");
+			return (-1);
+		}
+		else
+			return (heredoc_fd);
+	}
 	return (-1);
 }

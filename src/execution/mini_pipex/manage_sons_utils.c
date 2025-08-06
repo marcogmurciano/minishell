@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 11:03:50 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/08/06 16:39:31 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/06 17:18:22 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ void	only_child(t_fds *fd, t_cmd *cmd)
 		cleanup(fd);
 		exit(exit_code);
 	}
-	printf("HEY!\n");
 	if (ft_strchr(cmd->argv[0], '/') != NULL)
 	{
 		if(fd->last_in == 0)
@@ -110,14 +109,12 @@ void	only_child(t_fds *fd, t_cmd *cmd)
 	{
 		if(fd->last_in == 0)
 		{
-			printf("infile!\n");
 			if (fd->heredoc != -1)
 				close(fd->heredoc);
 			exec_cmd(cmd->argv, fd->in, fd->out, fd);
 		}
 		if(fd->last_in == 1)
 		{
-			printf("heredoc!\n");
 			if (fd->in != 0 && fd->in != -1)
 				close(fd->in);
 			exec_cmd(cmd->argv, fd->heredoc, fd->out, fd);
