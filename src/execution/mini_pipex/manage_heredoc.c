@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 11:06:46 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/08/06 17:17:25 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/06 17:23:22 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,13 @@ char	*get_heredocs(t_minishell *minishell, t_cmd *cmd)
 	if (!cmd->heredocs || !cmd->heredocs[0])
 		return (NULL);
 	i = 0;
-	n = 0;
 	heredoc_fd = -1;
 	last_filepath = NULL;
 	while (cmd->heredocs[i])
 	{
+		n = 0;
 		while (1)
 		{
-			n = 0;
 			filepath = ft_strjoin("/tmp/.heredoc_minishell", ft_itoa(i + n));
 			if (access(filepath, F_OK) != 0)
 			{
@@ -97,7 +96,7 @@ int manage_heredocs(t_cmd *cmd, t_fds *fd)
 	int heredoc_fd;
 
 	(void)fd;
-	if(cmd->heredocs && cmd->heredocs[0])
+	if(cmd->last_heredoc_filepath == NULL)
 	{
 		heredoc_fd = open(cmd->last_heredoc_filepath, O_RDONLY);
 		if(heredoc_fd == -1)
