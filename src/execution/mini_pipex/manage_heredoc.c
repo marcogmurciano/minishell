@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 11:06:46 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/08/07 11:44:54 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/07 11:54:29 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*get_heredocs(t_minishell *minishell, t_cmd *cmd)
 		while (1)
 		{
 			filepath = ft_strjoin("/tmp/.heredoc_minishell", ft_itoa(i + n));
-			if (access(filepath, F_OK) != 0)
+			if (access(filepath, F_OK) == 0)
 			{
 				free(filepath);
 				n += 1;
