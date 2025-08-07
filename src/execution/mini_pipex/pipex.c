@@ -92,6 +92,7 @@ static int	only_builtin_son(t_fds *fd, t_cmd *cmd_list, int *status)
 			bad_command(fd);
 		*status = exec_builtin(cmd_list, fd);
 		cleanup(fd);
+		restore_std_fds(fd->minishell);
 		return (*status);
 	}
 	fd->minishell->pid = fork();
@@ -135,3 +136,8 @@ int	ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell)
 	return (create_children(&fd, cmd_list));
 }
 
+void restore_std_fds(t_minishell *minishell)
+{
+	dup2(minishell->duplicated_std_fds[0], STDIN_FILENO);
+	dup2(minishell->duplicated_std_fds[1], STDOUT_FILENO);
+}
