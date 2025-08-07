@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 11:06:46 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/08/06 17:23:22 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/07 11:44:54 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int manage_heredocs(t_cmd *cmd, t_fds *fd)
 	int heredoc_fd;
 
 	(void)fd;
-	if(cmd->last_heredoc_filepath == NULL)
+	if(cmd->last_heredoc_filepath != NULL)
 	{
 		heredoc_fd = open(cmd->last_heredoc_filepath, O_RDONLY);
 		if(heredoc_fd == -1)
