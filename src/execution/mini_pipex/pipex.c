@@ -106,6 +106,8 @@ int	ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell)
 		returnvalue = only_builtin_son(&fd, cmd_list, &status);
 		if (fd.status == 2)
 			write(1, "\n", 1);
+		if (fd.status == 131)
+			write(1, "Quit (core dumped)\n", 20);
 		if (returnvalue != 9999)
 			return (returnvalue);
 		if (WIFEXITED(fd.status))

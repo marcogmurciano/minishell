@@ -77,6 +77,8 @@ static int	wait_children(t_fds *fd)
 	waitpid(fd->pid_array[i], &status, 0);
 	if (status == 2 && (n_flag == 0))
 		n_flag = write(1, "\n", 1);
+	if (status == 131 && (n_flag == 0))
+			n_flag = write(1, "Quit (core dumped)\n", 20);
 	i++;
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 		saturn_devours_children(fd->pid_array);
@@ -85,6 +87,8 @@ static int	wait_children(t_fds *fd)
 		waitpid(fd->pid_array[i], &status, 0);
 		if (status == 2 && (n_flag == 0))
 			n_flag = write(1, "\n", 1);
+		if (status == 131 && (n_flag == 0))
+			n_flag = write(1, "Quit (core dumped)\n", 20);
 		i++;
 	}
 	if (WIFEXITED(status))
