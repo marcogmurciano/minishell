@@ -10,4 +10,6 @@ minishell
 # Build directories
 libft/lib/
 libft/objs/
+.vscode
+minishell_tester
 .nfs000000000083bc5a00000002

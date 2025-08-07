@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:01:16 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/07 12:32:42 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:50:47 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	builtin_exit(t_minishell *minishell, char **argv)
 		minishell->last_exit_status = 0;
 		exit_minishell(minishell);
 	}
-	else if (i > 2)
+	else if (i >= 2)
 	{
 		ft_putendl_fd("exit", STDERR_FILENO);
 		ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
