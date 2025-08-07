@@ -82,10 +82,9 @@ int	syntax_check(t_minishell *minishell)
 		syntax_error = check_for_unsupported_characters(minishell, token);
 		if ((token->token_type == TOKEN_REDIR_IN
 				|| token->token_type == TOKEN_REDIR_OUT
-				|| token->token_type == TOKEN_APPEND) && !syntax_error)
+				|| token->token_type == TOKEN_APPEND
+				|| token->token_type == TOKEN_HEREDOC) && !syntax_error)
 			syntax_error = check_redirection(minishell, token);
-		else if (token->token_type == TOKEN_HEREDOC && !syntax_error)
-			syntax_error = check_heredoc(minishell, token);
 		else if (token->token_type == TOKEN_PIPE && !syntax_error)
 			syntax_error = check_pipe(minishell, token);
 		if (syntax_error)
