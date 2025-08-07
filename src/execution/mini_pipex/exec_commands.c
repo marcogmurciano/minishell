@@ -83,10 +83,16 @@ int	exec_only_builtin(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
 	{
 		exit(0);
 	}
-	if (dup2(input_fd, STDIN_FILENO) == -1)
-		perror("minishell");
-	if (dup2(output_fd, STDOUT_FILENO) == -1)
-		perror("minishell");
+	if (input_fd != 0 && input_fd != -1)
+	{
+		if (dup2(input_fd, STDIN_FILENO) == -1)
+			perror("minishell");
+	}
+	if (output_fd != 1 && output_fd != -1)
+	{
+		if (dup2(output_fd, STDOUT_FILENO) == -1)
+			perror("minishell");
+	}
 	if (input_fd != -1 && input_fd != 0)
 		close(input_fd);
 	if (output_fd != -1 && output_fd != 1)

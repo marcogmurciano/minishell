@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:01:16 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/05 10:31:34 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/07 12:32:42 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,42 @@ static void numeric_error_exit(t_minishell *minishell, char **argv)
 	exit_minishell(minishell);
 }
 
+/// @brief Modified atol that checks if number is past INT-MIN and INT_MAX
+long	mod_atol(char *nptr, int *error)
+{
+	int		sign;
+	int		i;
+	long	result;
+
+	sign = 1;
+	i = 0;
+	result = 0;
+	while (ft_isspace(nptr[i]))
+		i++;
+	if (ft_issign(nptr[i]))
+	{
+		if (ft_issign(nptr[i]) == 2)
+			sign *= -1;
+		i++;
+	}
+	while (ft_isdigit(nptr[i]))
+	{
+		result = result * 10;
+		result += (nptr[i] - '0');
+		if (result * sign > 2147483647 || result * sign < -2147483648)
+			return (*error = -1, -1);
+		i++;
+	}
+	return (result * sign);
+}
+
 int	builtin_exit(t_minishell *minishell, char **argv)
 {
 	int i;
+	int error;
 
 	i = 0;
+	error = 0;
 	while (argv[i])
 		i++;
 	if (i == 1)
@@ -47,7 +78,7 @@ int	builtin_exit(t_minishell *minishell, char **argv)
 			numeric_error_exit(minishell, argv);
 		i++;
 	}
-	if(ft_atol(argv[1]) > INT_MAX || ft_atol(argv[1]) < INT_MIN)
+	if(mod_atol(argv[1], &error) == -1 && error == -1)
 		numeric_error_exit(minishell, argv);
 	else
 		minishell->last_exit_status = ft_atoi(argv[1]) % 256;

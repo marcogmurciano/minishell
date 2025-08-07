@@ -61,20 +61,36 @@ static void	bad_command(t_fds *fd)
 	exit(127);
 }
 
+static int exec_builtin(t_cmd *cmd, t_fds *fd)
+{
+	if(fd->last_in == 0 || fd->last_in == -1)
+	{
+		if (fd->heredoc != -1)
+			close(fd->heredoc);
+		return (exec_only_builtin(cmd->argv, fd->in, fd->out, fd));
+	}
+	if(fd->last_in == 1)
+	{
+		if (fd->in != 0 && fd->in != -1)
+			close(fd->in);
+		return (exec_only_builtin(cmd->argv, fd->heredoc, fd->out, fd));
+	}
+	return (0);
+}
+
 static int	only_builtin_son(t_fds *fd, t_cmd *cmd_list, int *status)
 {
 	if (is_builtin(cmd_list->argv[0]))
 	{
 		fd->in = 0;
 		fd->out = 1;
-		if (cmd_list->heredocs && cmd_list->heredocs[0])
-			fd->heredoc =  manage_heredocs(cmd_list, fd);
+		fd->heredoc = manage_heredocs(cmd_list, fd);
 		fd->in = manage_infiles(cmd_list, fd);
 		fd->out = manage_outfiles(cmd_list, fd);
 		fd->last_in = cmd_list->last_in;
 		if (process_single_command(cmd_list->argv, fd) != 0)
 			bad_command(fd);
-		*status = exec_only_builtin((cmd_list->argv), fd->in, fd->out, fd);
+		*status = exec_builtin(cmd_list, fd);
 		cleanup(fd);
 		return (*status);
 	}
