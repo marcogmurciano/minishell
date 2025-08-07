@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 10:57:28 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/06 16:20:14 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/07 11:01:09 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	get_last_in_type(t_token *segment)
 	t_token	*current;
 	int		i;
 
-	i = 0;
+	i = -1;
 	current = segment;
 	while (current)
 	{

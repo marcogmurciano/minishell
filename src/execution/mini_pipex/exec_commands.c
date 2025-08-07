@@ -117,6 +117,6 @@ void	exec_pathed_cmd(char **cmd, int in_fd, int out_fd, t_fds *fd)
 	manual_execution(cmd, fd, 1);
 	execve(cmd[0], new_argv, fd->env);
 	ft_free_array((void **)new_argv);
-	perror("minishell2");
+	perror("minishell");
 	exit(errno);
 }

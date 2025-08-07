@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 11:03:50 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/08/06 17:31:39 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/07 11:23:53 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void execute(t_cmd *cmd, t_fds *fd)
 {
 	if (ft_strchr(cmd->argv[0], '/') != NULL)
 	{
-		if(fd->last_in == 0)
+		if(fd->last_in == 0 || fd->last_in == -1)
 		{
 			if (fd->heredoc != -1)
 				close(fd->heredoc);
@@ -31,7 +31,7 @@ static void execute(t_cmd *cmd, t_fds *fd)
 	}
 	else
 	{
-		if(fd->last_in == 0)
+		if(fd->last_in == 0 || fd->last_in == -1)
 		{
 			if (fd->heredoc != -1)
 				close(fd->heredoc);
@@ -52,10 +52,10 @@ void	first_child(t_fds *fd, int *pipes, t_cmd *cmd)
 
 	fd->in = 0;
 	fd->out = pipes[1];
+	fd->last_in = cmd->last_in;
 	fd->heredoc = manage_heredocs(cmd, fd);
 	fd->in = manage_infiles(cmd, fd);
 	fd->out = manage_outfiles(cmd, fd);
-	fd->last_in = cmd->last_in;
 	exit_code = process_single_command(cmd->argv, fd);
 	if (exit_code != 0)
 	{
@@ -79,10 +79,10 @@ void	only_child(t_fds *fd, t_cmd *cmd)
 
 	fd->in = 0;
 	fd->out = 1;
+	fd->last_in = cmd->last_in;
 	fd->heredoc = manage_heredocs(cmd, fd);
 	fd->in = manage_infiles(cmd, fd);
 	fd->out = manage_outfiles(cmd, fd);
-	fd->last_in = cmd->last_in;
 	exit_code = process_single_command(cmd->argv, fd);
 	if (exit_code != 0)
 	{
@@ -105,10 +105,10 @@ void	middle_child(t_fds *fd, int *pipes, t_cmd *cmd)
 
 	fd->in = fd->buffer;
 	fd->out = pipes[1];
+	fd->last_in = cmd->last_in;
 	fd->heredoc = manage_heredocs(cmd, fd);
 	fd->in = manage_infiles(cmd, fd);
 	fd->out = manage_outfiles(cmd, fd);
-	fd->last_in = cmd->last_in;
 	exit_code = process_single_command(cmd->argv, fd);
 	if (exit_code != 0)
 	{
