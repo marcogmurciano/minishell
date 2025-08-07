@@ -6,12 +6,15 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 12:55:30 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/05 10:01:22 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/07 16:37:13 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+/**
+ * Assign quotes to expanded line to keep on retokenization
+ */
 static char	*expanded_token_value(t_token *token)
 {
 	if (token->value == NULL || *(token->value) == 0)
@@ -29,10 +32,14 @@ static char	*expanded_token_value(t_token *token)
 		return (ft_strdup(token->value));
 }
 
+/**
+ * Apend the expanded varialble to the already expanded part of line
+ */
 static char	*append_exp_variable(char *expanded_line,
 		char *expanded_variable)
 {
 	char	*line_to_free;
+	int		line_len;
 	char	*result;
 
 	line_to_free = expanded_line;
@@ -40,7 +47,7 @@ static char	*append_exp_variable(char *expanded_line,
 		result = ft_strdup(expanded_line);
 	else if (ft_strcmp(expanded_variable, "\"\"") == 0)
 	{
-		int line_len = strlen(expanded_line);
+		line_len = strlen(expanded_line);
 		if (line_len >= 2 && 
 			expanded_line[line_len-1] == '"' && 
 			expanded_line[line_len-2] == '"')
@@ -55,6 +62,9 @@ static char	*append_exp_variable(char *expanded_line,
 	return (result);
 }
 
+/**
+ * Expands each tokens value, then builds a new input string to be retokenized
+ */
 char	*retrieve_new_input(t_minishell *minishell)
 {
 	t_token	*current;

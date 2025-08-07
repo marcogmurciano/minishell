@@ -6,12 +6,15 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 10:57:28 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/07 11:01:09 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/07 15:06:22 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+/**
+ * Retrive if last out redirection is append
+ */
 int	get_append_status(t_token *segment)
 {
 	t_token	*current;
@@ -37,6 +40,9 @@ int	get_append_status(t_token *segment)
 	return (0);
 }
 
+/**
+ * Retrive last type of input redirection. 0 -> FILE // 1-> HEREDOC // -1 NON
+ */
 int	get_last_in_type(t_token *segment)
 {
 	t_token	*current;
@@ -55,6 +61,9 @@ int	get_last_in_type(t_token *segment)
 	return (i);
 }
 
+/**
+ * Get status of wether expansion of heredoc contents is needed
+ */
 int	get_heredoc_expansion_status(t_token *segment)
 {
 	t_token	*current;

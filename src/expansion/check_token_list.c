@@ -13,17 +13,7 @@
 #include "../../include/minishell.h"
 
 /**
- * Determines whether variable expansion is required in the given tokens list.
- *
- * This function iterates through an EOF-terminated doubly linked list of tokns
- * and checks for the presence
- * of the '$' character in tokens of type TOKEN_WORD that are either unquoted
- * or double-quoted. If such a token
- * is found, the function concludes that variable expansion is needed.
- *
- * @param tokens_list Pointer to the head of an EOF-terminated doubly linked
- * list of tokens (t_token).
- * @return 1 if variable expansion is needed, 0 otherwise.
+ * Checks if the provided token's value needs expansion of variables
  */
 int	needs_expansion(t_token *tokens_list)
 {

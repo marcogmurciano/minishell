@@ -12,6 +12,9 @@
 
 #include "../../include/minishell.h"
 
+/**
+ * Frees the list of cmds
+ */
 void	free_cmds(t_cmd **cmd_head)
 {
 	t_cmd	*current;

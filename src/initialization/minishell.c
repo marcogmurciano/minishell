@@ -13,14 +13,7 @@
 #include "../../include/minishell.h"
 
 /**
- * @brief Initializes the minishell structure with environment variables.
- *
- * This function zeroes out the minishell structure, regenerates the environment
- * list from the provided environment pointer array, populates the envp field
- * and duplicates the standard fds.
- *
- * @param minishell Pointer to the t_minishell structure to initialize.
- * @param envp      The environment variable array from main().
+ * Initialize the minishell structure
  */
 void	init_mini(t_minishell *minishell, int argc, char **argv, char **envp)
 {

@@ -3,26 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 11:02:24 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/08/05 14:35:16 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:07:49 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
 
+/**
+ * Print errors on chil processes
+ */
 void	print_child_error(char *s, t_fds *fd)
 {
 	if (errno == ENOENT)
-		printf("minishell: No such file or directory: %s\n", s);
+		ft_printf("minishell: No such file or directory: %s\n", s);
 	else if (errno == EACCES)
-		printf("minishell: Permission denied: %s\n", s);
+		ft_printf("minishell: Permission denied: %s\n", s);
 	else
-		printf("minishell: Error opening file: %s\n", s);
+		ft_printf("minishell: Error opening file: %s\n", s);
 	cleanup(fd);
 }
 
+/**
+ * Checks if provided cmd is a builtin
+ */
 int	is_builtin(char *split_cmd)
 {
 	if (ft_strcmp(split_cmd, "echo") == 0

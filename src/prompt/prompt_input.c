@@ -2,12 +2,9 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   prompt_input.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
-	+:+     */
-/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+      
-	+#+        */
-/*                                                +#+#+#+#+#+  
-	+#+           */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 18:17:55 by dbarba-v          #+#    #+#             */
 /*   Updated: 2025/07/15 11:32:00 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
@@ -15,6 +12,9 @@
 
 #include "../../include/minishell.h"
 
+/**
+ * Builds the prompt to be displayed by readline
+ */
 char	*build_prompt(t_minishell *minishell)
 {
 	char	*user;
@@ -45,16 +45,8 @@ char	*build_prompt(t_minishell *minishell)
 }
 
 /**
- * @brief Prompt the user for input using a custom prompt string.
- *
- * The prompt includes the user's name (from the $USER environment variable)
- * if available, followed by "@minishell> ". If $USER is not found, "USER"
- * is used as the default name.
- *
- * The function reads a line from standard input and adds it to the history
- * if not NULL. The caller is responsible for freeing the returned string.
- *
- * @return A pointer to the input string, or NULL if EOF is encountered.
+ * Calls function that builds the prompt, displays it, waits for input 
+ * and adds input to history.
  */
 char	*get_prompt_input(t_minishell *minishell)
 {

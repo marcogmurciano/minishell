@@ -6,12 +6,15 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:01:24 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/04 10:35:54 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/07 15:31:31 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+/**
+ * Tokens handler distribution
+ */
 static int	handle_next_token(t_token **token_head, t_minishell *minishell,
 								int i, int *e)
 {
@@ -29,6 +32,9 @@ static int	handle_next_token(t_token **token_head, t_minishell *minishell,
 	return (*e);
 }
 
+/**
+ * Tokenization error
+ */
 static t_token	*handle_tokenizer_error(t_minishell *minishell)
 {
 	free_tokens_list(&(minishell->tokens_list));
@@ -38,12 +44,7 @@ static t_token	*handle_tokenizer_error(t_minishell *minishell)
 }
 
 /**
- * Tokenizes the given input string into a linked list of tokens.
- * Trims whitespace from input before processing.
- *
- * @param input The null-terminated input string to tokenize.
- * @return Pointer to the head of the linked list of tokens.
- *         Returns NULL if allocation for trimmed_input fails.
+ * Parse input character by character, build tokens and append to tokens list
  */
 static t_token	*tokenizer(t_minishell *minishell)
 {
@@ -70,13 +71,7 @@ static t_token	*tokenizer(t_minishell *minishell)
 }
 
 /**
- * @brief Tokenizes the input and expands tokens if needed.
- *
- * This function tokenizes the minishell input, if expansion is required,
- * frees the old input, expands the tokens, and retokenizes the input.
- * Then it refines the token roles.
- *
- * @param minishell Pointer to the minishell structure containing needed info.
+ * Tokenization, expansion and refinement process
  */
 int	tokenization(t_minishell *minishell)
 {

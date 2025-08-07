@@ -12,6 +12,9 @@
 
 #include "../../../include/minishell.h"
 
+/**
+ * Management of parent fds
+ */
 void	manage_parent_fds(t_fds *fd, int *pipes, int i)
 {
 	if (pipes[1] != -1)
@@ -30,6 +33,9 @@ void	manage_parent_fds(t_fds *fd, int *pipes, int i)
 		fd->buffer = -1;
 }
 
+/**
+ * Set up pipes
+ */
 void	setup_pipes(int *pipes, int i, int how_many_cmd)
 {
 	pipes[0] = -1;
@@ -40,6 +46,9 @@ void	setup_pipes(int *pipes, int i, int how_many_cmd)
 		pipe(pipes);
 }
 
+/**
+ * Clear on bad command
+ */
 static void	bad_command(t_fds *fd)
 {
 	if (fd->in != 0 && fd->in != -1)
@@ -61,6 +70,9 @@ static void	bad_command(t_fds *fd)
 	exit(127);
 }
 
+/**
+ * Distribution depending on type or REDIR_IN
+ */
 static int exec_builtin(t_cmd *cmd, t_fds *fd)
 {
 	if(fd->last_in == 0 || fd->last_in == -1)
@@ -78,6 +90,9 @@ static int exec_builtin(t_cmd *cmd, t_fds *fd)
 	return (0);
 }
 
+/**
+ * Case for a single command
+ */
 static int	only_builtin_son(t_fds *fd, t_cmd *cmd_list, int *status)
 {
 	if (is_builtin(cmd_list->argv[0]))
@@ -106,6 +121,9 @@ static int	only_builtin_son(t_fds *fd, t_cmd *cmd_list, int *status)
 	return (9999);
 }
 
+/**
+ * Main pipex logic
+ */
 int	ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell)
 {
 	t_fds	fd;
@@ -136,6 +154,9 @@ int	ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell)
 	return (create_children(&fd, cmd_list));
 }
 
+/**
+ * Restore standard FDs REQUIRED when executing builtin
+ */
 void restore_std_fds(t_minishell *minishell)
 {
 	dup2(minishell->duplicated_std_fds[0], STDIN_FILENO);

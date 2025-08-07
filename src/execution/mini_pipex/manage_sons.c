@@ -15,6 +15,9 @@
 
 #include "../../../include/minishell.h"
 
+/**
+ * Files REDIR_OUT management
+ */
 int	manage_outfiles(t_cmd *cmd, t_fds *fd)
 {
 	int	i;
@@ -41,6 +44,9 @@ int	manage_outfiles(t_cmd *cmd, t_fds *fd)
 	return (fd->out);
 }
 
+/**
+ * Files REDIR_IN management
+ */
 int	manage_infiles(t_cmd *cmd, t_fds *fd)
 {
 	int	i;
@@ -65,6 +71,9 @@ int	manage_infiles(t_cmd *cmd, t_fds *fd)
 	return (fd->in);
 }
 
+/**
+ * Wait for child processes  to end
+ */
 static int	wait_children(t_fds *fd)
 {
 	int		i;
@@ -98,6 +107,9 @@ static int	wait_children(t_fds *fd)
 	return (status);
 }
 
+/**
+ * Distribution to different child functions
+ */
 static void	son(int i, t_fds *fd, t_cmd *cur, int *pipes)
 {
 	default_signals();
@@ -113,6 +125,9 @@ static void	son(int i, t_fds *fd, t_cmd *cur, int *pipes)
 	exit(1);
 }
 
+/**
+ * Logic for multiple children
+ */
 int	create_children(t_fds *fd, t_cmd *cmds)
 {
 	int		i;

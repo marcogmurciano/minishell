@@ -12,6 +12,9 @@
 
 #include "../../../include/minishell.h"
 
+/**
+ * Cleanup function
+ */
 int	cleanup(t_fds *fd)
 {
 	if (fd->buffer != -1)
@@ -20,6 +23,9 @@ int	cleanup(t_fds *fd)
 	return (0);
 }
 
+/**
+ * Free array
+ */
 void	free_bidimensional_array(char **arr)
 {
 	int	i;
@@ -36,6 +42,9 @@ void	free_bidimensional_array(char **arr)
 	free(arr);
 }
 
+/**
+ * Duplicate array
+ */
 char	**ft_strdup_arr(char **arr)
 {
 	size_t	count;
@@ -65,6 +74,9 @@ char	**ft_strdup_arr(char **arr)
 	return (dup_arr);
 }
 
+/**
+ * Get string after "/"
+ */
 char	*split_cmd_after_slash(const char *s)
 {
 	const char	*slash = strrchr(s, '/');
@@ -75,6 +87,9 @@ char	*split_cmd_after_slash(const char *s)
 		return (ft_strdup(s));
 }
 
+/**
+ * No explaination needed
+ */
 void	saturn_devours_children(int *pids)
 {
 	int	i;

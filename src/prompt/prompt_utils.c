@@ -12,6 +12,9 @@
 
 #include "../../include/minishell.h"
 
+/**
+ * Function to clear line and display the new readline prompt
+ */
 void	clear_line_and_newline(void)
 {
 	write(1, "\n", 1);

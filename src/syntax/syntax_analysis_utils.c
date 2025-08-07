@@ -6,15 +6,14 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 10:57:28 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/04 10:37:55 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/07 15:02:17 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 /**
- * Recreates array + 1 in size and inserts the given infile in the first pos,
- * copies the rest.
+ * Inserts infile into the array by creating a new array
  */
 char	**insert_into_array(char *infile, char **array, t_minishell *minishell)
 {
@@ -40,7 +39,7 @@ char	**insert_into_array(char *infile, char **array, t_minishell *minishell)
 }
 
 /**
- * From the given segments it builds an array of all infiles
+ * Builds an array of all infile redirections on the current segment
  */
 char	**get_infile_array(t_minishell *minishell, t_token *segment)
 {
@@ -71,9 +70,7 @@ char	**get_infile_array(t_minishell *minishell, t_token *segment)
 }
 
 /**
-
-	* From the given segments it builds an array of all outfiles 
-	  (append and redirections)
+ * Builds an array of all outfile redirections on the current segment
  */
 char	**get_outfile_array(t_minishell *minishell, t_token *segment)
 {

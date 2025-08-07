@@ -12,17 +12,6 @@
 
 #include "../../include/minishell.h"
 
-/**
- * @brief Extracts a quoted word from the input using the given delimiter.
- *
- * The word is extracted starting from index 1 up to (but not including)
- * the next occurrence of the delimiter.
- *
- * @param minishell The structure to get minishell->input.
- * @param delimiter The quote character that marks the end of the quoted word.
- * @return A pointer to the newly allocated string containing the quoted word,
- * or NULL on allocation failure.
- */
 char	*get_quoted_word(t_minishell *minishell, char delimiter, int i)
 {
 	char	*word;
@@ -43,17 +32,6 @@ char	*get_quoted_word(t_minishell *minishell, char delimiter, int i)
 	return (word);
 }
 
-/**
- * @brief Extracts an unquoted word from the input string.
- *
- * The word is extracted starting from index 0 up to the first whitespace,
- * operator ('|', '<', '>'), quote ('\'', '\"'), or '$' character.
- *
- * @param minishell Structure from which to retrieve the input
- * @param input Pointer to the start of the word within the imput
- * @return A pointer to the newly allocated string containing the unquoted word,
- * or NULL on allocation failure.
- */
 char	*get_unquoted_word(t_minishell *minishell, char *input)
 {
 	char	*word;

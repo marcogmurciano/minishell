@@ -6,12 +6,15 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 11:03:50 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/08/07 11:23:53 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:21:32 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
 
+/**
+ * Distribute to execution based on pathed state and input redirection type
+ */
 static void execute(t_cmd *cmd, t_fds *fd)
 {
 	if (ft_strchr(cmd->argv[0], '/') != NULL)
@@ -46,6 +49,9 @@ static void execute(t_cmd *cmd, t_fds *fd)
 	}
 }
 
+/**
+ * First child logic
+ */
 void	first_child(t_fds *fd, int *pipes, t_cmd *cmd)
 {
 	int	exit_code;
@@ -73,6 +79,9 @@ void	first_child(t_fds *fd, int *pipes, t_cmd *cmd)
 	cleanup(fd);
 }
 
+/**
+ * Only child logic
+ */
 void	only_child(t_fds *fd, t_cmd *cmd)
 {
 	int	exit_code;
@@ -99,6 +108,9 @@ void	only_child(t_fds *fd, t_cmd *cmd)
 	cleanup(fd);
 }
 
+/**
+ * Middle child logic
+ */
 void	middle_child(t_fds *fd, int *pipes, t_cmd *cmd)
 {
 	int	exit_code;
@@ -125,6 +137,9 @@ void	middle_child(t_fds *fd, int *pipes, t_cmd *cmd)
 	cleanup(fd);
 }
 
+/**
+ * Last child logic
+ */
 void	last_child(t_fds *fd, int *pipes, t_cmd *cmd)
 {
 	int	exit_code;
@@ -151,30 +166,4 @@ void	last_child(t_fds *fd, int *pipes, t_cmd *cmd)
 	}
 	execute(cmd, fd);
 	cleanup(fd);
-}
-
-char	*join_cmd(char **cmd)
-{
-	int		i;
-	char	*t;
-	char	*r;
-
-	r = NULL;
-	i = 0;
-	while (cmd[i])
-	{
-		if (i == 0)
-			r = ft_strdup(cmd[i]);
-		else
-		{
-			t = r;
-			r = ft_strjoin(t, " ");
-			free(t);
-			t = r;
-			r = ft_strjoin(t, cmd[i]);
-			free(t);
-		}
-		i++;
-	}
-	return (r);
 }

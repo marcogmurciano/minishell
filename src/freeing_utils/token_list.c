@@ -13,8 +13,7 @@
 #include "../../include/minishell.h"
 
 /**
- * Frees a linked list of tokens, releasing all associated memory.
- * @param token_head Double pointer to the head of the token list.
+ * Frees linked list of tokens 
  */
 void	free_tokens_list(t_token **token_head)
 {

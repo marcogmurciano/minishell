@@ -12,6 +12,9 @@
 
 #include "../../../include/minishell.h"
 
+/**
+ * Checks if command path can be built and if result is executable
+ */
 char	*has_command(char **paths, char *cmd_name, int *status)
 {
 	int		i;
@@ -43,7 +46,9 @@ char	*has_command(char **paths, char *cmd_name, int *status)
 	return (NULL);
 }
 
-
+/**
+ * Splits PATH and traverses it's directories calling has_command
+ */
 static char	*iterate_env(char *env, char **cmd_parts, int *status)
 {
 	int		j;
@@ -60,6 +65,9 @@ static char	*iterate_env(char *env, char **cmd_parts, int *status)
 	return (result);
 }
 
+/**
+ * Check if command is a directory and if noot if it is executable
+ */
 char	*get_cmd_path(char *cmd, char **env, int *status)
 {
 	int		i;
@@ -81,6 +89,9 @@ char	*get_cmd_path(char *cmd, char **env, int *status)
 	return (NULL);
 }
 
+/**
+ * Checks if command can be found on path
+ */
 static int	process_cmd_errors(char **full_cmd, char **env)
 {
 	char	*path_cmd;
@@ -98,6 +109,9 @@ static int	process_cmd_errors(char **full_cmd, char **env)
 	return (status);
 }
 
+/**
+ * Check if command is a directory and if noot if it is executable
+ */
 int	process_single_command(char **full_cmd, t_fds *fd)
 {
 	int			result;

@@ -13,8 +13,7 @@
 #include "../../include/minishell.h"
 
 /**
- * Frees a linked list of environment nodes, releasing all associated memory.
- * @param env_head Double pointer to the head of the environment list.
+ * Frees the minishell structure
  */
 void	free_environment(t_env **env_head)
 {

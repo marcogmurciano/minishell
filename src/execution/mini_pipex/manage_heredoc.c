@@ -6,12 +6,15 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 11:06:46 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/08/07 11:54:29 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:26:52 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
 
+/**
+ * Loops that retrieves input and writes to the heredoc temp file
+ */
 static void	megaloop(t_minishell *minishell, t_cmd *cmd, int heredoc_fd, int i)
 {
 	char	*final_line;
@@ -52,6 +55,9 @@ static void	megaloop(t_minishell *minishell, t_cmd *cmd, int heredoc_fd, int i)
 	return ;
 }
 
+/**
+ * Logic that gets a path for the last heredoc created
+ */
 char	*get_heredocs(t_minishell *minishell, t_cmd *cmd)
 {
 	int		i;
@@ -67,6 +73,12 @@ char	*get_heredocs(t_minishell *minishell, t_cmd *cmd)
 	last_filepath = NULL;
 	while (cmd->heredocs[i])
 	{
+		if(last_filepath)
+		{
+			unlink(last_filepath);
+			free(last_filepath);
+			last_filepath = NULL;
+		}
 		n = 0;
 		while (1)
 		{
@@ -91,6 +103,9 @@ char	*get_heredocs(t_minishell *minishell, t_cmd *cmd)
 	return (last_filepath);
 }
 
+/**
+ * Logic to get a file descriptor from the heredoc temp file
+ */
 int manage_heredocs(t_cmd *cmd, t_fds *fd)
 {
 	int heredoc_fd;
@@ -102,10 +117,14 @@ int manage_heredocs(t_cmd *cmd, t_fds *fd)
 		if(heredoc_fd == -1)
 		{
 			perror("minishell: heredoc");
+			unlink(cmd->last_heredoc_filepath);
 			return (-1);
 		}
 		else
+		{
+			unlink(cmd->last_heredoc_filepath);
 			return (heredoc_fd);
+		}
 	}
 	return (-1);
 }

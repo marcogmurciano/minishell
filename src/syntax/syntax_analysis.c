@@ -13,10 +13,7 @@
 #include "../../include/minishell.h"
 
 /**
- * @brief Extracts the next segment of tokens up to TOKEN_PIPE or TOKEN_EOF.
- *
- * @param token Double pointer to the current token; updated to the next segm.
- * @return Pointer to the head of the new segment, or NULL if input is invalid.
+ * Forms a detached list from the tokens that are part of the current segment
  */
 static t_token	*get_next_segment(t_token **token)
 {
@@ -47,11 +44,7 @@ static t_token	*get_next_segment(t_token **token)
 }
 
 /**
- * @brief Builds a t_cmd structure from a segment of tokens.
- *
- * @param minishell Pointer to the minishell context.
- * @param segment Head of the token segment for the command.
- * @return Pointer to the new t_cmd, or NULL on allocation failure.
+ * From the provided segment builds a cmd
  */
 static t_cmd	*build_cmd_from_segment(t_minishell *minishell,
 		t_token *segment)
@@ -77,10 +70,7 @@ static t_cmd	*build_cmd_from_segment(t_minishell *minishell,
 }
 
 /**
- * @brief Appends a command to the end of the minishell's pipeline list.
- *
- * @param minishell Pointer to the minishell structure.
- * @param new_cmd Pointer to the command to append.
+ * Append providedd command to the end of the commands list
  */
 static void	append_command(t_minishell *minishell, t_cmd *new_cmd)
 {
@@ -100,10 +90,7 @@ static void	append_command(t_minishell *minishell, t_cmd *new_cmd)
 }
 
 /**
- * @brief Parses the token list and builds the command pipeline.
- *
- * @param minishell Pointer to the minishell structure.
- * @return 0 on success, 1 on syntax error.
+ * Checks for correct syntax and builds the list of command pipelines
  */
 int	syntax_analysis(t_minishell *minishell)
 {

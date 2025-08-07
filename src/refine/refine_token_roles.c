@@ -6,15 +6,17 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 10:31:02 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/05 18:15:07 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/07 15:34:49 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+/**
+ * For word tokens assign a more specific token type
+ */
 static int	get_new_token_type(t_token *current, t_token *prev)
 {
-
 	(void)current;
 	if (prev == NULL)
 		return (TOKEN_CMD);
@@ -38,8 +40,7 @@ static int	get_new_token_type(t_token *current, t_token *prev)
 }
 
 /**
- * Refines the roles of tokens in a linked list based on context.
- * @param tokens_head Pointer to the head of the token list.
+ * For word tokens call a refinement function
  */
 void	refine_token_roles(t_token *tokens_head)
 {

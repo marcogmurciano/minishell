@@ -14,7 +14,6 @@
 
 /**
  * Cleans up resources and exits the minishell program.
- * @param minishell Pointer to the minishell context.
  */
 void	exit_minishell(t_minishell *minishell)
 {

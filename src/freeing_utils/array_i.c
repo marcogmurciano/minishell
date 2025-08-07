@@ -12,6 +12,9 @@
 
 #include "../../include/minishell.h"
 
+/**
+ * Free an array of j pointers
+ */
 char	**free_array(char **array, int j)
 {
 	while (j >= 0)

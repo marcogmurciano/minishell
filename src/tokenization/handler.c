@@ -6,23 +6,12 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:08:49 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/04 16:06:58 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:58:51 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-/**
- * @brief Processes an operator at the given input index.
- *
- * Detects an operator in the input string at index `i`,
- * adds it to the token list, and returns the number of characters consumed.
- *
- * @param token_head Pointer to the token list head.
- * @param minishell Input source structure.
- * @param i Current input index.
- * @return Characters consumed by the operator.
- */
 int	handle_operator(t_token **token_head, t_minishell *minishell, int i)
 {
 	if (minishell->input[i] == '|')
@@ -48,18 +37,6 @@ int	handle_operator(t_token **token_head, t_minishell *minishell, int i)
 	return (1);
 }
 
-/**
- * @brief Processes a quoted word at the specified input index.
- *
- * Extracts a quoted word from the input at index `i`,
- * adds it as a word token (recording the quote type),
- * and returns its length including quotes.
- *
- * @param token_head Pointer to the token list head.
- * @param minishell Input source structure.
- * @param i Current input index (should be at a quote).
- * @return Characters consumed by the quoted word (including quotes).
- */
 int	handle_quoted_word(t_token **token_head, t_minishell *minishell, int i)
 {
 	char	*quote;
@@ -111,18 +88,6 @@ int	handle_ansi_c_quoted_word(t_token **token_head, t_minishell *minishell,
 	return (len + 3);
 }
 
-/**
- * @brief Handles non-quoted word tokens in the input string.
- *
- * This function extracts word starting at the given index, adds it as a
- * word token to the token list, frees the temporary buffer, and returns
- * the length of the word.
- *
- * @param token_head Pointer to the head of the token list.
- * @param minishell Structure to retrieve the input from.
- * @param i The current index in the input string.
- * @return The number of characters consumed by the non-quoted word.
- */
 int	handle_nonquoted_word(t_token **token_head, t_minishell *minishell, int i)
 {
 	char	*first_char;

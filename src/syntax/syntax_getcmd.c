@@ -12,6 +12,9 @@
 
 #include "../../include/minishell.h"
 
+/**
+ * for the provided array, fill it with the command and arguments
+ */
 static int	fill_argv_from_tokens(char **argv, t_token *segment)
 {
 	t_token	*token;
@@ -34,6 +37,9 @@ static int	fill_argv_from_tokens(char **argv, t_token *segment)
 	return (0);
 }
 
+/**
+ * Count the total number of arguments plus the command
+ */
 static int	count_cmd_arg_tokens(t_token *segment)
 {
 	int		count;
@@ -50,6 +56,9 @@ static int	count_cmd_arg_tokens(t_token *segment)
 	return (count);
 }
 
+/**
+ * Build an array from command and arguments in the current segment/pipeline
+ */
 char	**get_cmd_argv(t_minishell *minishell, t_token *segment)
 {
 	int		argc;

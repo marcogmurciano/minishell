@@ -15,6 +15,9 @@
 
 #include "../../include/minishell.h"
 
+/**
+ * Get number of commands
+ */
 int	ft_cmdsize(t_cmd *lst)
 {
 	int	counter;
@@ -28,6 +31,9 @@ int	ft_cmdsize(t_cmd *lst)
 	return (counter);
 }
 
+/**
+ * Entry point to execution
+ */
 int	execution(t_minishell *minishell)
 {
 	t_cmd	*head;
