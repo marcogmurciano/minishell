@@ -6,12 +6,15 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:01:16 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/07 14:57:06 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/08 11:32:04 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+/**
+ * Error for non numeric arguments
+ */
 static void numeric_error_exit(t_minishell *minishell, char **argv)
 {
 	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
@@ -21,7 +24,9 @@ static void numeric_error_exit(t_minishell *minishell, char **argv)
 	exit_minishell(minishell);
 }
 
-/// @brief Modified atol that checks if number is past INT-MIN and INT_MAX
+/**
+ * Modified atol that checks if number passed is not over the int limits
+ */
 long	mod_atol(char *nptr, int *error)
 {
 	int		sign;
@@ -50,6 +55,9 @@ long	mod_atol(char *nptr, int *error)
 	return (result * sign);
 }
 
+/**
+ * Function that replicates exit (exit process with a specified code)
+ */
 int	builtin_exit(t_minishell *minishell, char **argv)
 {
 	int i;
