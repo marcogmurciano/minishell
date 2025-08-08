@@ -6,12 +6,15 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:28:43 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/23 13:04:23 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/08 11:28:27 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+/**
+ * Function that prints envp line by line
+ */
 void	print_envp(char **envp)
 {
 	int	i;
@@ -23,6 +26,9 @@ void	print_envp(char **envp)
 	}
 }
 
+/**
+ * Function that replicates env (print the environ variables and values)
+ */
 int	builtin_env(t_minishell *minishell, char **argv)
 {
 	if (argv[1] != NULL)

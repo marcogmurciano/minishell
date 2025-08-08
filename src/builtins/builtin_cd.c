@@ -6,12 +6,15 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 12:28:24 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/04 11:14:17 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/08 11:18:45 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+/**
+ * Functionality that changes directory and updates PWD and OLDPWD variables
+ */
 int change_directory(char *path, t_minishell *minishell)
 {
 	int status;
@@ -36,6 +39,9 @@ int change_directory(char *path, t_minishell *minishell)
 	return (status);
 }
 
+/**
+ * Error printng
+ */
 static void cd_error(char **argv)
 {
 	ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
@@ -44,6 +50,9 @@ static void cd_error(char **argv)
 	perror("");
 }
 
+/**
+ * Function that replicates cd functionality
+ */
 int    builtin_cd(t_minishell *minishell, char **argv)
 {
     int argc;

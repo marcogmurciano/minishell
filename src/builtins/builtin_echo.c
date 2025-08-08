@@ -6,12 +6,15 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:54:42 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/07/22 16:28:09 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/08 11:23:57 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * Function that replicates echo functionality
+ */
 int builtin_echo(t_minishell *minishell, char **argv)
 {
     int i = 1;
@@ -32,5 +35,5 @@ int builtin_echo(t_minishell *minishell, char **argv)
     }
     if (newline)
         ft_putstr_fd("\n", STDOUT_FILENO);
-    return 0;
+    return (0);
 }
