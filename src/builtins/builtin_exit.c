@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:01:16 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/08 11:32:04 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/08 14:58:09 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,13 @@
 /**
  * Error for non numeric arguments
  */
-static void numeric_error_exit(t_minishell *minishell, char **argv)
+static void numeric_error_exit(t_minishell *minishell, t_fds* fd, char **argv)
 {
 	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 	ft_putstr_fd(argv[1], STDERR_FILENO);
 	ft_putendl_fd(" : numeric argument required", STDERR_FILENO);
 	minishell->last_exit_status = 2;
+	cleanup(fd);
 	exit_minishell(minishell);
 }
 
@@ -58,7 +59,7 @@ long	mod_atol(char *nptr, int *error)
 /**
  * Function that replicates exit (exit process with a specified code)
  */
-int	builtin_exit(t_minishell *minishell, char **argv)
+int	builtin_exit(t_minishell *minishell, t_fds* fd, char **argv)
 {
 	int i;
 	int error;
@@ -70,6 +71,7 @@ int	builtin_exit(t_minishell *minishell, char **argv)
 	if (i == 1)
 	{
 		minishell->last_exit_status = 0;
+		cleanup(fd);
 		exit_minishell(minishell);
 	}
 	else if (i > 2)
@@ -83,13 +85,14 @@ int	builtin_exit(t_minishell *minishell, char **argv)
 	while(argv[1][i])
 	{
 		if(ft_isdigit(argv[1][i]) == 0 && ft_issign(argv[1][i]) == 0)
-			numeric_error_exit(minishell, argv);
+			numeric_error_exit(minishell, fd, argv);
 		i++;
 	}
 	if(mod_atol(argv[1], &error) == -1 && error == -1)
-		numeric_error_exit(minishell, argv);
+		numeric_error_exit(minishell, fd, argv);
 	else
 		minishell->last_exit_status = ft_atoi(argv[1]) % 256;
+	cleanup(fd);
 	exit_minishell(minishell);
 	return (0);
 }

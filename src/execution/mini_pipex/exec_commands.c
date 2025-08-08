@@ -15,7 +15,7 @@
 /**
  * Distribute to builtin functions
  */
-int	execute_built_in(t_minishell *minishell, char **split_cmd)
+int	execute_built_in(t_minishell *minishell, t_fds *fd, char **split_cmd)
 {
 	int	status;
 
@@ -33,7 +33,7 @@ int	execute_built_in(t_minishell *minishell, char **split_cmd)
 	else if (ft_strcmp(split_cmd[0], "cd") == 0)
 		status = builtin_cd(minishell, split_cmd);
 	else if (ft_strcmp(split_cmd[0], "exit") == 0)
-		status = builtin_exit(minishell, split_cmd);
+		status = builtin_exit(minishell, fd, split_cmd);
 	return (status);
 }
 
@@ -48,7 +48,7 @@ static int	manual_execution(char **full_cmd, t_fds *fd, int should_exit)
 		return (1);
 	if (is_builtin(full_cmd[0]))
 	{
-		status = execute_built_in(fd->minishell, full_cmd);
+		status = execute_built_in(fd->minishell, fd, full_cmd);
 		if (should_exit)
 		{
 			cleanup(fd);
@@ -83,6 +83,8 @@ void	exec_cmd(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
 	cmd_path = get_cmd_path(full_cmd[0], fd->env, &exitstatus);
 	execve(cmd_path, full_cmd, fd->env);
 	perror("minishell");
+	free_minishell(fd->minishell);
+	cleanup(fd);
 	exit(errno);
 }
 
@@ -139,5 +141,7 @@ void	exec_pathed_cmd(char **cmd, int in_fd, int out_fd, t_fds *fd)
 	execve(cmd[0], new_argv, fd->env);
 	ft_free_array((void **)new_argv);
 	perror("minishell");
+	free_minishell(fd->minishell);
+	cleanup(fd);
 	exit(errno);
 }

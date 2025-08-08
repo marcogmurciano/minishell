@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_sons_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 11:03:50 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/08/08 11:24:32 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/08/08 17:36:15 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	first_child(t_fds *fd, int *pipes, t_cmd *cmd)
 		if (fd->heredoc != -1)
 			close(fd->heredoc);
 		close(pipes[1]);
+		free_minishell(fd->minishell);
 		cleanup(fd);
 		exit(exit_code);
 	}
@@ -89,6 +90,7 @@ void	only_child(t_fds *fd, t_cmd *cmd)
 			close(fd->out);
 		if (fd->heredoc != -1)
 			close(fd->heredoc);
+		free_minishell(fd->minishell);
 		cleanup(fd);
 		exit(exit_code);
 	}
@@ -118,6 +120,7 @@ void	middle_child(t_fds *fd, int *pipes, t_cmd *cmd)
 			close(fd->out);
 		if (fd->heredoc != -1)
 			close(fd->heredoc);
+		free_minishell(fd->minishell);
 		cleanup(fd);
 		exit(exit_code);
 	}
@@ -149,6 +152,7 @@ void	last_child(t_fds *fd, int *pipes, t_cmd *cmd)
 			close(fd->out);
 		if (fd->heredoc != -1)
 			close(fd->heredoc);
+		free_minishell(fd->minishell);
 		cleanup(fd);
 		exit(exit_code);
 	}

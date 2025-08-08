@@ -93,8 +93,8 @@ static int	only_builtin_son(t_fds *fd, t_cmd *cmd_list, int *status)
 		if (process_single_command(cmd_list->argv, fd) != 0)
 			bad_command(fd);
 		*status = exec_builtin(cmd_list, fd);
-		cleanup(fd);
 		restore_std_fds(fd->minishell);
+		cleanup(fd);
 		return (*status);
 	}
 	fd->minishell->pid = fork();

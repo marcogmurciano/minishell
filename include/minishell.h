@@ -131,7 +131,7 @@ int		builtin_export(t_minishell *minishell, char **argv);
 int		builtin_echo(t_minishell *minishell, char **argv);
 int		builtin_unset(t_minishell *minishell, char **argv);
 int		builtin_cd(t_minishell *minishell, char **argv);
-int		builtin_exit(t_minishell *minishell, char **argv);
+int		builtin_exit(t_minishell *minishell, t_fds *fd, char **argv);
 
 ///////////////////////////////////////////////////////////////////////////////
 //

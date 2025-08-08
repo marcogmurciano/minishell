@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 12:28:24 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/08 11:18:45 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/08 14:41:29 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,22 @@ int change_directory(char *path, t_minishell *minishell)
 	int status;
 	char *cwd[3];
 	char *new_cwd[3];
+	char *getcwd_result;
 
 	status = 0;
 	ft_bzero(cwd, sizeof(char *)*3);
 	ft_bzero(new_cwd, sizeof(char *)*3);
 	cwd[0] = "export";
-	cwd[1] = ft_strjoin_three("OLDPWD", "=", getcwd(NULL, 0));
+	getcwd_result = getcwd(NULL, 0);
+	cwd[1] = ft_strjoin_three("OLDPWD", "=", getcwd_result);
+	free(getcwd_result);
 	status = chdir(path);
 	if(status == 0)
 	{
 		new_cwd[0] = "export";
-		new_cwd[1] = ft_strjoin_three("PWD", "=", getcwd(NULL, 0));
+		getcwd_result = getcwd(NULL, 0);
+		new_cwd[1] = ft_strjoin_three("PWD", "=", getcwd_result);
+		free(getcwd_result);
 		builtin_export(minishell, new_cwd);
 		builtin_export(minishell, cwd);
 		free(new_cwd[1]);
