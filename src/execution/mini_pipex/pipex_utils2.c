@@ -6,7 +6,7 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 11:02:24 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/08/08 10:53:05 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/08/08 11:09:50 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,34 @@ int	is_builtin(char *split_cmd)
 /**
  * Restore standard FDs REQUIRED when executing builtin
  */
-void restore_std_fds(t_minishell *minishell)
+void	restore_std_fds(t_minishell *minishell)
 {
 	dup2(minishell->duplicated_std_fds[0], STDIN_FILENO);
 	dup2(minishell->duplicated_std_fds[1], STDOUT_FILENO);
+}
+
+/**
+ * Init Variable in struct fd
+ */
+void	init_fd_struct(t_fds *fd, t_minishell *m, int ac)
+{
+	fd->env = ft_strdup_arr(m->envp);
+	fd->minishell = m;
+	fd->buffer = -1;
+	fd->status = -1;
+	fd->how_many_cmd = ac;
+	fd->pid_array = ft_calloc(ac, (sizeof(int *) + 1));
+}
+
+/**
+ * Set up pipes
+ */
+void	setup_pipes(int *pipes, int i, int how_many_cmd)
+{
+	pipes[0] = -1;
+	pipes[1] = -1;
+	if (i == how_many_cmd)
+		return ;
+	if (i != how_many_cmd - 1)
+		pipe(pipes);
 }
