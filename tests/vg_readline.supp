@@ -1,0 +1,49 @@
+{
+   libreadline_leaks
+   Memcheck:Leak
+   match-leak-kinds: definite,possible,reachable
+   obj:*/libreadline.so*
+}
+{
+   libhistory_leaks
+   Memcheck:Leak
+   match-leak-kinds: definite,possible,reachable
+   obj:*/libhistory.so*
+}
+{
+   libtinfo_leaks
+   Memcheck:Leak
+   match-leak-kinds: definite,possible,reachable
+   obj:*/libtinfo.so*
+}
+{
+   libncurses_leaks
+   Memcheck:Leak
+   match-leak-kinds: definite,possible,reachable
+   obj:*/libncurses.so*
+}
+# Fallback globs (in case of different sonames)
+{
+   readline_fallback
+   Memcheck:Leak
+   match-leak-kinds: definite,possible,reachable
+   obj:*readline*
+}
+{
+   history_fallback
+   Memcheck:Leak
+   match-leak-kinds: definite,possible,reachable
+   obj:*history*
+}
+{
+   tinfo_fallback
+   Memcheck:Leak
+   match-leak-kinds: definite,possible,reachable
+   obj:*tinfo*
+}
+{
+   ncurses_fallback
+   Memcheck:Leak
+   match-leak-kinds: definite,possible,reachable
+   obj:*ncurses*
+}

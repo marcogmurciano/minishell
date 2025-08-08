@@ -151,6 +151,8 @@ int	ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell)
 			return (128 + WTERMSIG(fd.status));
 		return (fd.status);
 	}
-	return (create_children(&fd, cmd_list));
+	returnvalue = create_children(&fd, cmd_list);
+	cleanup(&fd);
+	return (returnvalue);
 }
 

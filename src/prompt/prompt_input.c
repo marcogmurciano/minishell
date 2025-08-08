@@ -40,6 +40,8 @@ char	*build_prompt(t_minishell *minishell)
 	new_prompt = ft_strjoin(prompt, "$ ");
 	if (!new_prompt)
 		malloc_error(minishell);
+	free(user);
+	free(colored_cwd);
 	free(prompt);
 	return (new_prompt);
 }
