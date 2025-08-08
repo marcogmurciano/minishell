@@ -22,7 +22,7 @@ static void	close_dup_stds(t_minishell *minishell)
 		close(minishell->duplicated_std_fds[0]);
 		minishell->duplicated_std_fds[0] = -1;
 	}
-	if(minishell->duplicated_std_fds[0] != -1)
+	if(minishell->duplicated_std_fds[1] != -1)
 	{
 		close(minishell->duplicated_std_fds[1]);
 		minishell->duplicated_std_fds[1] = -1;

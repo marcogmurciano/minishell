@@ -1,3 +1,93 @@
+# Readline library function-based suppressions
+{
+   readline_direct_malloc
+   Memcheck:Leak
+   match-leak-kinds: definite,possible,reachable
+   fun:malloc
+   fun:rl_initialize
+}
+{
+   readline_xmalloc_leaks
+   Memcheck:Leak
+   match-leak-kinds: definite,possible,reachable
+   fun:malloc
+   fun:xmalloc
+   obj:*/libreadline.so*
+}
+{
+   readline_xrealloc_leaks
+   Memcheck:Leak
+   match-leak-kinds: definite,possible,reachable
+   fun:realloc
+   fun:xrealloc
+   obj:*/libreadline.so*
+}
+{
+   readline_expand_prompt_leaks
+   Memcheck:Leak
+   match-leak-kinds: definite,possible,reachable
+   fun:realloc
+   fun:xrealloc
+   ...
+   fun:rl_expand_prompt
+   obj:*/libreadline.so*
+}
+{
+   readline_set_prompt_leaks
+   Memcheck:Leak
+   match-leak-kinds: definite,possible,reachable
+   fun:realloc
+   fun:xrealloc
+   ...
+   fun:rl_set_prompt
+   obj:*/libreadline.so*
+}
+{
+   readline_main_function_leaks
+   Memcheck:Leak
+   match-leak-kinds: definite,possible,reachable
+   fun:realloc
+   fun:xrealloc
+   ...
+   fun:readline
+   obj:*/libreadline.so*
+}
+{
+   readline_strdup_leaks
+   Memcheck:Leak
+   match-leak-kinds: definite,possible,reachable
+   fun:malloc
+   fun:strdup
+   obj:*/libreadline.so*
+}
+{
+   readline_expand_prompt_malloc_leaks
+   Memcheck:Leak
+   match-leak-kinds: definite,possible,reachable
+   fun:malloc
+   ...
+   fun:rl_expand_prompt
+   obj:*/libreadline.so*
+}
+{
+   readline_set_prompt_malloc_leaks
+   Memcheck:Leak
+   match-leak-kinds: definite,possible,reachable
+   fun:malloc
+   ...
+   fun:rl_set_prompt
+   obj:*/libreadline.so*
+}
+{
+   readline_main_function_malloc_leaks
+   Memcheck:Leak
+   match-leak-kinds: definite,possible,reachable
+   fun:malloc
+   ...
+   fun:readline
+   obj:*/libreadline.so*
+}
+# Broader object-based suppressions
 {
    libreadline_leaks
    Memcheck:Leak
@@ -9,6 +99,30 @@
    Memcheck:Leak
    match-leak-kinds: definite,possible,reachable
    obj:*/libhistory.so*
+}
+# tinfo/ncurses function-based suppressions
+{
+   tinfo_malloc_from_readline
+   Memcheck:Leak
+   match-leak-kinds: definite,possible,reachable
+   fun:malloc
+   ...
+   fun:rl_initialize
+}
+{
+   tinfo_strdup_leaks
+   Memcheck:Leak
+   match-leak-kinds: definite,possible,reachable
+   fun:malloc
+   fun:strdup
+   obj:*/libtinfo.so*
+}
+{
+   tinfo_malloc_leaks
+   Memcheck:Leak
+   match-leak-kinds: definite,possible,reachable
+   fun:malloc
+   obj:*/libtinfo.so*
 }
 {
    libtinfo_leaks
