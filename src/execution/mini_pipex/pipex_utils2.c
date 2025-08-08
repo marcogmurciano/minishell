@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 11:02:24 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/08/07 17:07:49 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/08 10:53:05 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,13 @@ int	is_builtin(char *split_cmd)
 		|| ft_strcmp(split_cmd, "exit") == 0)
 		return (1);
 	return (0);
+}
+
+/**
+ * Restore standard FDs REQUIRED when executing builtin
+ */
+void restore_std_fds(t_minishell *minishell)
+{
+	dup2(minishell->duplicated_std_fds[0], STDIN_FILENO);
+	dup2(minishell->duplicated_std_fds[1], STDOUT_FILENO);
 }

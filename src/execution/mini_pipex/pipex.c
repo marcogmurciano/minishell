@@ -73,15 +73,15 @@ static void	bad_command(t_fds *fd)
 /**
  * Distribution depending on type or REDIR_IN
  */
-static int exec_builtin(t_cmd *cmd, t_fds *fd)
+static int	exec_builtin(t_cmd *cmd, t_fds *fd)
 {
-	if(fd->last_in == 0 || fd->last_in == -1)
+	if (fd->last_in == 0 || fd->last_in == -1)
 	{
 		if (fd->heredoc != -1)
 			close(fd->heredoc);
 		return (exec_only_builtin(cmd->argv, fd->in, fd->out, fd));
 	}
-	if(fd->last_in == 1)
+	if (fd->last_in == 1)
 	{
 		if (fd->in != 0 && fd->in != -1)
 			close(fd->in);
@@ -154,11 +154,3 @@ int	ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell)
 	return (create_children(&fd, cmd_list));
 }
 
-/**
- * Restore standard FDs REQUIRED when executing builtin
- */
-void restore_std_fds(t_minishell *minishell)
-{
-	dup2(minishell->duplicated_std_fds[0], STDIN_FILENO);
-	dup2(minishell->duplicated_std_fds[1], STDOUT_FILENO);
-}
