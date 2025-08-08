@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:06:14 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/08 14:01:34 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/08 14:22:16 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ static void	minishell_loop(t_minishell *minishell)
 	while (1)
 	{
 		setup_signal_handlers();
-		get_signal_exit(minishell);
 		minishell->input = get_prompt_input(minishell);
+		get_signal_exit(minishell);
 		if (minishell->input == NULL)
 			exit_minishell(minishell);
 		if (tokenization(minishell) == 1)
