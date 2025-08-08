@@ -12,6 +12,9 @@
 
 #include "../../include/minishell.h"
 
+/**
+ * Print malloc error, clear history and exit
+ */
 void	malloc_error(t_minishell *minishell)
 {
 	free_minishell(minishell);

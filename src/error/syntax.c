@@ -12,6 +12,9 @@
 
 #include "../../include/minishell.h"
 
+/**
+ * Printing of syntax errors
+ */
 int	syntax_error(char *origin, t_minishell *minishell, int code)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);

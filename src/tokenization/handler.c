@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:08:49 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/07 14:58:51 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/08 13:46:06 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,19 @@ int	handle_quoted_word(t_token **token_head, t_minishell *minishell, int i)
 	char	*quote;
 	char	*word;
 	int		len;
+	int		is_spaced;
 
 	quote = &(minishell->input[i]);
+	is_spaced = (quote > minishell->input && ft_isspace(quote[-1]));
 	if (ft_strncmp(quote + 1, "_EMPTY_", 7) == 0)
 	{
-		add_word_token(token_head, TOKEN_WORD, "", quote);
+		add_word_token(token_head, "", *quote, is_spaced);
 		return (9);
 	}
 	word = get_quoted_word(minishell, *quote, i);
 	if (word == NULL)
 		return (-1);
-	add_word_token(token_head, TOKEN_WORD, word, quote);
+	add_word_token(token_head, word, *quote, is_spaced);
 	len = ft_strlen(word);
 	free(word);
 	return (len + 2);
@@ -70,7 +72,7 @@ int	handle_ansi_c_quoted_word(t_token **token_head, t_minishell *minishell,
 	word = get_quoted_word(minishell, dollar_pos[1], i + 1);
 	if (word == NULL)
 		return (-1);
-	add_word_token(token_head, TOKEN_WORD, word, dollar_pos + 1);
+	add_word_token(token_head, word, dollar_pos[1], 0);
 	if (*token_head)
 	{
 		last = *token_head;
@@ -93,15 +95,17 @@ int	handle_nonquoted_word(t_token **token_head, t_minishell *minishell, int i)
 	char	*first_char;
 	char	*word;
 	int		len;
+	int		is_spaced;
 
 	first_char = &(minishell->input[i]);
+	is_spaced = (first_char > minishell->input && ft_isspace(first_char[-1]));
 	if (ft_strncmp(first_char, "_EMPTY_", 7) == 0)
 	{
-		add_word_token(token_head, TOKEN_WORD, "", first_char);
+		add_word_token(token_head, "", *first_char, is_spaced);
 		return (7);
 	}
 	word = get_unquoted_word(minishell, first_char);
-	add_word_token(token_head, TOKEN_WORD, word, first_char);
+	add_word_token(token_head, word, *first_char, is_spaced);
 	len = ft_strlen(word);
 	free(word);
 	return (len);

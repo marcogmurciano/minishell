@@ -85,7 +85,7 @@ char	*get_quoted_word(t_minishell *minishell, char delimiter, int i);
 
 char	*get_unquoted_word(t_minishell *minishell, char *input);
 
-int		add_word_token(t_token **token_head, t_token_type t_type, char *word, char *quote);
+int		add_word_token(t_token **token_head, char *word, char quote_char, int is_spaced);
 int		add_nonword_token(t_token **token_head, t_token_type t_type, char *value);
 int		add_eof_token(t_token **token_head);
 
