@@ -20,6 +20,7 @@ int	cleanup(t_fds *fd)
 	if (fd->buffer != -1)
 		close(fd->buffer);
 	free_bidimensional_array(fd->env);
+	free(fd->pid_array);
 	return (0);
 }
 

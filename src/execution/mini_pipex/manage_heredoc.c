@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 11:06:46 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/08/07 17:26:52 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/08 11:17:43 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,26 +23,22 @@ static void	megaloop(t_minishell *minishell, t_cmd *cmd, int heredoc_fd, int i)
 	(void)minishell;
 	final_line = NULL;
 	line = NULL;
-	
 	while (1)
 	{
 		line = readline("> ");
-		
 		if (line == NULL)
 		{
-			printf("minishell: warning: here-document delimited by end-of-file (wanted `%s')\n",
-				cmd->heredocs[i]);
+			ft_printf("minishell: warning: here-document delimited \
+			by end-of-file (wanted `%s')\n", cmd->heredocs[i]);
 			close(heredoc_fd);
 			break ;
 		}
-		
 		if (ft_strcmp(line, cmd->heredocs[i]) == 0)
 		{
 			free(line);
 			close(heredoc_fd);
 			break ;
 		}
-		
 		if (cmd->expand_heredoc_content)
 			final_line = expand_heredoc_line(minishell, line);
 		else
@@ -73,7 +69,7 @@ char	*get_heredocs(t_minishell *minishell, t_cmd *cmd)
 	last_filepath = NULL;
 	while (cmd->heredocs[i])
 	{
-		if(last_filepath)
+		if (last_filepath)
 		{
 			unlink(last_filepath);
 			free(last_filepath);
@@ -89,7 +85,7 @@ char	*get_heredocs(t_minishell *minishell, t_cmd *cmd)
 				n += 1;
 			}
 			else
-				break;
+				break ;
 		}
 		heredoc_fd = open(filepath, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 		if (heredoc_fd == -1)
@@ -106,15 +102,15 @@ char	*get_heredocs(t_minishell *minishell, t_cmd *cmd)
 /**
  * Logic to get a file descriptor from the heredoc temp file
  */
-int manage_heredocs(t_cmd *cmd, t_fds *fd)
+int	manage_heredocs(t_cmd *cmd, t_fds *fd)
 {
-	int heredoc_fd;
+	int	heredoc_fd;
 
 	(void)fd;
-	if(cmd->last_heredoc_filepath != NULL)
+	if (cmd->last_heredoc_filepath != NULL)
 	{
 		heredoc_fd = open(cmd->last_heredoc_filepath, O_RDONLY);
-		if(heredoc_fd == -1)
+		if (heredoc_fd == -1)
 		{
 			perror("minishell: heredoc");
 			unlink(cmd->last_heredoc_filepath);

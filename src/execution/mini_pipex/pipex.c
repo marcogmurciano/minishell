@@ -34,19 +34,6 @@ void	manage_parent_fds(t_fds *fd, int *pipes, int i)
 }
 
 /**
- * Set up pipes
- */
-void	setup_pipes(int *pipes, int i, int how_many_cmd)
-{
-	pipes[0] = -1;
-	pipes[1] = -1;
-	if (i == how_many_cmd)
-		return ;
-	if (i != how_many_cmd - 1)
-		pipe(pipes);
-}
-
-/**
  * Clear and close fds on bad command
  */
 static void	bad_command(t_fds *fd)
@@ -130,12 +117,7 @@ int	ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell)
 	int		returnvalue;
 	int		status;
 
-	fd.env = ft_strdup_arr(minishell->envp);
-	fd.minishell = minishell;
-	fd.buffer = -1;
-	fd.status = -1;
-	fd.how_many_cmd = ac;
-	fd.pid_array = ft_calloc(ac, (sizeof(int *) + 1));
+	init_fd_struct(&fd, minishell, ac);
 	if (fd.how_many_cmd == 1)
 	{
 		returnvalue = only_builtin_son(&fd, cmd_list, &status);
