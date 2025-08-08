@@ -12,6 +12,9 @@
 
 #include "../../../include/minishell.h"
 
+/**
+ * Distribute to builtin functions
+ */
 int	execute_built_in(t_minishell *minishell, char **split_cmd)
 {
 	int	status;
@@ -34,6 +37,9 @@ int	execute_built_in(t_minishell *minishell, char **split_cmd)
 	return (status);
 }
 
+/**
+ * If cmd is builtin calls to builtin distribution function
+ */
 static int	manual_execution(char **full_cmd, t_fds *fd, int should_exit)
 {
 	int	status;
@@ -53,6 +59,9 @@ static int	manual_execution(char **full_cmd, t_fds *fd, int should_exit)
 	return (0);
 }
 
+/**
+ * Retrieves path for cmd and executes
+ */
 void	exec_cmd(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
 {
 	char	*cmd_path;
@@ -77,6 +86,9 @@ void	exec_cmd(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
 	exit(errno);
 }
 
+/**
+ * Execution logic for single command that is builtin
+ */
 int	exec_only_builtin(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
 {
 	if (!full_cmd || !full_cmd[0])
@@ -100,6 +112,9 @@ int	exec_only_builtin(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
 	return (manual_execution(full_cmd, fd, 0));
 }
 
+/**
+ * Execution logic for command as a path
+ */
 void	exec_pathed_cmd(char **cmd, int in_fd, int out_fd, t_fds *fd)
 {
 	char	**new_argv;

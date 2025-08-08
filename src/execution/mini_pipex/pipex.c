@@ -47,7 +47,7 @@ void	setup_pipes(int *pipes, int i, int how_many_cmd)
 }
 
 /**
- * Clear on bad command
+ * Clear and close fds on bad command
  */
 static void	bad_command(t_fds *fd)
 {
