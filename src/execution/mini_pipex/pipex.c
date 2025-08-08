@@ -137,4 +137,3 @@ int	ft_pipex(int ac, t_cmd *cmd_list, t_minishell *minishell)
 	cleanup(&fd);
 	return (returnvalue);
 }
-

@@ -16,7 +16,7 @@
 #include "../../../include/minishell.h"
 
 /**
- * Files REDIR_OUT management
+ * Files REDIR_OUT management   01 is O_WRONLY but line would be too long
  */
 int	manage_outfiles(t_cmd *cmd, t_fds *fd)
 {
@@ -31,9 +31,9 @@ int	manage_outfiles(t_cmd *cmd, t_fds *fd)
 			fd->out = -1;
 		}
 		if (cmd->outfiles[i] != NULL && cmd->append)
-			fd->out = open(cmd->outfiles[i], O_CREAT | O_WRONLY | O_APPEND, 420);
+			fd->out = open(cmd->outfiles[i], O_CREAT | 01 | O_APPEND, 420);
 		else if (cmd->outfiles[i] != NULL && !cmd->append)
-			fd->out = open(cmd->outfiles[i], O_CREAT | O_WRONLY | O_TRUNC, 420);
+			fd->out = open(cmd->outfiles[i], O_CREAT | 01 | O_TRUNC, 420);
 		if (fd->out == -1)
 		{
 			print_child_error(cmd->outfiles[i], fd);
@@ -83,21 +83,15 @@ static int	wait_children(t_fds *fd)
 	i = 0;
 	n_flag = 0;
 	status = 0;
-	waitpid(fd->pid_array[i], &status, 0);
-	if (status == 2 && (n_flag == 0))
-		n_flag = write(1, "\n", 1);
-	if (status == 131 && (n_flag == 0))
-			n_flag = write(1, "Quit (core dumped)\n", 20);
-	i++;
-	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-		saturn_devours_children(fd->pid_array);
 	while (i < fd->how_many_cmd)
 	{
 		waitpid(fd->pid_array[i], &status, 0);
-		if (status == 2 && (n_flag == 0))
+		if (status == 2 && !n_flag)
 			n_flag = write(1, "\n", 1);
-		if (status == 131 && (n_flag == 0))
+		else if (status == 131 && !n_flag)
 			n_flag = write(1, "Quit (core dumped)\n", 20);
+		if (i == 0 && WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+			saturn_devours_children(fd->pid_array);
 		i++;
 	}
 	if (WIFEXITED(status))

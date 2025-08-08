@@ -30,10 +30,7 @@ char	*has_command(char **paths, char *cmd_name, int *status)
 		full_path = ft_strjoin(temp, cmd_name);
 		free(temp);
 		if (access(full_path, X_OK) == 0)
-		{
-			*status = 0;
-			return (full_path);
-		}
+			return (norminette_is_extremely_fucked_up(status, full_path));
 		else if (access(full_path, F_OK) == 0)
 			found_not_executable = 1;
 		free(full_path);
@@ -102,7 +99,7 @@ static int	process_cmd_errors(char **full_cmd, char **env)
 	if (path_cmd == NULL)
 	{
 		if (full_cmd[0] != NULL)
-			printf("minishell: %s: command not found\n", full_cmd[0]);
+			ft_printf("minishell: %s: command not found\n", full_cmd[0]);
 	}
 	else
 		free(path_cmd);
@@ -130,7 +127,8 @@ int	process_single_command(char **full_cmd, t_fds *fd)
 		else if (access(full_cmd[0], F_OK | X_OK) != 0)
 		{
 			result = 127;
-			ft_printf("minishell: %s: No such file or directory\n", full_cmd[0]);
+			ft_printf("minishell: %s: No such file or \
+directory\n", full_cmd[0]);
 		}
 	}
 	else
