@@ -6,22 +6,37 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 11:06:46 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/08/08 11:17:43 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/08/08 12:44:21 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
 
 /**
+ * writes to the heredoc temp file
+ */
+static void	heredoc_ln(t_minishell *m, t_cmd *cmd, int heredoc_fd, char *line)
+{
+	char	*final_line;
+
+	if (cmd->expand_heredoc_content)
+		final_line = expand_heredoc_line(m, line);
+	else
+		final_line = ft_strdup(line);
+	ft_putendl_fd(line, heredoc_fd);
+	free(line);
+	if (final_line)
+		free(final_line);
+}
+
+/**
  * Loops that retrieves input and writes to the heredoc temp file
  */
 static void	megaloop(t_minishell *minishell, t_cmd *cmd, int heredoc_fd, int i)
 {
-	char	*final_line;
 	char	*line;
 
 	(void)minishell;
-	final_line = NULL;
 	line = NULL;
 	while (1)
 	{
@@ -29,7 +44,7 @@ static void	megaloop(t_minishell *minishell, t_cmd *cmd, int heredoc_fd, int i)
 		if (line == NULL)
 		{
 			ft_printf("minishell: warning: here-document delimited \
-			by end-of-file (wanted `%s')\n", cmd->heredocs[i]);
+by end-of-file (wanted `%s')\n", cmd->heredocs[i]);
 			close(heredoc_fd);
 			break ;
 		}
@@ -39,16 +54,36 @@ static void	megaloop(t_minishell *minishell, t_cmd *cmd, int heredoc_fd, int i)
 			close(heredoc_fd);
 			break ;
 		}
-		if (cmd->expand_heredoc_content)
-			final_line = expand_heredoc_line(minishell, line);
-		else
-			final_line = ft_strdup(line);
-		ft_putendl_fd(line, heredoc_fd);
-		free(line);
-		if (final_line)
-			free(final_line);
+		heredoc_ln(minishell, cmd, heredoc_fd, line);
 	}
 	return ;
+}
+
+int	create_file(char *last_filepath, char **filepath, int i)
+{
+	int		n;
+	char	*tmp_num;
+
+	if (last_filepath)
+	{
+		unlink(last_filepath);
+		free(last_filepath);
+	}
+	n = 0;
+	while (1)
+	{
+		tmp_num = ft_itoa(i + n);
+		*filepath = ft_strjoin("/tmp/.heredoc_minishell", tmp_num);
+		free(tmp_num);
+		if (access(*filepath, F_OK) == 0)
+		{
+			free(*filepath);
+			n += 1;
+		}
+		else
+			break ;
+	}
+	return (open(*filepath, O_WRONLY | O_CREAT | O_TRUNC, 0777));
 }
 
 /**
@@ -57,7 +92,6 @@ static void	megaloop(t_minishell *minishell, t_cmd *cmd, int heredoc_fd, int i)
 char	*get_heredocs(t_minishell *minishell, t_cmd *cmd)
 {
 	int		i;
-	int		n;
 	char	*filepath;
 	char	*last_filepath;
 	int		heredoc_fd;
@@ -69,25 +103,8 @@ char	*get_heredocs(t_minishell *minishell, t_cmd *cmd)
 	last_filepath = NULL;
 	while (cmd->heredocs[i])
 	{
-		if (last_filepath)
-		{
-			unlink(last_filepath);
-			free(last_filepath);
-			last_filepath = NULL;
-		}
-		n = 0;
-		while (1)
-		{
-			filepath = ft_strjoin("/tmp/.heredoc_minishell", ft_itoa(i + n));
-			if (access(filepath, F_OK) == 0)
-			{
-				free(filepath);
-				n += 1;
-			}
-			else
-				break ;
-		}
-		heredoc_fd = open(filepath, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		filepath = NULL;
+		heredoc_fd = create_file(last_filepath, &filepath, i);
 		if (heredoc_fd == -1)
 			perror("");
 		megaloop(minishell, cmd, heredoc_fd, i);
