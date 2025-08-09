@@ -6,30 +6,45 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 12:55:30 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/07 16:37:13 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/09 15:36:01 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 /**
+ * Auxiliary function for expand tokens value
+ */
+static char *get_quoted_result(const char *value, int quote_type)
+{
+    char *temp_value;
+    char *result;
+
+    temp_value = ft_strdup(value);
+    if (quote_type == SINGLE_QUOTE)
+        result = ft_strjoin_three("'", temp_value, "'");
+    else
+        result = ft_strjoin_three("\"", temp_value, "\"");
+    free(temp_value);
+    return result;
+}
+
+/**
  * Assign quotes to expanded line to keep on retokenization
  */
-static char	*expanded_token_value(t_token *token)
+char *expanded_token_value(t_token *token)
 {
-	if (token->value == NULL || *(token->value) == 0)
-	{
-		if (token->quote_type == DOUBLE_QUOTE || token->quote_type == SINGLE_QUOTE)
-			return (ft_strdup("\"\""));
-		else
-			return (ft_strdup(""));
-	}
-	if (token->quote_type == SINGLE_QUOTE)
-		return (ft_strjoin_three("'", ft_strdup(token->value), "'"));
-	else if (token->quote_type == DOUBLE_QUOTE)
-		return (ft_strjoin_three("\"", ft_strdup(token->value), "\""));
-	else
-		return (ft_strdup(token->value));
+    if (token->value == NULL || *(token->value) == 0)
+    {
+        if (token->quote_type == DOUBLE_QUOTE || token->quote_type == SINGLE_QUOTE)
+            return ft_strdup("\"\"");
+        else
+            return ft_strdup("");
+    }
+    if (token->quote_type == SINGLE_QUOTE || token->quote_type == DOUBLE_QUOTE)
+        return get_quoted_result(token->value, token->quote_type);
+    else
+        return ft_strdup(token->value);
 }
 
 /**
