@@ -105,6 +105,7 @@ static int	only_builtin_son(t_fds *fd, t_cmd *cmd_list, int *status)
 		only_child(fd, cmd_list);
 	}
 	waitpid(fd->minishell->pid, &(fd->status), 0);
+	cleanup(fd);
 	return (9999);
 }
 
