@@ -155,6 +155,7 @@ char 	**get_outfile_array(t_minishell *minishell, t_token *segment);
 char	**insert_into_array(char *infile, char **array, t_minishell *minishell);
 int		get_append_status(t_token *token);
 int		get_last_in_type(t_token *segment);
+void 	unlink_token(t_token *token);
 
 ///////////////////////////////////////////////////////////////////////////////
 //

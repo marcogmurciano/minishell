@@ -42,7 +42,6 @@ static t_token	*get_next_segment(t_token **token)
 {
 	t_token	*segment_ends[2];
 	t_token	*next_segment_start;
-	t_token	*pipe_token;
 
 	if (!token || !*token)
 		return (NULL);
