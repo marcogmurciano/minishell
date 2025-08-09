@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 10:57:28 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/07 15:06:22 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/09 16:47:33 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,14 @@ int	get_heredoc_expansion_status(t_token *segment)
 		current = current->next;
 	}
 	return (last_heredoc);
+}
+
+/**
+ * Detaches token from previous nodes
+ */
+void unlink_token(t_token *token) 
+{
+    if (token->prev)
+        token->prev->next = NULL;
+    token->prev = NULL;
 }

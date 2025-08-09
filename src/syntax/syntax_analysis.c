@@ -13,33 +13,50 @@
 #include "../../include/minishell.h"
 
 /**
+ * Sets start of next segment, if current is a pipe, it lso frees it
+ */
+static void	set_next_segment_start(t_token *current, t_token **next_segment_start)
+{
+	t_token	*pipe_token;
+
+	if (current->token_type == TOKEN_EOF)
+	{
+		*next_segment_start = current;
+		unlink_token(current);
+	}
+	else if (current->token_type == TOKEN_PIPE)
+	{
+		pipe_token = current;
+		*next_segment_start = pipe_token->next;
+		unlink_token(pipe_token);
+		if (*next_segment_start)
+			(*next_segment_start)->prev = NULL;
+		free_tokens_list(&pipe_token);
+	}
+}
+
+/**
  * Forms a detached list from the tokens that are part of the current segment
  */
 static t_token	*get_next_segment(t_token **token)
 {
 	t_token	*segment_ends[2];
-	t_token	*next;
+	t_token	*next_segment_start;
+	t_token	*pipe_token;
 
 	if (!token || !*token)
 		return (NULL);
 	segment_ends[0] = *token;
 	segment_ends[1] = segment_ends[0];
-	next = NULL;
+	next_segment_start = NULL;
+
 	while (segment_ends[1] && segment_ends[1]->token_type != TOKEN_EOF
 		&& segment_ends[1]->token_type != TOKEN_PIPE)
 		segment_ends[1] = segment_ends[1]->next;
-	if (segment_ends[1] && (segment_ends[1]->token_type == TOKEN_EOF
-			|| segment_ends[1]->token_type == TOKEN_PIPE))
-	{
-		if (segment_ends[1]->token_type == TOKEN_EOF)
-			next = segment_ends[1];
-		else
-			next = segment_ends[1]->next;
-		if (segment_ends[1]->prev)
-			segment_ends[1]->prev->next = NULL;
-		segment_ends[1]->prev = NULL;
-	}
-	*token = next;
+
+	if (segment_ends[1])
+		set_next_segment_start(segment_ends[1], &next_segment_start);
+	*token = next_segment_start;
 	return (segment_ends[0]);
 }
 

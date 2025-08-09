@@ -51,6 +51,7 @@ static int	manual_execution(char **full_cmd, t_fds *fd, int should_exit)
 		status = execute_built_in(fd->minishell, fd, full_cmd);
 		if (should_exit)
 		{
+			free_minishell(fd->minishell);
 			cleanup(fd);
 			exit(status);
 		}

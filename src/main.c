@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:06:14 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/08 14:22:16 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/09 16:13:01 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,13 @@ static void	minishell_loop(t_minishell *minishell)
 		if (tokenization(minishell) == 1)
 			continue ;
 		if (syntax_analysis(minishell) == 1)
+		{
+			free_tokens_list(&(minishell->tokens_list));
 			continue ;
+		}
 		minishell->last_exit_status = execution(minishell);
 		free_cmds(&(minishell->cmd_pipelines));
+		free_tokens_list(&(minishell->tokens_list));
 	}
 }
 
