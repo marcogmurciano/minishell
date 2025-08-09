@@ -82,8 +82,11 @@ void	exec_cmd(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
 		close(output_fd);
 	manual_execution(full_cmd, fd, 1);
 	cmd_path = get_cmd_path(full_cmd[0], fd->env, &exitstatus);
-	execve(cmd_path, full_cmd, fd->env);
-	perror("minishell");
+	if (cmd_path)
+	{
+    	execve(cmd_path, full_cmd, fd->env);
+    	perror("minishell");
+	}
 	free_minishell(fd->minishell);
 	cleanup(fd);
 	exit(errno);

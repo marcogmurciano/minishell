@@ -31,7 +31,9 @@ static void	set_next_segment_start(t_token *current, t_token **next_segment_star
 		unlink_token(pipe_token);
 		if (*next_segment_start)
 			(*next_segment_start)->prev = NULL;
-		free_tokens_list(&pipe_token);
+		if (pipe_token->value)
+			free(pipe_token->value);
+		free(pipe_token);
 	}
 }
 
@@ -123,7 +125,8 @@ int	syntax_analysis(t_minishell *minishell)
 		new_command = build_cmd_from_segment(minishell, segment);
 		append_command(minishell, new_command);
 	}
-	free_tokens_list(&token);
+	if (token)
+		free_tokens_list(&token);
 	minishell->tokens_list = NULL;
 	return (0);
 }
