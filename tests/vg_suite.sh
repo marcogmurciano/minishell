@@ -8,6 +8,10 @@ STRICT=${STRICT:-0}   # set STRICT=1 to exit non-zero if any "definitely lost" >
 
 mkdir -p "$LOGDIR"
 
+# Delete all logs from previous runs in LOGDIR before starting new tests
+find "$LOGDIR" -type f -name '*.log' -delete
+find "$LOGDIR" -type f -name '*.summary' -delete
+
 # Force stable (English) output for parsing
 export LANG=C
 export LC_ALL=C
