@@ -31,6 +31,7 @@ int	builtin_unset(t_minishell *minishell, char **argv)
 				current_env->next = temp_env->next;
 				temp_env->next = NULL;
 				free_environment(&temp_env);
+				ft_free_array((void **)(minishell->envp));
 				minishell->envp = get_environment_array(minishell->environment);
 			}
 			current_env = current_env->next;

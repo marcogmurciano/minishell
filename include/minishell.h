@@ -168,6 +168,7 @@ void	free_environment(t_env **env_head);
 void	free_tokens_list(t_token **token_head);
 char	**free_array(char **array, int j);
 void	free_cmds(t_cmd **cmd_head);
+void	close_dup_stds(t_minishell *minishell);
 
 ///////////////////////////////////////////////////////////////////////////////
 //

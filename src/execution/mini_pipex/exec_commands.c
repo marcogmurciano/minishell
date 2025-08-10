@@ -84,6 +84,7 @@ void	exec_cmd(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
 	cmd_path = get_cmd_path(full_cmd[0], fd->env, &exitstatus);
 	if (cmd_path)
 	{
+		close_dup_stds(fd->minishell);
     	execve(cmd_path, full_cmd, fd->env);
     	perror("minishell");
 	}
@@ -142,6 +143,7 @@ void	exec_pathed_cmd(char **cmd, int in_fd, int out_fd, t_fds *fd)
 	if (out_fd != -1 && out_fd != 1)
 		close(out_fd);
 	manual_execution(cmd, fd, 1);
+	close_dup_stds(fd->minishell);
 	execve(cmd[0], new_argv, fd->env);
 	ft_free_array((void **)new_argv);
 	perror("minishell");

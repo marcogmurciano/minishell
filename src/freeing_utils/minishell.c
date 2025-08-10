@@ -15,7 +15,7 @@
 /**
  * Closes the duplicated STDIN and STDOUT file descriptors
  */
-static void	close_dup_stds(t_minishell *minishell)
+void	close_dup_stds(t_minishell *minishell)
 {
 	if(minishell->duplicated_std_fds[0] != -1)
 	{

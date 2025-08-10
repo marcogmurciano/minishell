@@ -23,7 +23,9 @@ int	cleanup(t_fds *fd)
 		fd->buffer = -1;
 	}
 	free_bidimensional_array(fd->env);
+	fd->env = NULL;
 	free(fd->pid_array);
+	fd->pid_array = NULL;
 	return (0);
 }
 
