@@ -6,18 +6,14 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:28:46 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/10 13:17:58 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/10 19:21:39 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 /**
- * @brief Finds and replaces an environment variable in the linked list.
- *        If the key matches, replaces the node and frees the old one.
- * @param env_head Pointer to the head node of the environment list.
- * @param new_node The new environment variable node to insert.
- * @return 1 if replaced, 0 otherwise.
+ * Finds and replaces an environment variable in the linked list.
  */
 static int	replace_env_node(t_env *env_head, t_env *new_node)
 {
@@ -42,6 +38,9 @@ static int	replace_env_node(t_env *env_head, t_env *new_node)
 	return (0);
 }
 
+/**
+ * Check if arguments correctly formated
+ */
 static int check_key_syntax(char *key)
 {
 	int i;
@@ -61,15 +60,9 @@ static int check_key_syntax(char *key)
 	return (0);
 }
 
-void ft_swap(char **first, char **second)
-{
-	char *temp;
-
-	temp = *first;
-	*first = *second;
-	*second = temp;
-}
-
+/**
+ * Create an array of strings with only environment values keys that have value
+ */
 char **get_export_envp(t_minishell *minishell)
 {
 	t_env	*current;
@@ -99,6 +92,9 @@ char **get_export_envp(t_minishell *minishell)
 	return (export_envp);
 }
 
+/**
+ * Sorts the export envp and prints it
+ */
 void print_ordered_envp(t_minishell *minishell)
 {
 	char	**sorted_envp;
@@ -128,13 +124,7 @@ void print_ordered_envp(t_minishell *minishell)
 }
 
 /**
- * @brief Exports environment variables to the minishell environment.
- *        Adds new or replaces existing environment variables as needed.
- * @param minishell Pointer to the minishell structure.
- * @param pathname Not used.
- * @param argv Null-terminated array of arguments. argv[0] is the command name.
- * @param envp Not used.
- * @return 0 on success, calls malloc_error() on allocation error.
+ * @brief Adds new or replaces existing environment variables as needed.
  */
 int	builtin_export(t_minishell *minishell, char **argv)
 {
@@ -142,14 +132,13 @@ int	builtin_export(t_minishell *minishell, char **argv)
 	int		i;
 	int		exit_status;
 
-	i = 1;
+	i = 0;
 	exit_status = 0;
-	while (argv[i])
+	while (argv[++i])
 	{
 		if(check_key_syntax(argv[i]) == 1)
 		{
 			exit_status = syntax_error("export", minishell, 4);
-			i++;
 			continue;
 		}
 		new_node = create_env_node(argv[i]);
@@ -159,7 +148,6 @@ int	builtin_export(t_minishell *minishell, char **argv)
 			append_env_node(&(minishell->environment), new_node);
 		ft_free_array((void **)(minishell->envp));
 		minishell->envp = get_environment_array(minishell->environment);
-		i++;
 	}
 	if (i == 1)
 		print_ordered_envp(minishell);

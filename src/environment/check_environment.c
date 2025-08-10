@@ -13,12 +13,7 @@
 #include "../../include/minishell.h"
 
 /**
- * @brief Creates a new environment variable node.
- *
- * @param key The key/name of the environment variable.
- * @param value The value of the environment variable.
- * @param minishell Pointer to the minishell structure (used for errors).
- * @return Pointer to the newly created t_env node.
+ * Creates a new environment variable node.
  */
 static t_env	*create_env_node2(const char *key, const char *value,
 		t_minishell *minishell)
@@ -35,13 +30,7 @@ static t_env	*create_env_node2(const char *key, const char *value,
 }
 
 /**
- * @brief Checks and initializes the environment list for minishell.
- *
- * If the environment is not set, creates a minimal environment
- * with PWD, SHLVL, and _.
- *
- * @param minishell Pointer to the minishell structure.
- * @return Pointer to the head of the environment list.
+ * Checks and initializes the environment list for minishell.
  */
 t_env	*check_environment(t_minishell *minishell)
 {

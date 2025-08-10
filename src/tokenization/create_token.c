@@ -6,12 +6,15 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:06:01 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/07 14:59:00 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/10 18:20:53 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+/**
+ * Function to create non-word tokens
+ */
 t_token	*create_nonword_token(t_token_type t_type, char *value)
 {
 	t_token	*token;
@@ -26,6 +29,9 @@ t_token	*create_nonword_token(t_token_type t_type, char *value)
 	return (token);
 }
 
+/**
+ * Function to create empty quoted and non-quoted word tokens
+ */
 t_token	*create_word_token(t_token_type t_type, char *word, char quote)
 {
 	t_token	*token;
@@ -46,6 +52,9 @@ t_token	*create_word_token(t_token_type t_type, char *word, char quote)
 	return (token);
 }
 
+/**
+ * Function to create EOF tokens for the end of the tokens list
+ */
 t_token	*create_eof_token(void)
 {
 	t_token	*token;

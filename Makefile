@@ -39,6 +39,7 @@ SRCS = 	src/main.c \
 		src/expansion/expander.c \
 		src/expansion/retrieve_input.c \
 		src/freeing_utils/array_i.c \
+		src/freeing_utils/strings.c \
 		src/freeing_utils/environ_list.c \
 		src/freeing_utils/minishell.c \
 		src/freeing_utils/token_list.c \
@@ -58,6 +59,7 @@ SRCS = 	src/main.c \
 		src/execution/mini_pipex/manage_sons.c \
 		src/execution/mini_pipex/pipex_utils.c \
 		src/execution/mini_pipex/pipex_utils2.c \
+		src/execution/mini_pipex/pipex_utils3.c \
 		src/execution/mini_pipex/is_cmd_valid.c \
 		src/execution/mini_pipex/pipex.c \
 		src/execution/mini_pipex/manage_heredoc.c \
@@ -66,6 +68,7 @@ SRCS = 	src/main.c \
 		src/builtins/builtin_pwd.c \
 		src/builtins/builtin_env.c \
 		src/builtins/builtin_export.c \
+		src/builtins/builtin_export_extra.c \
 		src/builtins/builtin_echo.c \
 		src/builtins/builtin_unset.c \
 		src/builtins/builtin_cd.c \

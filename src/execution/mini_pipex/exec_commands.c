@@ -76,10 +76,7 @@ void	exec_cmd(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
 		perror("minishell");
 	if (dup2(output_fd, STDOUT_FILENO) == -1)
 		perror("minishell");
-	if (input_fd != -1 && input_fd != 0)
-		close(input_fd);
-	if (output_fd != -1 && output_fd != 1)
-		close(output_fd);
+	fd_check_and_close(input_fd, output_fd);
 	manual_execution(full_cmd, fd, 1);
 	cmd_path = get_cmd_path(full_cmd[0], fd->env, &exitstatus);
 	if (cmd_path)
@@ -112,10 +109,7 @@ int	exec_only_builtin(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
 		if (dup2(output_fd, STDOUT_FILENO) == -1)
 			perror("minishell");
 	}
-	if (input_fd != -1 && input_fd != 0)
-		close(input_fd);
-	if (output_fd != -1 && output_fd != 1)
-		close(output_fd);
+	fd_check_and_close(input_fd, output_fd);
 	return (manual_execution(full_cmd, fd, 0));
 }
 
@@ -138,10 +132,7 @@ void	exec_pathed_cmd(char **cmd, int in_fd, int out_fd, t_fds *fd)
 	new_argv[i] = NULL;
 	if ((!new_argv[0]) | (dup2(in_fd, 0) == -1) | (dup2(out_fd, 1) == -1))
 		perror("minishell");
-	if (in_fd != -1 && in_fd != 0)
-		close(in_fd);
-	if (out_fd != -1 && out_fd != 1)
-		close(out_fd);
+	fd_check_and_close(in_fd, out_fd);
 	manual_execution(cmd, fd, 1);
 	close_dup_stds(fd->minishell);
 	execve(cmd[0], new_argv, fd->env);

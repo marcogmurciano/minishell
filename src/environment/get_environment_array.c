@@ -13,10 +13,7 @@
 #include "../../include/minishell.h"
 
 /**
- * @brief Counts the number of environment variables in the linked list.
- *
- * @param env Pointer to the head of the environment variable linked list.
- * @return The number of environment variables in the list.
+ * Counts the number of environment variables in the linked list.
  */
 static int	env_count(t_env *env)
 {
@@ -32,30 +29,7 @@ static int	env_count(t_env *env)
 }
 
 /**
- * @brief Frees the environment array and its elements up to index i.
- *
- * @param envp The environment array to free.
- * @param i The number of elements to free in the array.
- */
-static void	free_envp(char **envp, int i)
-{
-	while (i > 0)
-	{
-		free(envp[--i]);
-	}
-	free(envp);
-}
-
-/**
- * @brief Converts the environment linked list to a NULL-terminated
- * array of strings.
- *
- * Each string is in the format NAME=VALUE. The returned array must be
- * freed by the caller.
- *
- * @param env Pointer to the head of the environment variable linked list.
- * @return A newly allocated NULL-terminated array of environment strings,
- * or NULL on failure.
+ * Converts the environment linked list to a NULL-terminated array
  */
 char	**get_environment_array(t_env *env)
 {
@@ -72,7 +46,7 @@ char	**get_environment_array(t_env *env)
 		{
 			envp[i] = ft_strjoin_three(env->key, "=", env->value);
 			if (!envp[i])
-				return (free_envp(envp, i), NULL);
+				return (free_array(envp, i), NULL);
 			i++;
 		}
 		env = env->next;

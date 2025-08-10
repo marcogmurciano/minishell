@@ -6,12 +6,32 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:54:42 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/08/08 11:23:57 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/10 19:11:22 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+
+/**
+ * Detect if argument is a -n flag
+ */
+int is_n_flag(const char *s)
+{
+    int i;
+
+    i = 0;
+    if (s[0] != '-')
+        return (0);
+    while (s[i])
+    {
+        if (s[i] != 'n')
+            return (0);
+        i++;
+    }
+    return (i > 1);
+}
+ 
 /**
  * Function that replicates echo functionality
  */
@@ -21,7 +41,7 @@ int builtin_echo(t_minishell *minishell, char **argv)
     int newline = 1;
 
     (void)minishell;
-    if (argv[i] && strcmp(argv[i], "-n") == 0)
+    while (argv[i] && is_n_flag(argv[i]))
     {
         newline = 0;
         i++;

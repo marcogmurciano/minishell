@@ -18,6 +18,7 @@
 # include "readline/history.h"
 # include "readline/readline.h"
 # include <signal.h>
+# include <stdarg.h>
 # include <linux/limits.h>
 # include <stdio.h>
 # include <unistd.h>
@@ -169,6 +170,7 @@ void	free_tokens_list(t_token **token_head);
 char	**free_array(char **array, int j);
 void	free_cmds(t_cmd **cmd_head);
 void	close_dup_stds(t_minishell *minishell);
+void 	free_strs(int count, ...);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -177,6 +179,13 @@ void	close_dup_stds(t_minishell *minishell);
 //
 void	malloc_error(t_minishell *minishell);
 int		syntax_error(char *origin, t_minishell *minishell, int code);
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//    EXTRA
+//
+//
+void	ft_swap(char **first, char **second);
 
 ///////////////////////////////////////////////////////////////////////////////
 //

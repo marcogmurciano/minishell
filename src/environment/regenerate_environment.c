@@ -14,8 +14,6 @@
 
 /**
  * Creates a new environment node from the given environment string.
- * @param arg The environment string in "NAME=VALUE" format.
- * @return Pointer to the newly created node, or NULL on failure.
  */
 t_env	*create_env_node(char *arg)
 {
@@ -48,8 +46,6 @@ t_env	*create_env_node(char *arg)
 
 /**
  * Appends a new environment node to the end of the linked list.
- * @param head Pointer to the head of the list.
- * @param new_env The new node to append.
  */
 void	append_env_node(t_env **head, t_env *new_env)
 {
@@ -72,8 +68,6 @@ void	append_env_node(t_env **head, t_env *new_env)
 
 /**
  * Builds a linked list of environment variables from envp.
- * @param envp The environment pointer array.
- * @return Pointer to the head of the linked list.
  */
 t_env	*regenerate_environment(char **envp)
 {

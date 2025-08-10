@@ -6,12 +6,15 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 20:45:00 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/07/30 13:20:53 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/10 18:07:01 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+/**
+ * Join or merge word tokens when no separation between them
+ */
 void	join_tokens(t_token **tokens_head)
 {
 	t_token	*current;

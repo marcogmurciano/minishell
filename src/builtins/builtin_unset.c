@@ -12,6 +12,9 @@
 
 #include "../../include/minishell.h"
 
+/**
+ * If environment variable exists, remove from environment
+ */
 int	builtin_unset(t_minishell *minishell, char **argv)
 {
 	t_env	*current_env;

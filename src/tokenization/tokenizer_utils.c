@@ -12,6 +12,9 @@
 
 #include "../../include/minishell.h"
 
+/**
+ * Retrieve the word between the quotes
+ */
 char	*get_quoted_word(t_minishell *minishell, char delimiter, int i)
 {
 	char	*word;
@@ -32,6 +35,9 @@ char	*get_quoted_word(t_minishell *minishell, char delimiter, int i)
 	return (word);
 }
 
+/**
+ * Retrieve the word between operators, spaces or up to \0
+ */
 char	*get_unquoted_word(t_minishell *minishell, char *input)
 {
 	char	*word;

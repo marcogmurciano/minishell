@@ -1,19 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   norminette_is_extremely_fucked_up.c                :+:      :+:    :+:   */
+/*   strings.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/08 11:42:22 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/08/10 18:39:53 by dbarba-v         ###   ########.fr       */
+/*   Created: 2025/08/10 18:27:27 by dbarba-v          #+#    #+#             */
+/*   Updated: 2025/08/10 18:30:20 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include/minishell.h"
+#include "../../include/minishell.h"
 
-char	*norminette_is_extremely_fucked_up(int *zero, char *s)
+/**
+ * Frees a list of string arguments
+ */
+void free_strs(int count, ...)
 {
-	*zero = 0;
-	return (s);
+	va_list args;
+	char *str;
+	int i;
+
+    va_start(args, count);
+	i = 0;
+	while(i < count)
+	{
+		str = va_arg(args, char *);
+		free(str);
+		i++;
+	}
+	va_end(args);
 }

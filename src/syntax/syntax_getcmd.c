@@ -13,7 +13,7 @@
 #include "../../include/minishell.h"
 
 /**
- * for the provided array, fill it with the command and arguments
+ * For the provided array, fill it with the command and arguments
  */
 static int	fill_argv_from_tokens(char **argv, t_token *segment)
 {

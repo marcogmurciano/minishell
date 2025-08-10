@@ -36,9 +36,9 @@ static char	*expansor(t_minishell *minishell, char **str)
 			- (expander.variable_start + expander.variable_name_length));
 	expander.new_word_value = ft_strjoin_three(expander.preffix,
 			expander.variable_value, expander.suffix);
-	return (free(expander.variable_value), free(expander.preffix),
-			free(expander.suffix), free(expander.variable_name),
-			expander.new_word_value);
+	free_strs(4, expander.variable_value, expander.preffix, expander.suffix,
+			expander.variable_name);
+	return (expander.new_word_value);
 }
 
 /**

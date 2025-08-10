@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:28:43 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/08 11:28:27 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/10 19:05:09 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	print_envp(char **envp)
 }
 
 /**
- * Function that replicates env (print the environ variables and values)
+ * Function that prints the environment variables and values
  */
 int	builtin_env(t_minishell *minishell, char **argv)
 {

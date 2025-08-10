@@ -12,6 +12,9 @@
 
 #include "../../include/minishell.h"
 
+/**
+ * Prints current working directory
+ */
 int    builtin_pwd(void)
 {
     char *cwd;

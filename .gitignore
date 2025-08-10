@@ -11,6 +11,7 @@ minishell
 libft/lib/
 libft/objs/
 .vscode/
+.docs/
 minishell_tester
 .nfs000000000083bc5a00000002
 *.log

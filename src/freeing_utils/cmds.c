@@ -13,6 +13,33 @@
 #include "../../include/minishell.h"
 
 /**
+ * Frees the arrays of a cmd structure
+ */
+static void free_arrays(t_cmd *cmd)
+{
+	if (cmd->argv)
+	{
+		ft_free_array((void **)(cmd->argv));
+		cmd->argv = NULL;
+	}
+	if (cmd->infiles)
+	{
+		ft_free_array((void **)(cmd->infiles));
+		cmd->infiles = NULL;
+	}
+	if (cmd->outfiles)
+	{
+		ft_free_array((void **)(cmd->outfiles));
+		cmd->outfiles = NULL;
+	}
+	if (cmd->heredocs)
+	{
+		ft_free_array((void **)(cmd->heredocs));
+		cmd->heredocs = NULL;
+	}
+}
+
+/**
  * Frees the list of cmds
  */
 void	free_cmds(t_cmd **cmd_head)
@@ -25,19 +52,9 @@ void	free_cmds(t_cmd **cmd_head)
 	current = *cmd_head;
 	while (current)
 	{
-		if (current->argv)
-			ft_free_array((void **)(current->argv));
-		if (current->infiles)
-			ft_free_array((void **)(current->infiles));
-		if (current->outfiles)
-			ft_free_array((void **)(current->outfiles));
-		if (current->heredocs)
-			ft_free_array((void **)(current->heredocs));
+		free_arrays(current);
 		if (current->last_heredoc_filepath)
 			free(current->last_heredoc_filepath);
-		current->outfiles = NULL;
-		current->infiles = NULL;
-		current->heredocs = NULL;
 		current->last_heredoc_filepath = NULL;
 		temp = current;
 		current = current->next;

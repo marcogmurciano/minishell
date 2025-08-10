@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:01:16 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/08 14:58:09 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/10 19:04:43 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void numeric_error_exit(t_minishell *minishell, t_fds* fd, char **argv)
 /**
  * Modified atol that checks if number passed is not over the int limits
  */
-long	mod_atol(char *nptr, int *error)
+static long	mod_atol(char *nptr, int *error)
 {
 	int		sign;
 	int		i;
@@ -57,17 +57,10 @@ long	mod_atol(char *nptr, int *error)
 }
 
 /**
- * Function that replicates exit (exit process with a specified code)
+ * Check early exit conditions
  */
-int	builtin_exit(t_minishell *minishell, t_fds* fd, char **argv)
+static int early_exits(t_minishell *minishell, t_fds* fd, int i)
 {
-	int i;
-	int error;
-
-	i = 0;
-	error = 0;
-	while (argv[i])
-		i++;
 	if (i == 1)
 	{
 		minishell->last_exit_status = 0;
@@ -81,6 +74,23 @@ int	builtin_exit(t_minishell *minishell, t_fds* fd, char **argv)
 		minishell->last_exit_status = 1;
 		return (1);
 	}
+	return (0);
+}
+
+/**
+ * Function that replicates exit (exit process with a specified code)
+ */
+int	builtin_exit(t_minishell *minishell, t_fds* fd, char **argv)
+{
+	int i;
+	int error;
+
+	i = 0;
+	error = 0;
+	while (argv[i])
+		i++;
+	if (early_exits(minishell, fd, i))
+		return (1);
 	i = 0;
 	while(argv[1][i])
 	{

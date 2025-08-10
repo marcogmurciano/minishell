@@ -6,12 +6,15 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:08:49 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/08 13:46:06 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/10 18:17:22 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+/**
+ * Distribution function
+ */
 int	handle_operator(t_token **token_head, t_minishell *minishell, int i)
 {
 	if (minishell->input[i] == '|')
@@ -37,6 +40,9 @@ int	handle_operator(t_token **token_head, t_minishell *minishell, int i)
 	return (1);
 }
 
+/**
+ * Logic for adding quoted word to tokens list
+ */
 int	handle_quoted_word(t_token **token_head, t_minishell *minishell, int i)
 {
 	char	*quote;
@@ -60,6 +66,9 @@ int	handle_quoted_word(t_token **token_head, t_minishell *minishell, int i)
 	return (len + 2);
 }
 
+/**
+ * Logic for adding ansi-c quoted word to tokens list
+ */
 int	handle_ansi_c_quoted_word(t_token **token_head, t_minishell *minishell,
 		int i)
 {
@@ -90,6 +99,9 @@ int	handle_ansi_c_quoted_word(t_token **token_head, t_minishell *minishell,
 	return (len + 3);
 }
 
+/**
+ * Logic for adding non-quoted word to tokens list
+ */
 int	handle_nonquoted_word(t_token **token_head, t_minishell *minishell, int i)
 {
 	char	*first_char;
