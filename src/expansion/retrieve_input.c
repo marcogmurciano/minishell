@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   retrieve_input.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 12:55:30 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/11 16:08:34 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/08/11 17:00:11 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*expanded_token_value(t_token *token)
 /**
  * Apend the expanded varialble to the already expanded part of line
  */
-static char	*append_exp_variable(char *expanded_line, char *expanded_variable)
+static char	*append_exp_variable(char *expanded_line, char *expanded_variable, int is_spaced)
 {
 	char	*line_to_free;
 	int		line_len;
@@ -66,11 +66,15 @@ static char	*append_exp_variable(char *expanded_line, char *expanded_variable)
 		if (line_len >= 2 && expanded_line[line_len - 1] == '"'
 			&& expanded_line[line_len - 2] == '"')
 			result = ft_strdup(expanded_line);
-		else
+		else if (is_spaced)
 			result = ft_strjoin_three(expanded_line, " ", expanded_variable);
+		else
+			result = ft_strjoin(expanded_line, expanded_variable);
 	}
-	else
+	else if (is_spaced)
 		result = ft_strjoin_three(expanded_line, " ", expanded_variable);
+	else
+		result = ft_strjoin(expanded_line, expanded_variable);
 	free(line_to_free);
 	free(expanded_variable);
 	return (result);
@@ -94,7 +98,8 @@ char	*retrieve_new_input(t_minishell *minishell)
 			exp_line = exp_variable;
 		else
 		{
-			exp_line = append_exp_variable(exp_line, exp_variable);
+			exp_line = append_exp_variable(exp_line, exp_variable,
+				current->spaced);
 			if (!exp_line)
 				return (NULL);
 		}
