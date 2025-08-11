@@ -43,6 +43,7 @@ typedef struct s_fds
 	int			has_outfile;
 	int			*pid_array;
 	t_minishell	*minishell;
+	char		*lastdir;
 }	t_fds;
 
 void	exec_pathed_cmd(char **full_cmd, int in, int out, t_fds *fd);

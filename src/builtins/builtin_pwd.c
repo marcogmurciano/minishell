@@ -15,17 +15,21 @@
 /**
  * Prints current working directory
  */
-int	builtin_pwd(void)
+int	builtin_pwd(t_fds *fd)
 {
-	char	*cwd;
+	char		*cwd;
 
 	cwd = getcwd(NULL, 0);
 	if (cwd == NULL)
 	{
-		perror("minishell: pwd: ");
+		// perror("minishell: pwd");
+		printf("%s\n", fd->lastdir);
 		return (1);
 	}
 	printf("%s\n", cwd);
+	if (fd->lastdir)
+		free(fd->lastdir);
+	fd->lastdir = ft_strcpy(cwd);
 	free(cwd);
 	return (0);
 }
