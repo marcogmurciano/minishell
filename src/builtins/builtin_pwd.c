@@ -17,7 +17,8 @@
  */
 int	builtin_pwd(t_fds *fd)
 {
-	char		*cwd;
+	char	*cwd;
+	int		cwd_len;
 
 	cwd = getcwd(NULL, 0);
 	if (cwd == NULL)
@@ -29,7 +30,7 @@ int	builtin_pwd(t_fds *fd)
 	printf("%s\n", cwd);
 	if (fd->lastdir)
 		free(fd->lastdir);
-	fd->lastdir = ft_strcpy(cwd);
+	fd->lastdir = ft_strdup(cwd);
 	free(cwd);
 	return (0);
 }
