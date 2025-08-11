@@ -93,6 +93,7 @@ static int	process_cmd_errors(char **full_cmd, char **env)
 {
 	char	*path_cmd;
 	int		status;
+	char	*tmp;
 
 	status = 0;
 	path_cmd = get_cmd_path(full_cmd[0], env, &status);
@@ -100,8 +101,9 @@ static int	process_cmd_errors(char **full_cmd, char **env)
 	{
 		if (full_cmd[0] != NULL)
 		{
-			ft_printf("minishell: %s", full_cmd[0]);
-			perror(" \b");
+			tmp = ft_strjoin("minishell: ", full_cmd[0]);
+			perror(tmp);
+			free(tmp);
 		}
 	}
 	else
@@ -125,15 +127,15 @@ int	process_single_command(char **full_cmd, t_fds *fd)
 		if (stat(full_cmd[0], &st) == 0 && S_ISDIR(st.st_mode))
 		{
 			ft_printf("minishell: %s: is a directory\n", full_cmd[0]);
-			return(126);
+			return (126);
 		}
 		else if (access(full_cmd[0], F_OK | X_OK) != 0)
 		{
 			ft_printf("minishell: %s", full_cmd[0]);
 			perror(" \b");
 			if (errno == EACCES)
-				return(126);
-			return(127);
+				return (126);
+			return (127);
 		}
 	}
 	else

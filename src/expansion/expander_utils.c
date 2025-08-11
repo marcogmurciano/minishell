@@ -69,7 +69,7 @@ char	*get_variable_value(t_minishell *minishell, char *variable_name)
 	t_env	*current;
 
 	current = minishell->environment;
-	while (current && current->next)
+	while (current)
 	{
 		if (ft_strcmp(variable_name, "?") == 0)
 		{

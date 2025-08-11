@@ -14,7 +14,7 @@
 
 void	print_char(char c, size_t *result)
 {
-	write(2, &c, 1);
+	write(STDERR_FILENO, &c, 1);
 	(*result)++;
 }
 

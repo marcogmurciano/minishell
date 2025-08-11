@@ -124,7 +124,7 @@ void	refine_token_roles(t_token *tokens_head);
 //
 
 int		execution(t_minishell *minishell);
-int		builtin_pwd(void);
+int		builtin_pwd(t_fds *fd);
 int		builtin_env(t_minishell *minishell, char **argv);
 int		builtin_export(t_minishell *minishell, char **argv);
 int		builtin_echo(t_minishell *minishell, char **argv);
@@ -201,5 +201,9 @@ void	exit_minishell(t_minishell *minishell);
 //
 
 void	print_envp(char **envp);
+void	print_tokens(t_token *token_head);
+void	print_segment(t_token *token);
+void	print_cmd(t_cmd *cmd);
+void	print_environ(t_env *env);
 
 #endif

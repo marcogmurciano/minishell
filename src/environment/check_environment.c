@@ -46,7 +46,7 @@ t_env	*check_environment(t_minishell *minishell)
 			malloc_error(minishell);
 		pwd = create_env_node2("PWD", pwd_value, minishell);
 		shlvl = create_env_node2("SHLVL", "1", minishell);
-		last_cmd = create_env_node2("_", "", minishell);
+		last_cmd = create_env_node2("_", "/usr/bin/env", minishell);
 		pwd->next = shlvl;
 		shlvl->next = last_cmd;
 		last_cmd->next = NULL;

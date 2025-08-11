@@ -28,7 +28,7 @@ int	execute_built_in(t_minishell *minishell, t_fds *fd, char **split_cmd)
 	else if (ft_strcmp(split_cmd[0], "export") == 0)
 		status = builtin_export(minishell, split_cmd);
 	else if (ft_strcmp(split_cmd[0], "pwd") == 0)
-		status = builtin_pwd();
+		status = builtin_pwd(fd);
 	else if (strcmp(split_cmd[0], "unset") == 0)
 		status = builtin_unset(minishell, split_cmd);
 	else if (ft_strcmp(split_cmd[0], "env") == 0)
