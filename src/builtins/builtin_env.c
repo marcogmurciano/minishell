@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:28:43 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/10 19:05:09 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/11 10:21:42 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	print_envp(char **envp)
 {
 	int	i;
 	i = 0;
+
 	while (envp[i])
 	{
 		printf("%s\n", envp[i]);

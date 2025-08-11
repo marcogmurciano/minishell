@@ -2,15 +2,19 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   exec_commands.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2025/08/01 16:42:40 by marcoga2          #+#    #+#             */
 /*   Updated: 2025/08/01 16:42:40 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
+
 
 /**
  * Distribute to builtin functions
@@ -82,8 +86,8 @@ void	exec_cmd(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
 	if (cmd_path)
 	{
 		close_dup_stds(fd->minishell);
-    	execve(cmd_path, full_cmd, fd->env);
-    	perror("minishell");
+		execve(cmd_path, full_cmd, fd->env);
+		perror("minishell");
 	}
 	free_minishell(fd->minishell);
 	cleanup(fd);

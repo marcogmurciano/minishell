@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 12:28:24 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/08 14:41:29 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/11 10:20:32 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,22 @@
 /**
  * Functionality that changes directory and updates PWD and OLDPWD variables
  */
-int change_directory(char *path, t_minishell *minishell)
+int	change_directory(char *path, t_minishell *minishell)
 {
-	int status;
-	char *cwd[3];
-	char *new_cwd[3];
-	char *getcwd_result;
+	int		status;
+	char	*cwd[3];
+	char	*new_cwd[3];
+	char	*getcwd_result;
 
 	status = 0;
-	ft_bzero(cwd, sizeof(char *)*3);
-	ft_bzero(new_cwd, sizeof(char *)*3);
+	ft_bzero(cwd, sizeof(char *) * 3);
+	ft_bzero(new_cwd, sizeof(char *) * 3);
 	cwd[0] = "export";
 	getcwd_result = getcwd(NULL, 0);
 	cwd[1] = ft_strjoin_three("OLDPWD", "=", getcwd_result);
 	free(getcwd_result);
 	status = chdir(path);
-	if(status == 0)
+	if (status == 0)
 	{
 		new_cwd[0] = "export";
 		getcwd_result = getcwd(NULL, 0);
@@ -47,7 +47,7 @@ int change_directory(char *path, t_minishell *minishell)
 /**
  * Error printng
  */
-static void cd_error(char **argv)
+static void	cd_error(char **argv)
 {
 	ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
 	ft_putstr_fd(argv[1], STDERR_FILENO);
@@ -58,10 +58,10 @@ static void cd_error(char **argv)
 /**
  * Function that replicates cd functionality
  */
-int    builtin_cd(t_minishell *minishell, char **argv)
+int	builtin_cd(t_minishell *minishell, char **argv)
 {
-    int argc;
-	int chdir_status;
+	int	argc;
+	int	chdir_status;
 
 	(void) minishell;
 	argc = 0;
@@ -79,7 +79,7 @@ int    builtin_cd(t_minishell *minishell, char **argv)
 	}
 	if (chdir_status == -1)
 		cd_error(argv);
-	if(chdir_status < 0)
+	if (chdir_status < 0)
 		chdir_status *= -1;
-    return (chdir_status);
+	return (chdir_status);
 }
