@@ -121,14 +121,16 @@ int	process_single_command(char **full_cmd, t_fds *fd)
 	{
 		if (stat(full_cmd[0], &st) == 0 && S_ISDIR(st.st_mode))
 		{
-			result = 126;
 			ft_printf("minishell: %s: is a directory\n", full_cmd[0]);
+			return(126);
 		}
 		else if (access(full_cmd[0], F_OK | X_OK) != 0)
 		{
-			result = 127;
-			ft_printf("minishell: %s: No such file or \
-directory\n", full_cmd[0]);
+			ft_printf("minishell: %s", full_cmd[0]);
+			perror(" \b");
+			if (errno == EACCES)
+				return(126);
+			return(127);
 		}
 	}
 	else

@@ -15,7 +15,6 @@
 
 #include "../../../include/minishell.h"
 
-
 /**
  * Distribute to builtin functions
  */

@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:01:16 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/10 19:04:43 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/11 10:48:45 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /**
  * Error for non numeric arguments
  */
-static void numeric_error_exit(t_minishell *minishell, t_fds* fd, char **argv)
+static void	numeric_error_exit(t_minishell *minishell, t_fds *fd, char **argv)
 {
 	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 	ft_putstr_fd(argv[1], STDERR_FILENO);
@@ -59,7 +59,7 @@ static long	mod_atol(char *nptr, int *error)
 /**
  * Check early exit conditions
  */
-static int early_exits(t_minishell *minishell, t_fds* fd, int i)
+static int	early_exits(t_minishell *minishell, t_fds *fd, int i)
 {
 	if (i == 1)
 	{
@@ -80,10 +80,10 @@ static int early_exits(t_minishell *minishell, t_fds* fd, int i)
 /**
  * Function that replicates exit (exit process with a specified code)
  */
-int	builtin_exit(t_minishell *minishell, t_fds* fd, char **argv)
+int	builtin_exit(t_minishell *minishell, t_fds *fd, char **argv)
 {
-	int i;
-	int error;
+	int	i;
+	int	error;
 
 	i = 0;
 	error = 0;
@@ -92,13 +92,13 @@ int	builtin_exit(t_minishell *minishell, t_fds* fd, char **argv)
 	if (early_exits(minishell, fd, i))
 		return (1);
 	i = 0;
-	while(argv[1][i])
+	while (argv[1][i])
 	{
-		if(ft_isdigit(argv[1][i]) == 0 && ft_issign(argv[1][i]) == 0)
+		if (ft_isdigit(argv[1][i]) == 0 && ft_issign(argv[1][i]) == 0)
 			numeric_error_exit(minishell, fd, argv);
 		i++;
 	}
-	if(mod_atol(argv[1], &error) == -1 && error == -1)
+	if (mod_atol(argv[1], &error) == -1 && error == -1)
 		numeric_error_exit(minishell, fd, argv);
 	else
 		minishell->last_exit_status = ft_atoi(argv[1]) % 256;

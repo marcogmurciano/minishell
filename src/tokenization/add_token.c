@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:05:01 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/08 13:46:19 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/11 10:37:52 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ int	add_nonword_token(t_token **token_head, t_token_type t_type, char *value)
 	return (0);
 }
 
-int	add_word_token(t_token **token_head, char *word, char quote_char, int is_spaced)
+int	add_word_token(t_token **token_head, char *word, char quote_char,
+					int is_spaced)
 {
 	t_token	*new_token;
 	t_token	*token_last;

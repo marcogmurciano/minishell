@@ -25,9 +25,9 @@ static char	*expansor(t_minishell *minishell, char **str)
 	expander.variable_start = expander.dollar_position + 1;
 	expander.variable_name_length = 0;
 	expander.variable_name = extract_var_name(*str, expander.variable_start,
-							&(expander.variable_name_length));
+			&(expander.variable_name_length));
 	expander.variable_value = get_variable_value(minishell,
-							expander.variable_name);
+			expander.variable_name);
 	if (!(expander.variable_value))
 		expander.variable_value = ft_strdup("");
 	expander.preffix = ft_substr(*str, 0, expander.dollar_position);
@@ -37,7 +37,7 @@ static char	*expansor(t_minishell *minishell, char **str)
 	expander.new_word_value = ft_strjoin_three(expander.preffix,
 			expander.variable_value, expander.suffix);
 	free_strs(4, expander.variable_value, expander.preffix, expander.suffix,
-			expander.variable_name);
+		expander.variable_name);
 	return (expander.new_word_value);
 }
 

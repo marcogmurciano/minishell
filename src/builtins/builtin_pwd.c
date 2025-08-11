@@ -2,19 +2,15 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   builtin_pwd.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
-	+:+     */
-/*   By: user <user@student.42.fr>                  #+#  +:+      
-	+#+        */
-/*                                                +#+#+#+#+#+  
-	+#+           */
-/*   Created: 2025-07-18 08:50:42 by user              #+#    #+#             */
-/*   Updated: 2025-07-18 08:50:42 by user             ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/11 10:44:51 by dbarba-v          #+#    #+#             */
+/*   Updated: 2025/08/11 10:44:51 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
 
 /**
  * Prints current working directory

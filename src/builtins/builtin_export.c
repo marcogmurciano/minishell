@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:28:46 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/11 10:22:05 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/08/11 12:30:21 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,9 @@ char	**get_export_envp(t_minishell *minishell)
 	env_count = 0;
 	while (current)
 	{
-		if (!current->value)
-			export_envp[env_count++] = ft_strdup(current->key);
-		else
-			export_envp[env_count++] = ft_strjoin_three(current->key, "=",
-					current->value);
+		add_to_envp(current, export_envp, env_count);
 		current = current->next;
+		env_count++;
 	}
 	return (export_envp);
 }
