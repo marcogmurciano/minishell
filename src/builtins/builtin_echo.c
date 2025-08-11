@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:54:42 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/08/11 10:21:15 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/08/11 18:16:45 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	is_n_flag(const char *s)
 	i = 0;
 	if (s[0] != '-')
 		return (0);
+	i++;
 	while (s[i])
 	{
 		if (s[i] != 'n')

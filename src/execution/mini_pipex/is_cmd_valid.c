@@ -46,19 +46,19 @@ char	*has_command(char **paths, char *cmd_name, int *status)
 /**
  * Splits PATH and traverses it's directories calling has_command
  */
-static char	*iterate_env(char *env, char **cmd_parts, int *status)
+static char	*iterate_env(char *env, char *cmd, int *status)
 {
 	int		j;
 	char	**paths;
 	char	*result;
 
 	paths = ft_split(env + 5, ':');
-	result = has_command(paths, cmd_parts[0], status);
+	result = has_command(paths, cmd, status);
 	j = 0;
 	while (paths[j])
 		free(paths[j++]);
 	free(paths);
-	free_bidimensional_array(cmd_parts);
+	// free_bidimensional_array(cmd_parts);
 	return (result);
 }
 
@@ -68,21 +68,21 @@ static char	*iterate_env(char *env, char **cmd_parts, int *status)
 char	*get_cmd_path(char *cmd, char **env, int *status)
 {
 	int		i;
-	char	**cmd_parts;
+	// char	**cmd_parts;
 
 	i = 0;
 	if (ft_strlen(cmd) == 0)
 		return (NULL);
-	cmd_parts = ft_split(cmd, ' ');
-	if (!cmd_parts)
-		return (NULL);
+	// cmd_parts = ft_split(cmd, ' ');
+	// if (!cmd_parts)
+	// 	return (NULL);
 	while (env[i])
 	{
 		if (ft_strncmp(env[i], "PATH=", 5) == 0)
-			return (iterate_env(env[i], cmd_parts, status));
+			return (iterate_env(env[i], cmd, status));
 		i++;
 	}
-	free_bidimensional_array(cmd_parts);
+	// free_bidimensional_array(cmd_parts);
 	return (NULL);
 }
 
