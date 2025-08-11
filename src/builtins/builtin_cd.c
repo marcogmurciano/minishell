@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 12:28:24 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/11 17:54:59 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/11 18:48:29 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	builtin_cd(t_minishell *minishell, char **argv)
 	while (argv[argc])
 		argc++;
 	if (argc == 1)
-		chdir_status = change_directory(getenv("HOME"), minishell);
+		chdir_status = change_directory(getenv("HOME"), minishell); // Use custom manual getenv()
 	else if (argc == 2)
 		chdir_status = change_directory(argv[1], minishell);
 	else
