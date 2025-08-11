@@ -15,22 +15,22 @@
 /**
  * Sets start of next segment, if current is a pipe, it lso frees it
  */
-static void	set_next_segment_start(t_token *current, t_token **next_segment_start)
+static void	set_next_segment_start(t_token *current, t_token **next_seg_start)
 {
 	t_token	*pipe_token;
 
 	if (current->token_type == TOKEN_EOF)
 	{
-		*next_segment_start = current;
+		*next_seg_start = current;
 		unlink_token(current);
 	}
 	else if (current->token_type == TOKEN_PIPE)
 	{
 		pipe_token = current;
-		*next_segment_start = pipe_token->next;
+		*next_seg_start = pipe_token->next;
 		unlink_token(pipe_token);
-		if (*next_segment_start)
-			(*next_segment_start)->prev = NULL;
+		if (*next_seg_start)
+			(*next_seg_start)->prev = NULL;
 		if (pipe_token->value)
 			free(pipe_token->value);
 		free(pipe_token);
@@ -50,11 +50,9 @@ static t_token	*get_next_segment(t_token **token)
 	segment_ends[0] = *token;
 	segment_ends[1] = segment_ends[0];
 	next_segment_start = NULL;
-
 	while (segment_ends[1] && segment_ends[1]->token_type != TOKEN_EOF
 		&& segment_ends[1]->token_type != TOKEN_PIPE)
 		segment_ends[1] = segment_ends[1]->next;
-
 	if (segment_ends[1])
 		set_next_segment_start(segment_ends[1], &next_segment_start);
 	*token = next_segment_start;

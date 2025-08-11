@@ -22,7 +22,6 @@ LIBFT = ./libft/lib/libft.a
 FT_PRINTF = ./ft_printf/libftprintf.a
 
 SRCS = 	src/main.c \
-		src/debug.c \
 		src/prompt/prompt_input.c \
 		src/prompt/prompt_utils.c \
 		src/environment/get_environment_array.c \

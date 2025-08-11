@@ -15,7 +15,7 @@
 /**
  * Frees the arrays of a cmd structure
  */
-static void free_arrays(t_cmd *cmd)
+static void	free_arrays(t_cmd *cmd)
 {
 	if (cmd->argv)
 	{

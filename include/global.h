@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_utils3.c                                     :+:      :+:    :+:   */
+/*   global.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/10 18:46:18 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/11 10:52:03 by dbarba-v         ###   ########.fr       */
+/*   Created: 2025/08/11 12:11:28 by dbarba-v          #+#    #+#             */
+/*   Updated: 2025/08/11 12:12:15 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include/minishell.h"
+#ifndef GLOBAL_H
+# define GLOBAL_H
 
 /**
- * Function that checks if fds should be closed and if so close them
+ * Signals global variable
  */
-void	fd_check_and_close(int a, int b)
-{
-	if (a != -1 && a != 0)
-		close(a);
-	if (b != -1 && b != 1)
-		close(b);
-}
+extern volatile sig_atomic_t	g_signal_status;
+
+#endif

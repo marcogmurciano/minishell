@@ -6,7 +6,7 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:28:46 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/11 11:06:43 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/08/11 16:08:51 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,9 @@ char	**get_export_envp(t_minishell *minishell)
 	env_count = 0;
 	while (current)
 	{
-		if (!current->value)
-			export_envp[env_count++] = ft_strdup(current->key);
-		else
-			export_envp[env_count++] = ft_strjoin_three(current->key, "=",
-					current->value);
+		add_to_envp(current, export_envp, env_count);
 		current = current->next;
+		env_count++;
 	}
 	return (export_envp);
 }

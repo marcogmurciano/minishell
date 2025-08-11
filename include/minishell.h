@@ -22,13 +22,9 @@
 # include <linux/limits.h>
 # include <stdio.h>
 # include <unistd.h>
+# include "global.h"
 # include "pipex.h"
 # include "structs.h"
-
-/**
- * Signals global variable
- */
-extern volatile sig_atomic_t g_signal_status;
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -65,9 +61,10 @@ void	init_mini(t_minishell *minishell, int argc, char **argv, char **envp);
 
 t_env	*regenerate_environment(char **envp);
 char	**get_environment_array(t_env *env);
-t_env 	*check_environment(t_minishell *minishell);
-void 	append_env_node(t_env **head, t_env *new_env);
+t_env	*check_environment(t_minishell *minishell);
+void	append_env_node(t_env **head, t_env *new_env);
 t_env	*create_env_node(char *arg);
+void	add_to_envp(t_env *current, char **export_envp, int env_count);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -75,25 +72,25 @@ t_env	*create_env_node(char *arg);
 //
 //
 
-int	tokenization(t_minishell *minishell);
+int		tokenization(t_minishell *minishell);
 
 int		handle_operator(t_token **token_head, t_minishell *minishell, int i);
-int		handle_quoted_word(t_token **token_head, t_minishell *minishell, int i);
-int		handle_ansi_c_quoted_word(t_token **token_head, t_minishell *minishell, int i);
-int		handle_nonquoted_word(t_token **token_head, t_minishell *minishell, int i);
-
+int		handle_quoted_word(t_token **token_head, t_minishell *minishell,
+			int i);
+int		handle_ansi_c_quoted_word(t_token **token_head, t_minishell *minishell,
+			int i);
+int		handle_nonquoted_word(t_token **token_head, t_minishell *minishell,
+			int i);
 char	*get_quoted_word(t_minishell *minishell, char delimiter, int i);
-
 char	*get_unquoted_word(t_minishell *minishell, char *input);
-
-int		add_word_token(t_token **token_head, char *word, char quote_char, int is_spaced);
-int		add_nonword_token(t_token **token_head, t_token_type t_type, char *value);
+int		add_word_token(t_token **token_head, char *word, char quote_char,
+			int is_spaced);
+int		add_nonword_token(t_token **token_head, t_token_type t_type,
+			char *value);
 int		add_eof_token(t_token **token_head);
-
 t_token	*create_eof_token(void);
 t_token	*create_word_token(t_token_type t_type, char *word, char quote);
 t_token	*create_nonword_token(t_token_type t_type, char *value);
-
 void	join_tokens(t_token **tokens_head);
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -106,7 +103,8 @@ int		needs_expansion(t_token *tokens_list);
 char	*expand_tokens_list(t_minishell *minishell);
 int		find_dollar(char *str);
 char	*retrieve_new_input(t_minishell *minishell);
-char	*extract_var_name(char *str, int variable_start, int *variable_name_length);
+char	*extract_var_name(char *str, int variable_start,
+			int *variable_name_length);
 char	*get_variable_value(t_minishell *minishell, char *variable_name);
 int		get_heredoc_expansion_status(t_token *segment);
 char	*expand_heredoc_line(t_minishell *minishell, char *line);
@@ -125,7 +123,7 @@ void	refine_token_roles(t_token *tokens_head);
 //
 //
 
-int 	execution(t_minishell *minishell);
+int		execution(t_minishell *minishell);
 int		builtin_pwd(void);
 int		builtin_env(t_minishell *minishell, char **argv);
 int		builtin_export(t_minishell *minishell, char **argv);
@@ -152,11 +150,12 @@ int		syntax_check(t_minishell *minishell);
 char	**get_cmd_argv(t_minishell *minishell, t_token *segment);
 char	**get_infile_array(t_minishell *minishell, t_token *segment);
 char	**get_heredoc_array(t_minishell *minishell, t_token *segment);
-char 	**get_outfile_array(t_minishell *minishell, t_token *segment);
-char	**insert_into_array(char *infile, char **array, t_minishell *minishell);
+char	**get_outfile_array(t_minishell *minishell, t_token *segment);
+char	**insert_into_array(char *infile, char **array,
+			t_minishell *minishell);
 int		get_append_status(t_token *token);
 int		get_last_in_type(t_token *segment);
-void 	unlink_token(t_token *token);
+void	unlink_token(t_token *token);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -170,7 +169,7 @@ void	free_tokens_list(t_token **token_head);
 char	**free_array(char **array, int j);
 void	free_cmds(t_cmd **cmd_head);
 void	close_dup_stds(t_minishell *minishell);
-void 	free_strs(int count, ...);
+void	free_strs(int count, ...);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -197,14 +196,10 @@ void	exit_minishell(t_minishell *minishell);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//    DEBUG
+//    PRINT
 //
 //
 
 void	print_envp(char **envp);
-void	print_tokens(t_token *token_head);
-void	print_segment(t_token *token);
-void	print_cmd(t_cmd *cmd);
-void	print_environ(t_env *env);
 
 #endif
