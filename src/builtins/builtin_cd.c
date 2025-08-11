@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 12:28:24 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/11 10:20:32 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/08/11 17:54:59 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ int	change_directory(char *path, t_minishell *minishell)
 	{
 		new_cwd[0] = "export";
 		getcwd_result = getcwd(NULL, 0);
+		if (minishell->lastdir)
+			free(minishell->lastdir);
+		minishell->lastdir = ft_strdup(getcwd_result);
 		new_cwd[1] = ft_strjoin_three("PWD", "=", getcwd_result);
 		free(getcwd_result);
 		builtin_export(minishell, new_cwd);

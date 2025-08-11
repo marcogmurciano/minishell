@@ -66,6 +66,7 @@ void	free_minishell(t_minishell *minishell)
 		free_cmds(&(minishell->cmd_pipelines));
 		minishell->cmd_pipelines = NULL;
 	}
+	free(minishell->lastdir);
 	free_env(minishell);
 	close_dup_stds(minishell);
 }
