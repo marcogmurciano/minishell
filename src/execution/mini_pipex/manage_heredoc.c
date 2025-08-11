@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 11:06:46 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/08/08 12:44:21 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/08/11 15:58:28 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,12 @@ static void	heredoc_ln(t_minishell *m, t_cmd *cmd, int heredoc_fd, char *line)
 	char	*final_line;
 
 	if (cmd->expand_heredoc_content)
+	{
 		final_line = expand_heredoc_line(m, line);
+	}
 	else
 		final_line = ft_strdup(line);
-	ft_putendl_fd(line, heredoc_fd);
+	ft_putendl_fd(final_line, heredoc_fd);
 	free(line);
 	if (final_line)
 		free(final_line);

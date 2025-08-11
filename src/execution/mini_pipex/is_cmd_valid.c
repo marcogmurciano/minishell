@@ -99,7 +99,7 @@ static int	process_cmd_errors(char **full_cmd, char **env)
 	if (path_cmd == NULL)
 	{
 		if (full_cmd[0] != NULL)
-			ft_printf("minishell: %s: command not found\n", full_cmd[0]);
+			ft_printf("minishell: %s: command not found\n", full_cmd[0]); //Cambiar a perror
 	}
 	else
 		free(path_cmd);
