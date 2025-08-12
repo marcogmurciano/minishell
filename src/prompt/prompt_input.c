@@ -13,19 +13,33 @@
 #include "../../include/minishell.h"
 
 /**
- * Builds the prompt to be displayed by readline
+ * Build basic prompt for when XTERM variable is NOT set
  */
-char	*build_prompt(t_minishell *minishell)
+char *basic_prompt(t_minishell *minishell, char *user)
 {
-	char	*user;
-	char	*cwd1;
-	char	*colored_cwd;
 	char	*prompt;
 	char	*new_prompt;
 
-	user = getenv("USER");
-	if (!user)
-		user = "USER";
+	prompt = ft_strjoin_three(user, "@", minishell->lastdir);
+	if (!prompt)
+		malloc_error(minishell);
+	new_prompt = ft_strjoin(prompt, "$ ");
+	if (!new_prompt)
+		malloc_error(minishell);
+	free(prompt);
+	return (new_prompt);
+}
+
+/**
+ * Build colerd prompt for when XTERM variable is set
+ */
+char *color_prompt(t_minishell *minishell, char *user)
+{
+	char	*prompt;
+	char	*new_prompt;
+	char	*cwd1;
+	char	*colored_cwd;
+
 	user = ft_strjoin_three("\001\033[0;32m\002", user, "\001\033[0m\002");
 	if (!user)
 		malloc_error(minishell);
@@ -42,6 +56,18 @@ char	*build_prompt(t_minishell *minishell)
 		malloc_error(minishell);
 	free_strs(4, cwd1, user, colored_cwd, prompt);
 	return (new_prompt);
+}
+
+char	*build_prompt(t_minishell *minishell)
+{
+	char	*user;
+
+	user = getenv("USER");
+	if (!user)
+		user = "USER";
+	if (!getenv("TERM"))
+		return (basic_prompt(minishell, user));
+	return (color_prompt(minishell, user));
 }
 
 /**
