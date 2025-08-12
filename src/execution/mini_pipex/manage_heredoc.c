@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 11:06:46 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/08/11 15:58:28 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/12 15:11:23 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ int	create_file(char *last_filepath, char **filepath, int i)
 	if (last_filepath)
 	{
 		unlink(last_filepath);
-		free(last_filepath);
 	}
 	n = 0;
 	while (1)
