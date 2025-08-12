@@ -17,6 +17,8 @@
  */
 void	init_mini(t_minishell *minishell, int argc, char **argv, char **envp)
 {
+	char	*cwd;
+
 	ft_bzero(minishell, sizeof(t_minishell));
 	minishell->environment = regenerate_environment(envp);
 	minishell->environment = check_environment(minishell);
@@ -25,7 +27,11 @@ void	init_mini(t_minishell *minishell, int argc, char **argv, char **envp)
 	minishell->argc = argc;
 	minishell->pid = -1;
 	minishell->last_exit_status = 0;
-	minishell->lastdir = getcwd(NULL, 0);
+	cwd = getcwd(NULL, 0);
+	if (cwd == NULL)
+		minishell->lastdir = ft_strdup("/");
+	else
+		minishell->lastdir = cwd;
 	minishell->duplicated_std_fds[0] = dup(STDIN_FILENO);
 	minishell->duplicated_std_fds[1] = dup(STDOUT_FILENO);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:28:46 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/11 16:08:51 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/08/12 22:37:03 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,23 @@
 /**
  * Finds and replaces an environment variable in the linked list.
  */
-static int	replace_env_node(t_env *env_head, t_env *new_node)
+static int	replace_env_node(t_env **env_head, t_env *new_node)
 {
 	t_env	*previous;
 	t_env	*current;
 
-	previous = env_head;
-	current = previous;
+	if (!env_head || !*env_head)
+		return (0);
+	current = *env_head;
+	previous = NULL;
 	while (current)
 	{
 		if (ft_strcmp(current->key, new_node->key) == 0)
 		{
-			previous->next = new_node;
+			if (previous)
+				previous->next = new_node;
+			else
+				*env_head = new_node;
 			new_node->next = current->next;
 			current->next = NULL;
 			free_environment(&current);
@@ -142,7 +147,7 @@ int	builtin_export(t_minishell *minishell, char **argv)
 		new_node = create_env_node(argv[i]);
 		if (!new_node)
 			malloc_error(minishell);
-		if (replace_env_node(minishell->environment, new_node) == 0)
+		if (replace_env_node(&(minishell->environment), new_node) == 0)
 			append_env_node(&(minishell->environment), new_node);
 		ft_free_array((void **)(minishell->envp));
 		minishell->envp = get_environment_array(minishell->environment);
