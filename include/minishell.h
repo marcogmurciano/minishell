@@ -65,6 +65,7 @@ t_env	*check_environment(t_minishell *minishell);
 void	append_env_node(t_env **head, t_env *new_env);
 t_env	*create_env_node(char *arg);
 void	add_to_envp(t_env *current, char **export_envp, int env_count);
+char	*manual_getenv(t_minishell *minishell, char *variable);
 
 ///////////////////////////////////////////////////////////////////////////////
 //

@@ -38,7 +38,7 @@ char *basic_prompt(t_minishell *minishell, char *user)
 /**
  * Function to colorize username
  */
-char *colorize(char *text, char *color_code, t_minishell *minishell)
+static char *colorize(char *text, char *color_code, t_minishell *minishell)
 {
     char *colored;
 
@@ -51,7 +51,7 @@ char *colorize(char *text, char *color_code, t_minishell *minishell)
 /**
  * Function to build prompt using the colored username and cwd
  */ 
-char *color_prompt(t_minishell *minishell, char *user)
+static char *color_prompt(t_minishell *minishell, char *user)
 {
     char    *prompt;
     char    *new_prompt;
@@ -77,14 +77,14 @@ char *color_prompt(t_minishell *minishell, char *user)
     return (new_prompt);
 }
 
-char	*build_prompt(t_minishell *minishell)
+static char	*build_prompt(t_minishell *minishell)
 {
 	char	*user;
 
-	user = getenv("USER");
+	user = manual_getenv(minishell, "USER");
 	if (!user)
 		user = "USER";
-	if (!getenv("TERM"))
+	if (!manual_getenv(minishell, "TERM"))
 		return (basic_prompt(minishell, user));
 	return (color_prompt(minishell, user));
 }
