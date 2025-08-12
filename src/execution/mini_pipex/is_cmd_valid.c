@@ -20,26 +20,32 @@ char	*has_command(char **paths, char *cmd_name, int *status)
 	int		i;
 	char	*full_path;
 	char	*temp;
-	int		found_not_executable;
+	char	*err_temp;
 
 	i = 0;
-	found_not_executable = 0;
 	while (paths[i])
 	{
 		temp = ft_strjoin(paths[i], "/");
 		full_path = ft_strjoin(temp, cmd_name);
 		free(temp);
-		if (access(full_path, X_OK) == 0)
-			return (norminette_is_extremely_fucked_up(status, full_path));
-		else if (access(full_path, F_OK) == 0)
-			found_not_executable = 1;
+		if (access(full_path, F_OK) == 0)
+		{
+			if(access(full_path, X_OK) != 0)
+			{
+				err_temp = ft_strjoin("minishell: ", cmd_name);
+				perror(err_temp);
+				free(err_temp);
+				if (errno == EACCES)
+					return (*status = 126, NULL);
+			}
+			else
+				return (*status = 0, full_path);
+		}
+		else
+			*status = 127;
 		free(full_path);
 		i++;
 	}
-	if (found_not_executable)
-		*status = 126;
-	else
-		*status = 127;
 	return (NULL);
 }
 
@@ -93,21 +99,23 @@ static int	process_cmd_errors(char **full_cmd, char **env)
 {
 	char	*path_cmd;
 	int		status;
-	char	*tmp;
+	// char	*tmp;
 
 	status = 0;
 	path_cmd = get_cmd_path(full_cmd[0], env, &status);
-	if (path_cmd == NULL)
-	{
-		if (full_cmd[0] != NULL)
-		{
-			tmp = ft_strjoin("minishell: ", full_cmd[0]);
-			perror(tmp);
-			free(tmp);
-		}
-	}
-	else
+	if(path_cmd)
 		free(path_cmd);
+	// if (path_cmd == NULL)
+	// {
+	// 	if (full_cmd[0] != NULL)
+	// 	{
+	// 		tmp = ft_strjoin("minishell: ", full_cmd[0]);
+	// 		perror(tmp);
+	// 		free(tmp);
+	// 	}
+	// }
+	// else
+	// 	free(path_cmd);
 	return (status);
 }
 
@@ -118,6 +126,7 @@ int	process_single_command(char **full_cmd, t_fds *fd)
 {
 	int			result;
 	struct stat	st;
+	char	*err_temp;
 
 	result = 0;
 	if (is_builtin(full_cmd[0]))
@@ -126,13 +135,16 @@ int	process_single_command(char **full_cmd, t_fds *fd)
 	{
 		if (stat(full_cmd[0], &st) == 0 && S_ISDIR(st.st_mode))
 		{
-			ft_printf("minishell: %s: is a directory\n", full_cmd[0]);
+			err_temp = ft_strjoin_three("minishell: ", full_cmd[0], ": is a directory");
+			ft_putendl_fd(err_temp, STDERR_FILENO);
+			free(err_temp);
 			return (126);
 		}
 		else if (access(full_cmd[0], F_OK | X_OK) != 0)
 		{
-			ft_printf("minishell: %s", full_cmd[0]);
-			perror(" \b");
+			err_temp = ft_strjoin("minishell: ", full_cmd[0]);
+			perror(err_temp);
+			free(err_temp);
 			if (errno == EACCES)
 				return (126);
 			return (127);

@@ -34,30 +34,6 @@ void	manage_parent_fds(t_fds *fd, int *pipes, int i)
 }
 
 /**
- * Clear and close fds on bad command
- */
-static void	bad_command(t_fds *fd)
-{
-	if (fd->in != 0 && fd->in != -1)
-	{
-		close(fd->in);
-		fd->in = -1;
-	}
-	if (fd->out != 1 && fd->out != -1)
-	{
-		close(fd->out);
-		fd->out = -1;
-	}
-	if (fd->heredoc != -1)
-	{
-		close(fd->heredoc);
-		fd->heredoc = -1;
-	}
-	cleanup(fd);
-	exit(127);
-}
-
-/**
  * Distribution depending on type or REDIR_IN
  */
 static int	exec_builtin(t_cmd *cmd, t_fds *fd)
@@ -90,8 +66,6 @@ static int	only_builtin_son(t_fds *fd, t_cmd *cmd_list, int *status)
 		fd->in = manage_infiles(cmd_list, fd);
 		fd->out = manage_outfiles(cmd_list, fd);
 		fd->last_in = cmd_list->last_in;
-		if (process_single_command(cmd_list->argv, fd) != 0)
-			bad_command(fd);
 		*status = exec_builtin(cmd_list, fd);
 		restore_std_fds(fd->minishell);
 		cleanup(fd);
