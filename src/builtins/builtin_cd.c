@@ -6,11 +6,35 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 12:28:24 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/11 18:48:29 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/12 14:19:40 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+static int update_envvars(t_minishell *minishell, char **cwd)
+{
+	char	*getcwd_result;
+	char	*new_cwd[3];
+
+	getcwd_result = getcwd(NULL, 0);
+	if (getcwd_result == NULL)
+	{
+		perror("minishell: cd: error retrieving current directory: getcwd");
+		return (1);
+	}
+	if (minishell->lastdir)
+		free(minishell->lastdir);
+	minishell->lastdir = ft_strdup(getcwd_result);
+	new_cwd[0] = "export";
+	new_cwd[1] = ft_strjoin_three("PWD", "=", getcwd_result);
+	new_cwd[2] = 0;
+	free(getcwd_result);
+	builtin_export(minishell, new_cwd);
+	builtin_export(minishell, cwd);
+	free(new_cwd[1]);
+	return (0);
+}
 
 /**
  * Functionality that changes directory and updates PWD and OLDPWD variables
@@ -19,43 +43,35 @@ int	change_directory(char *path, t_minishell *minishell)
 {
 	int		status;
 	char	*cwd[3];
-	char	*new_cwd[3];
 	char	*getcwd_result;
 
 	status = 0;
-	ft_bzero(cwd, sizeof(char *) * 3);
-	ft_bzero(new_cwd, sizeof(char *) * 3);
-	cwd[0] = "export";
 	getcwd_result = getcwd(NULL, 0);
+	cwd[0] = "export";
 	cwd[1] = ft_strjoin_three("OLDPWD", "=", getcwd_result);
+	cwd[2] = 0;
 	free(getcwd_result);
 	status = chdir(path);
 	if (status == 0)
-	{
-		new_cwd[0] = "export";
-		getcwd_result = getcwd(NULL, 0);
-		if (minishell->lastdir)
-			free(minishell->lastdir);
-		minishell->lastdir = ft_strdup(getcwd_result);
-		new_cwd[1] = ft_strjoin_three("PWD", "=", getcwd_result);
-		free(getcwd_result);
-		builtin_export(minishell, new_cwd);
-		builtin_export(minishell, cwd);
-		free(new_cwd[1]);
-	}
+		status = update_envvars(minishell, cwd);
 	free(cwd[1]);
 	return (status);
 }
 
-/**
- * Error printng
- */
-static void	cd_error(char **argv)
+static char *manual_getenv(t_minishell *minishell, char *variable)
 {
-	ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
-	ft_putstr_fd(argv[1], STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	perror("");
+	t_env *current;
+
+	current = minishell->environment;
+	while (current)
+	{
+		if (ft_strcmp(current->key, variable) == 0)
+		{
+			return (current->value);
+		}
+		current = current->next;
+	}
+	return (NULL);
 }
 
 /**
@@ -63,26 +79,21 @@ static void	cd_error(char **argv)
  */
 int	builtin_cd(t_minishell *minishell, char **argv)
 {
-	int	argc;
-	int	chdir_status;
+	int		argc;
+	char	*home_dir;
 
 	(void) minishell;
 	argc = 0;
-	chdir_status = 0;
 	while (argv[argc])
 		argc++;
 	if (argc == 1)
-		chdir_status = change_directory(getenv("HOME"), minishell); // Use custom manual getenv()
-	else if (argc == 2)
-		chdir_status = change_directory(argv[1], minishell);
-	else
 	{
-		ft_putendl_fd("minishell: cd: too many arguments", STDERR_FILENO);
-		chdir_status = 1;
+		home_dir = manual_getenv(minishell, "HOME");
+		if (home_dir == NULL)
+			return (ft_putendl_fd("minishell: cd: HOME not set", STDERR_FILENO), 1);
+		return(change_directory(home_dir, minishell));
 	}
-	if (chdir_status == -1)
-		cd_error(argv);
-	if (chdir_status < 0)
-		chdir_status *= -1;
-	return (chdir_status);
+	else if (argc == 2)
+		return(change_directory(argv[1], minishell));
+	return (ft_putendl_fd("minishell: cd: too many arguments", STDERR_FILENO), 1);
 }
