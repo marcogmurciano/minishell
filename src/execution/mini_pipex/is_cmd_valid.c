@@ -74,21 +74,22 @@ static char	*iterate_env(char *env, char *cmd, int *status)
 char	*get_cmd_path(char *cmd, char **env, int *status)
 {
 	int		i;
-	// char	**cmd_parts;
+	char	*err_temp;
 
 	i = 0;
 	if (ft_strlen(cmd) == 0)
 		return (NULL);
-	// cmd_parts = ft_split(cmd, ' ');
-	// if (!cmd_parts)
-	// 	return (NULL);
 	while (env[i])
 	{
 		if (ft_strncmp(env[i], "PATH=", 5) == 0)
 			return (iterate_env(env[i], cmd, status));
 		i++;
 	}
-	// free_bidimensional_array(cmd_parts);
+	// TODO: Checkear si el comando existe en el directorio actual en intentar lanzarlo
+	err_temp = ft_strjoin_three("minishell: ", cmd, ": command not found");
+	ft_putendl_fd(err_temp ,STDERR_FILENO);
+	free(err_temp);
+	*status = 126;
 	return (NULL);
 }
 
