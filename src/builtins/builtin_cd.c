@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 12:28:24 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/13 15:10:10 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/08/13 16:40:54 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int	change_directory(char *path, t_minishell *minishell)
 	{
 		ft_printf("minishell: cd: %s", path);
 		perror(" ");
+		status = 1;
 	}
 	free(cwd[1]);
 	return (status);
@@ -91,7 +92,7 @@ int	builtin_cd(t_minishell *minishell, char **argv)
 	int		argc;
 	char	*home_dir;
 
-	(void) minishell;
+	(void)minishell;
 	argc = 0;
 	while (argv[argc])
 		argc++;
@@ -99,12 +100,12 @@ int	builtin_cd(t_minishell *minishell, char **argv)
 	{
 		home_dir = manual_getenv(minishell, "HOME");
 		if (home_dir == NULL)
-			return (ft_putendl_fd("minishell: cd: HOME not set",
-					STDERR_FILENO), 1);
+			return (ft_putendl_fd("minishell: cd: HOME not set", STDERR_FILENO),
+				1);
 		return (change_directory(home_dir, minishell));
 	}
 	else if (argc == 2)
 		return (change_directory(argv[1], minishell));
-	return (ft_putendl_fd("minishell: cd: too many arguments",
-			STDERR_FILENO), 1);
+	return (ft_putendl_fd("minishell: cd: too many arguments", STDERR_FILENO),
+		1);
 }
