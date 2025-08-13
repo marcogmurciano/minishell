@@ -41,11 +41,13 @@ char	*has_command(char **paths, char *cmd_name, int *status)
 			else
 				return (*status = 0, full_path);
 		}
-		else
-			*status = 127;
 		free(full_path);
 		i++;
 	}
+	*status = 127;
+	err_temp = ft_strjoin_three("minishell: ", cmd_name, ": command not found");
+	ft_putendl_fd(err_temp, STDERR_FILENO);
+	free(err_temp);
 	return (NULL);
 }
 
