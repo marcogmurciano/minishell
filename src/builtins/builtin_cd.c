@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 12:28:24 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/13 10:17:00 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/13 22:43:01 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int	change_directory(char *path, t_minishell *minishell)
 	{
 		ft_printf("minishell: cd: %s", path);
 		perror(" ");
+		status =1;
 	}
 	free(cwd[1]);
 	return (status);
