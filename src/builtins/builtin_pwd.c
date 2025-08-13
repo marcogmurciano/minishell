@@ -22,7 +22,6 @@ int	builtin_pwd(t_minishell *minishell)
 	cwd = getcwd(NULL, 0);
 	if (cwd == NULL)
 	{
-		// perror("minishell: pwd");
 		printf("%s\n", minishell->lastdir);
 		return (1);
 	}

@@ -15,7 +15,7 @@
 /**
  * Unsets a node on other than the first position of the environ linked list
  */
-static void unset_nonfirst(t_minishell *minishell, t_env *current)
+static void	unset_nonfirst(t_minishell *minishell, t_env *current)
 {
 	t_env	*temp_env;
 	
@@ -30,7 +30,7 @@ static void unset_nonfirst(t_minishell *minishell, t_env *current)
 /**
  * Unsets node at first position of the linked list
  */
-static void unset_first(t_minishell *minishell, t_env *current)
+static void	unset_first(t_minishell *minishell, t_env *current)
 {
 	minishell->environment = current->next;
 	current->next = NULL;
@@ -54,7 +54,7 @@ int	builtin_unset(t_minishell *minishell, char **argv)
 		if (current_env && ft_strcmp(current_env->key, argv[i]) == 0)
 		{
 			unset_first(minishell, current_env);
-			continue;
+			continue ;
 		}
 		while (current_env)
 		{
