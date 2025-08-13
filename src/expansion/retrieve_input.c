@@ -48,10 +48,19 @@ char	*expanded_token_value(t_token *token)
 		return (ft_strdup(token->value));
 }
 
+char *empty_management(char *expanded_line, int is_spaced)
+{
+	if (is_spaced)
+		return(ft_strjoin(expanded_line, " "));
+	else
+		return(ft_strdup(expanded_line));
+}
+
 /**
  * Apend the expanded varialble to the already expanded part of line
  */
-static char	*append_exp_variable(char *expanded_line, char *expanded_variable, int is_spaced)
+static char	*append_exp_variable(char *expanded_line, char *expanded_variable,
+	int is_spaced)
 {
 	char	*line_to_free;
 	int		line_len;
@@ -59,7 +68,7 @@ static char	*append_exp_variable(char *expanded_line, char *expanded_variable, i
 
 	line_to_free = expanded_line;
 	if (strlen(expanded_variable) == 0)
-		result = ft_strdup(expanded_line);
+		result = empty_management(expanded_line, is_spaced);
 	else if (ft_strcmp(expanded_variable, "\"\"") == 0)
 	{
 		line_len = strlen(expanded_line);

@@ -23,14 +23,13 @@ char	*p_error(char *s1, char *s2, char *s3)
 	{
 		temp = ft_strjoin(s1, s2);
 		perror(temp);
-		free(temp);
 	}
 	else
 	{
 		temp = ft_strjoin_three(s1, s2, s3);
 		ft_putendl_fd(temp, STDERR_FILENO);
-		free(temp);
 	}
+	free(temp);
 	return (NULL);
 }
 
@@ -60,13 +59,11 @@ char	*has_command(char **paths, char *cmd_name, int *status)
 			else
 				return (*status = 0, full_path);
 		}
-		else
-			*status = 127;
 		free(full_path);
 		i++;
 	}
-	if (*status == 127)
-		p_error("minishell: ", cmd_name, ": command not found");
+	*status = 127;
+	p_error("minishell: ", cmd_name, ": command not found");
 	return (NULL);
 }
 
@@ -148,7 +145,7 @@ char	*get_cmd_path(char *cmd, char **env, int *status, int flag)
 
 	i = 0;
 	if (ft_strlen(cmd) == 0)
-		return (NULL);
+		return (ft_strdup(""));
 	while (env[i])
 	{
 		if (ft_strncmp(env[i], "PATH=", 5) == 0)

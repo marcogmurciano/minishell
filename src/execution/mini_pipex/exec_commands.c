@@ -70,9 +70,8 @@ void	exec_cmd(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
 {
 	char	*cmd_path;
 	int		exitstatus;
+	// char	*err_str;
 
-	if (!full_cmd || !full_cmd[0])
-		exit(0);
 	if (dup2(input_fd, STDIN_FILENO) == -1)
 		perror("minishell");
 	if (dup2(output_fd, STDOUT_FILENO) == -1)
@@ -85,6 +84,11 @@ void	exec_cmd(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
 		close_dup_stds(fd->minishell);
 		execve(cmd_path, full_cmd, fd->env);
 		perror("minishell");
+		// Test implementation
+		// err_str = ft_strjoin_three("minishell: ",
+		// 	full_cmd[0], ":command not found");
+		// ft_putendl_fd(err_str, STDERR_FILENO);
+		// free(err_str);
 	}
 	free_minishell(fd->minishell);
 	cleanup(fd);
@@ -117,25 +121,12 @@ int	exec_only_builtin(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
  */
 void	exec_pathed_cmd(char **cmd, int in_fd, int out_fd, t_fds *fd)
 {
-	char	**new_argv;
-	int		i;
-
-	i = 0;
-	while (cmd[i])
-		i++;
-	new_argv = (char **)malloc(sizeof(char *) * (i + 1));
-	new_argv[0] = split_cmd_after_slash(cmd[0]);
-	i = 0;
-	while (cmd[++i])
-		new_argv[i] = ft_strdup(cmd[i]);
-	new_argv[i] = NULL;
-	if ((!new_argv[0]) | (dup2(in_fd, 0) == -1) | (dup2(out_fd, 1) == -1))
-		perror("minishell");
+	if ((dup2(in_fd, 0) == -1) | (dup2(out_fd, 1) == -1))
+		perror("minishell: open");
 	fd_check_and_close(in_fd, out_fd);
 	manual_execution(cmd, fd, 1);
 	close_dup_stds(fd->minishell);
-	execve(cmd[0], new_argv, fd->env);
-	ft_free_array((void **)new_argv);
+	execve(cmd[0], cmd, fd->env);
 	perror("minishell");
 	free_minishell(fd->minishell);
 	cleanup(fd);
