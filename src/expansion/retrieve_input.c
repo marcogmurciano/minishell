@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 12:55:30 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/13 10:16:05 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/13 22:33:54 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,14 @@ char	*expanded_token_value(t_token *token)
 		return (ft_strdup(token->value));
 }
 
+char *empty_management(char *expanded_line, int is_spaced)
+{
+	if (is_spaced)
+		return(ft_strjoin(expanded_line, " "));
+	else
+		return(ft_strdup(expanded_line));
+}
+
 /**
  * Apend the expanded varialble to the already expanded part of line
  */
@@ -60,7 +68,7 @@ static char	*append_exp_variable(char *expanded_line, char *expanded_variable,
 
 	line_to_free = expanded_line;
 	if (strlen(expanded_variable) == 0)
-		result = ft_strdup(expanded_line);
+		result = empty_management(expanded_line, is_spaced);
 	else if (ft_strcmp(expanded_variable, "\"\"") == 0)
 	{
 		line_len = strlen(expanded_line);
