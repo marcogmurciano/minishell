@@ -30,9 +30,9 @@ char	*has_command(char **paths, char *cmd_name, int *status)
 		free(temp);
 		if (access(full_path, F_OK) == 0)
 		{
-			if(access(full_path, X_OK) != 0)
+			if (access(full_path, X_OK) != 0)
 			{
-				err_temp = ft_strjoin("minishell: ", cmd_name);
+				err_temp = ft_strjoin("minishell11: ", cmd_name);
 				perror(err_temp);
 				free(err_temp);
 				if (errno == EACCES)
@@ -45,6 +45,15 @@ char	*has_command(char **paths, char *cmd_name, int *status)
 			*status = 127;
 		free(full_path);
 		i++;
+	}
+	if (*status == 127)
+	{
+		err_temp = ft_strjoin_three("minishell: ", cmd_name, ": command not found");
+		ft_putendl_fd(err_temp, STDERR_FILENO);
+		free(err_temp);
+		// err_temp = ft_strjoin("minishell22: ", cmd_name);
+		// perror(err_temp);
+		// free(err_temp);
 	}
 	return (NULL);
 }
@@ -64,17 +73,56 @@ static char	*iterate_env(char *env, char *cmd, int *status)
 	while (paths[j])
 		free(paths[j++]);
 	free(paths);
-	// free_bidimensional_array(cmd_parts);
 	return (result);
 }
 
 /**
- * Check if command is a directory and if noot if it is executable
+* Busca el comando aportado
+*/
+static char	*found_in_dir(char *cmd)
+{
+	DIR				*dir_stream;
+	struct dirent	*dir_entry;
+	char			*path;
+	struct stat		st;
+
+	dir_stream = opendir(".");
+	if (dir_stream == NULL)
+	{
+		perror("minishell: opendir");
+		return (NULL);
+	}
+	dir_entry = readdir(dir_stream);
+	while (dir_entry != NULL)
+	{
+		if (strcmp(dir_entry->d_name, cmd) == 0)
+		{
+			if (stat(cmd, &st) == 0 && S_ISDIR(st.st_mode))
+				return ("-");
+			if (access(cmd, X_OK) == 0)
+			{
+				closedir(dir_stream);
+				path = ft_strjoin("./", cmd);
+				return (path);
+			}
+		}
+		dir_entry = readdir(dir_stream);
+	}
+	closedir(dir_stream);
+	if (access(cmd, F_OK | X_OK) != 0)
+		return ("_");
+	return (NULL);
+}
+
+/**
+ * Check if command is a directory and if not if it is executable
  */
-char	*get_cmd_path(char *cmd, char **env, int *status)
+char	*get_cmd_path(char *cmd, char **env, int *status, int flag)
 {
 	int		i;
-	char	*err_temp;
+	char	*founded_in_dir;
+	char	*etmp;
+	char	*full_path;
 
 	i = 0;
 	if (ft_strlen(cmd) == 0)
@@ -85,12 +133,36 @@ char	*get_cmd_path(char *cmd, char **env, int *status)
 			return (iterate_env(env[i], cmd, status));
 		i++;
 	}
-	// TODO: Checkear si el comando existe en el directorio actual en intentar lanzarlo
-	err_temp = ft_strjoin_three("minishell: ", cmd, ": command not found");
-	ft_putendl_fd(err_temp ,STDERR_FILENO);
-	free(err_temp);
-	*status = 126;
-	return (NULL);
+	founded_in_dir = found_in_dir(cmd);
+	if (founded_in_dir == NULL && flag)
+	{
+		etmp = ft_strjoin_three("minishell12: ", cmd, ": Not such file or directory");
+		printf("%s\n", etmp);
+		free(etmp);
+		// etmp = ft_strjoin("minishell22: ", cmd);
+		// perror(etmp);
+		// free(etmp);
+		*status = 126;
+		return (NULL);
+	}
+	if (ft_strcmp(founded_in_dir, "-") == 0 && flag)
+	{
+		etmp = ft_strjoin_three("minishell13: ", cmd, ": is a directory");
+		ft_putendl_fd(etmp, STDERR_FILENO);
+		free(etmp);
+		return (NULL);
+	}
+	if (ft_strcmp(founded_in_dir, "_") == 0 && flag)
+	{
+		etmp = ft_strjoin("minishell14: ", cmd);
+		perror(etmp);
+		free(etmp);
+		return (NULL);
+	}
+	etmp = ft_strjoin(founded_in_dir, "/");
+	full_path = ft_strjoin(etmp, cmd);
+	free(etmp);
+	return (founded_in_dir);
 }
 
 /**
@@ -100,34 +172,22 @@ static int	process_cmd_errors(char **full_cmd, char **env)
 {
 	char	*path_cmd;
 	int		status;
-	// char	*tmp;
 
 	status = 0;
-	path_cmd = get_cmd_path(full_cmd[0], env, &status);
-	if(path_cmd)
+	path_cmd = get_cmd_path(full_cmd[0], env, &status, 1);
+	if (path_cmd != NULL)
 		free(path_cmd);
-	// if (path_cmd == NULL)
-	// {
-	// 	if (full_cmd[0] != NULL)
-	// 	{
-	// 		tmp = ft_strjoin("minishell: ", full_cmd[0]);
-	// 		perror(tmp);
-	// 		free(tmp);
-	// 	}
-	// }
-	// else
-	// 	free(path_cmd);
 	return (status);
 }
 
 /**
- * Check if command is a directory and if noot if it is executable
+ * Check if command is a directory and if not if it is executable
  */
 int	process_single_command(char **full_cmd, t_fds *fd)
 {
 	int			result;
 	struct stat	st;
-	char	*err_temp;
+	char		*err_temp;
 
 	result = 0;
 	if (is_builtin(full_cmd[0]))

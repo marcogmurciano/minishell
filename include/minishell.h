@@ -22,6 +22,7 @@
 # include <linux/limits.h>
 # include <stdio.h>
 # include <unistd.h>
+# include <dirent.h> 
 # include "global.h"
 # include "pipex.h"
 # include "structs.h"

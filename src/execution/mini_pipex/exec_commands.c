@@ -81,12 +81,13 @@ void	exec_cmd(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
 		perror("minishell");
 	fd_check_and_close(input_fd, output_fd);
 	manual_execution(full_cmd, fd, 1);
-	cmd_path = get_cmd_path(full_cmd[0], fd->env, &exitstatus);
-	if (cmd_path)
+	cmd_path = get_cmd_path(full_cmd[0], fd->env, &exitstatus, 0);
+	// ft_printf("%s\n", cmd_path);
+	if (cmd_path && ft_strcmp(cmd_path, "-") && ft_strcmp(cmd_path, "_"))
 	{
 		close_dup_stds(fd->minishell);
 		execve(cmd_path, full_cmd, fd->env);
-		perror("minishell");
+		perror("minishello");
 	}
 	free_minishell(fd->minishell);
 	cleanup(fd);
