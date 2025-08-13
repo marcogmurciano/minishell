@@ -13,6 +13,28 @@
 #include "../../../include/minishell.h"
 
 /**
+ * for errors
+ */
+char	*p_error(char *s1, char *s2, char *s3)
+{
+	char	*temp;
+
+	if (s3 == NULL)
+	{
+		temp = ft_strjoin(s1, s2);
+		perror(temp);
+		free(temp);
+	}
+	else
+	{
+		temp = ft_strjoin_three(s1, s2, s3);
+		ft_putendl_fd(temp, STDERR_FILENO);
+		free(temp);
+	}
+	return (NULL);
+}
+
+/**
  * Checks if command path can be built and if result is executable
  */
 char	*has_command(char **paths, char *cmd_name, int *status)
@@ -20,7 +42,6 @@ char	*has_command(char **paths, char *cmd_name, int *status)
 	int		i;
 	char	*full_path;
 	char	*temp;
-	char	*err_temp;
 
 	i = 0;
 	while (paths[i])
@@ -32,9 +53,7 @@ char	*has_command(char **paths, char *cmd_name, int *status)
 		{
 			if (access(full_path, X_OK) != 0)
 			{
-				err_temp = ft_strjoin("minishell11: ", cmd_name);
-				perror(err_temp);
-				free(err_temp);
+				p_error("minishell: ", cmd_name, NULL);
 				if (errno == EACCES)
 					return (*status = 126, NULL);
 			}
@@ -47,14 +66,7 @@ char	*has_command(char **paths, char *cmd_name, int *status)
 		i++;
 	}
 	if (*status == 127)
-	{
-		err_temp = ft_strjoin_three("minishell: ", cmd_name, ": command not found");
-		ft_putendl_fd(err_temp, STDERR_FILENO);
-		free(err_temp);
-		// err_temp = ft_strjoin("minishell22: ", cmd_name);
-		// perror(err_temp);
-		// free(err_temp);
-	}
+		p_error("minishell: ", cmd_name, ": command not found");
 	return (NULL);
 }
 
@@ -76,15 +88,35 @@ static char	*iterate_env(char *env, char *cmd, int *status)
 	return (result);
 }
 
+static char	*is_in_dir(DIR *dir_stream, struct stat *st, char *cmd)
+{
+	struct dirent	*dir_entry;
+
+	dir_entry = readdir(dir_stream);
+	while (dir_entry != NULL)
+	{
+		if (strcmp(dir_entry->d_name, cmd) == 0)
+		{
+			// ft_strjoin no es necesario aquí, ya que stat funciona con el nombre del fichero
+			// en el directorio actual.
+			if (stat(cmd, st) == 0 && S_ISDIR(st->st_mode))
+				return ("-");
+			if (access(cmd, X_OK) == 0)
+				return (ft_strjoin("./", cmd)); // Asumiendo que ft_strjoin existe
+		}
+		dir_entry = readdir(dir_stream);
+	}
+	return (NULL);
+}
+
 /**
 * Busca el comando aportado
 */
 static char	*found_in_dir(char *cmd)
 {
 	DIR				*dir_stream;
-	struct dirent	*dir_entry;
-	char			*path;
 	struct stat		st;
+	char			*result;
 
 	dir_stream = opendir(".");
 	if (dir_stream == NULL)
@@ -92,23 +124,15 @@ static char	*found_in_dir(char *cmd)
 		perror("minishell: opendir");
 		return (NULL);
 	}
-	dir_entry = readdir(dir_stream);
-	while (dir_entry != NULL)
+	result = is_in_dir(dir_stream, &st, cmd);
+	closedir(dir_stream); // Es buena práctica cerrar el stream tan pronto como no se necesite.
+	if (result != NULL)
 	{
-		if (strcmp(dir_entry->d_name, cmd) == 0)
-		{
-			if (stat(cmd, &st) == 0 && S_ISDIR(st.st_mode))
-				return ("-");
-			if (access(cmd, X_OK) == 0)
-			{
-				closedir(dir_stream);
-				path = ft_strjoin("./", cmd);
-				return (path);
-			}
-		}
-		dir_entry = readdir(dir_stream);
+		// Comprobamos primero si el resultado no es NULL
+		if (ft_strcmp(result, "-") == 0)
+			return ("-");
+		return (result);
 	}
-	closedir(dir_stream);
 	if (access(cmd, F_OK | X_OK) != 0)
 		return ("_");
 	return (NULL);
@@ -121,8 +145,6 @@ char	*get_cmd_path(char *cmd, char **env, int *status, int flag)
 {
 	int		i;
 	char	*founded_in_dir;
-	char	*etmp;
-	char	*full_path;
 
 	i = 0;
 	if (ft_strlen(cmd) == 0)
@@ -136,32 +158,13 @@ char	*get_cmd_path(char *cmd, char **env, int *status, int flag)
 	founded_in_dir = found_in_dir(cmd);
 	if (founded_in_dir == NULL && flag)
 	{
-		etmp = ft_strjoin_three("minishell12: ", cmd, ": Not such file or directory");
-		printf("%s\n", etmp);
-		free(etmp);
-		// etmp = ft_strjoin("minishell22: ", cmd);
-		// perror(etmp);
-		// free(etmp);
 		*status = 126;
-		return (NULL);
+		return (p_error("minishell: ", cmd, ": Not such file or directory"));
 	}
 	if (ft_strcmp(founded_in_dir, "-") == 0 && flag)
-	{
-		etmp = ft_strjoin_three("minishell13: ", cmd, ": is a directory");
-		ft_putendl_fd(etmp, STDERR_FILENO);
-		free(etmp);
-		return (NULL);
-	}
+		return (p_error("minishell: ", cmd, ": is a directory"));
 	if (ft_strcmp(founded_in_dir, "_") == 0 && flag)
-	{
-		etmp = ft_strjoin("minishell14: ", cmd);
-		perror(etmp);
-		free(etmp);
-		return (NULL);
-	}
-	etmp = ft_strjoin(founded_in_dir, "/");
-	full_path = ft_strjoin(etmp, cmd);
-	free(etmp);
+		return (p_error("minishell: ", cmd, NULL));
 	return (founded_in_dir);
 }
 
@@ -187,7 +190,6 @@ int	process_single_command(char **full_cmd, t_fds *fd)
 {
 	int			result;
 	struct stat	st;
-	char		*err_temp;
 
 	result = 0;
 	if (is_builtin(full_cmd[0]))
@@ -196,16 +198,12 @@ int	process_single_command(char **full_cmd, t_fds *fd)
 	{
 		if (stat(full_cmd[0], &st) == 0 && S_ISDIR(st.st_mode))
 		{
-			err_temp = ft_strjoin_three("minishell: ", full_cmd[0], ": is a directory");
-			ft_putendl_fd(err_temp, STDERR_FILENO);
-			free(err_temp);
+			p_error("minishell: ", full_cmd[0], ": is a directory");
 			return (126);
 		}
 		else if (access(full_cmd[0], F_OK | X_OK) != 0)
 		{
-			err_temp = ft_strjoin("minishell: ", full_cmd[0]);
-			perror(err_temp);
-			free(err_temp);
+			p_error("minishell: ", full_cmd[0], NULL);
 			if (errno == EACCES)
 				return (126);
 			return (127);

@@ -72,9 +72,7 @@ void	exec_cmd(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
 	int		exitstatus;
 
 	if (!full_cmd || !full_cmd[0])
-	{
 		exit(0);
-	}
 	if (dup2(input_fd, STDIN_FILENO) == -1)
 		perror("minishell");
 	if (dup2(output_fd, STDOUT_FILENO) == -1)
@@ -82,12 +80,11 @@ void	exec_cmd(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
 	fd_check_and_close(input_fd, output_fd);
 	manual_execution(full_cmd, fd, 1);
 	cmd_path = get_cmd_path(full_cmd[0], fd->env, &exitstatus, 0);
-	// ft_printf("%s\n", cmd_path);
 	if (cmd_path && ft_strcmp(cmd_path, "-") && ft_strcmp(cmd_path, "_"))
 	{
 		close_dup_stds(fd->minishell);
 		execve(cmd_path, full_cmd, fd->env);
-		perror("minishello");
+		perror("minishell");
 	}
 	free_minishell(fd->minishell);
 	cleanup(fd);
@@ -100,9 +97,7 @@ void	exec_cmd(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
 int	exec_only_builtin(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
 {
 	if (!full_cmd || !full_cmd[0])
-	{
 		exit(0);
-	}
 	if (input_fd != 0 && input_fd != -1)
 	{
 		if (dup2(input_fd, STDIN_FILENO) == -1)
