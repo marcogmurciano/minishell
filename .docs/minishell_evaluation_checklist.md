@@ -80,7 +80,6 @@
   - [o] If something crashes, select the “crash” flag.
   - [o] If something doesn’t work, select the “incomplete work” flag.
 
-  *Need to recognize when process ends with 130 and add a \n*
 ---
 
 ## 8. Double Quotes

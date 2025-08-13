@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 12:55:30 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/11 17:00:11 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/13 10:16:05 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ char	*expanded_token_value(t_token *token)
 /**
  * Apend the expanded varialble to the already expanded part of line
  */
-static char	*append_exp_variable(char *expanded_line, char *expanded_variable, int is_spaced)
+static char	*append_exp_variable(char *expanded_line, char *expanded_variable,
+	int is_spaced)
 {
 	char	*line_to_free;
 	int		line_len;
@@ -99,7 +100,7 @@ char	*retrieve_new_input(t_minishell *minishell)
 		else
 		{
 			exp_line = append_exp_variable(exp_line, exp_variable,
-				current->spaced);
+					current->spaced);
 			if (!exp_line)
 				return (NULL);
 		}

@@ -1,3 +1,4 @@
+# git rm -r --cached "name"
 # Object files
 *.o
 
@@ -11,7 +12,7 @@ minishell
 libft/lib/
 libft/objs/
 .vscode/
-.docs/
+# .docs/
 minishell_tester
 .nfs000000000083bc5a00000002
 *.log

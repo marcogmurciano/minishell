@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export_extra.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 19:13:13 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/11 16:09:05 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/08/13 10:24:58 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	ft_swap(char **first, char **second)
 	*first = *second;
 	*second = temp;
 }
-
 
 void	add_to_envp(t_env *current, char **export_envp, int env_count)
 {

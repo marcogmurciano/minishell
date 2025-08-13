@@ -85,7 +85,6 @@ char	*get_cmd_path(char *cmd, char **env, int *status)
 			return (iterate_env(env[i], cmd, status));
 		i++;
 	}
-	// TODO: Checkear si el comando existe en el directorio actual en intentar lanzarlo
 	err_temp = ft_strjoin_three("minishell: ", cmd, ": command not found");
 	ft_putendl_fd(err_temp ,STDERR_FILENO);
 	free(err_temp);
