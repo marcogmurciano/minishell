@@ -2,14 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   exec_commands.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
-	+:+     */
-/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+      
-	+#+        */
-/*                                                +#+#+#+#+#+  
-	+#+           */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 16:42:40 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/08/01 16:42:40 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/08/13 19:19:26 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +66,9 @@ static int	manual_execution(char **full_cmd, t_fds *fd, int should_exit)
 void	exec_cmd(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
 {
 	char	*cmd_path;
+	char	*err_str;
 	int		exitstatus;
 
-	if (!full_cmd || !full_cmd[0])
-	{
-		exit(0);
-	}
 	if (dup2(input_fd, STDIN_FILENO) == -1)
 		perror("minishell");
 	if (dup2(output_fd, STDOUT_FILENO) == -1)
@@ -86,7 +80,10 @@ void	exec_cmd(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
 	{
 		close_dup_stds(fd->minishell);
 		execve(cmd_path, full_cmd, fd->env);
-		perror("minishell");
+		err_str = ft_strjoin_three("minishell: ",
+			full_cmd[0], ":command not found");
+		ft_putendl_fd(err_str, STDERR_FILENO);
+		free(err_str);
 	}
 	free_minishell(fd->minishell);
 	cleanup(fd);

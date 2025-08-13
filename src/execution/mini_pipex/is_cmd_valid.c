@@ -80,7 +80,7 @@ char	*get_cmd_path(char *cmd, char **env, int *status)
 
 	i = 0;
 	if (ft_strlen(cmd) == 0)
-		return (NULL);
+		return (ft_strdup(""));
 	while (env[i])
 	{
 		if (ft_strncmp(env[i], "PATH=", 5) == 0)
