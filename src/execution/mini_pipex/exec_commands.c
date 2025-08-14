@@ -70,7 +70,6 @@ void	exec_cmd(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
 {
 	char	*cmd_path;
 	int		exitstatus;
-	// char	*err_str;
 
 	if (dup2(input_fd, STDIN_FILENO) == -1)
 		perror("minishell");
@@ -83,12 +82,7 @@ void	exec_cmd(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
 	{
 		close_dup_stds(fd->minishell);
 		execve(cmd_path, full_cmd, fd->env);
-		perror("minishell");
-		// Test implementation
-		// err_str = ft_strjoin_three("minishell: ",
-		// 	full_cmd[0], ":command not found");
-		// ft_putendl_fd(err_str, STDERR_FILENO);
-		// free(err_str);
+		p_error("minishell: ", full_cmd[0], ":command not found");
 	}
 	free_minishell(fd->minishell);
 	cleanup(fd);

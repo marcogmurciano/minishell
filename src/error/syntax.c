@@ -43,3 +43,24 @@ int	syntax_error(char *origin, t_minishell *minishell, int code)
 	minishell->last_exit_status = 1;
 	return (1);
 }
+
+/**
+ * Printing execution errors
+ */
+char	*p_error(char *s1, char *s2, char *s3)
+{
+	char	*temp;
+
+	if (s3 == NULL)
+	{
+		temp = ft_strjoin(s1, s2);
+		perror(temp);
+	}
+	else
+	{
+		temp = ft_strjoin_three(s1, s2, s3);
+		ft_putendl_fd(temp, STDERR_FILENO);
+	}
+	free(temp);
+	return (NULL);
+}

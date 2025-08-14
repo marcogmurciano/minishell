@@ -18,7 +18,7 @@
 static void	unset_nonfirst(t_minishell *minishell, t_env *current)
 {
 	t_env	*temp_env;
-	
+
 	temp_env = current->next;
 	current->next = temp_env->next;
 	temp_env->next = NULL;

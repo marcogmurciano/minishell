@@ -180,6 +180,7 @@ void	free_strs(int count, ...);
 //
 void	malloc_error(t_minishell *minishell);
 int		syntax_error(char *origin, t_minishell *minishell, int code);
+char	*p_error(char *s1, char *s2, char *s3);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
