@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:01:16 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/11 16:09:31 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/08/14 11:07:53 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ static void	numeric_error_exit(t_minishell *minishell, t_fds *fd, char **argv)
  */
 static long	mod_atol(char *nptr, int *error)
 {
-	int		sign;
-	int		i;
-	long	result;
+	int			sign;
+	int			i;
+	long long	result;
 
 	sign = 1;
 	i = 0;
@@ -49,7 +49,8 @@ static long	mod_atol(char *nptr, int *error)
 	{
 		result = result * 10;
 		result += (nptr[i] - '0');
-		if (result * sign > 2147483647 || result * sign < -2147483648)
+		if (result * sign > LLONG_MAX 
+			|| result * sign < LLONG_MIN)
 			return (*error = -1, -1);
 		i++;
 	}
@@ -101,7 +102,7 @@ int	builtin_exit(t_minishell *minishell, t_fds *fd, char **argv)
 	if (mod_atol(argv[1], &error) == -1 && error == -1)
 		numeric_error_exit(minishell, fd, argv);
 	else
-		minishell->last_exit_status = ft_atoi(argv[1]) % 256;
+		minishell->last_exit_status = (unsigned char)ft_atoi(argv[1]);
 	cleanup(fd);
 	exit_minishell(minishell);
 	return (0);
