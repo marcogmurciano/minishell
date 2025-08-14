@@ -82,7 +82,10 @@ void	exec_cmd(char **full_cmd, int input_fd, int output_fd, t_fds *fd)
 	{
 		close_dup_stds(fd->minishell);
 		execve(cmd_path, full_cmd, fd->env);
-		p_error("minishell: ", full_cmd[0], ":command not found");
+		if (manual_getenv(fd->minishell, "PATH"))
+			p_error("minishell: ", full_cmd[0], ": command not found");
+		else
+			p_error("minishell: ", full_cmd[0], ": No such file or directory");
 	}
 	free_minishell(fd->minishell);
 	cleanup(fd);
