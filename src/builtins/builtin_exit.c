@@ -6,7 +6,7 @@
 /*   By: dbarba-v <dbarba-v@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:01:16 by dbarba-v          #+#    #+#             */
-/*   Updated: 2025/08/14 11:07:53 by dbarba-v         ###   ########.fr       */
+/*   Updated: 2025/08/14 11:09:03 by dbarba-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static long	mod_atol(char *nptr, int *error)
 	{
 		result = result * 10;
 		result += (nptr[i] - '0');
-		if (result * sign > LLONG_MAX 
+		if (result * sign > LLONG_MAX
 			|| result * sign < LLONG_MIN)
 			return (*error = -1, -1);
 		i++;
